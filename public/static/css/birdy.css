@@ -1,0 +1,40 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.orange-title {
+  color: #d95f02; /* A more subtle orange */
+}
+
+.orange-sec-navyblue {
+  color: #003366;
+}
+
+.orange-sec-2 {
+  color: #6A8B99;
+}
+
+.orange-sec-3 {
+  color: #fec44f; /* A complementary yellow */
+}
+
+.orange-sec-4 {
+  color: #8B4513;
+}
+
+.orange-sec-5 {
+  color: #F5F5F5;
+}
+
+.orange-sec-6 {
+  color: #EAEAEA;
+}
+
+.orange-sec-7 {
+  color: #333333;
+}
+
+
+.footer-gradient {
+  background: linear-gradient(to right, #d95f02 0%, #d95f02 10%);
+}

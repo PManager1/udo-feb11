@@ -1,0 +1,449 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap'); */
+
+@font-face {
+    font-family: eqsans;
+    src: url(../themes/fonts/Nunito/Nunito-Regular.ttf);
+    }
+    h1, h2, h3, h4, p, div, li, a  {
+    font-family: eqsans, Lato, sans-serif;
+    
+    }
+
+*{
+    /* margin: 0%;
+    padding: 0%;
+    box-sizing: border-box; */
+    font-family: 'eqsans', sans-serif;
+}
+
+/* .navbar{
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 10px;
+    position: fixed;
+    width: 100%;
+    transition: .4s linear;
+}
+
+.navbar .logo h1{
+    font-weight: 500;
+    color: #fff;
+}
+
+.nav-body{
+    display: flex;
+}
+
+.nav-body li{
+    list-style-type: none;
+    padding: 10px 20px;
+}
+
+.nav-body li a{
+    text-decoration: none;
+    transition: .3s linear;
+    color: #fff;
+}
+
+.nav-body li a:hover{
+    color: #a841ff; 
+}
+
+.btn{
+    padding: 10px;
+    border-radius: 4px;
+    outline: navajowhite;
+    border: none;
+}
+
+.btn:hover{
+    background: #ff2a00;
+}
+
+.btn:active{
+    background: #af1d00;
+} */
+
+/* nav hover start*/
+/* on hover show subs working.  */
+.dropdown:hover .dropdown-menu {display: block;}
+
+.dropdown:hover .dropbtn {
+    /* background-color: #3e8e41 !important; */
+    background-image: url('../static/img/woods/wood1.jpeg');
+}
+
+/* nav hover end */
+
+
+
+
+ .white-ghost-button {
+    margin-left: 24px;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 2px;
+    border-radius: 45px;
+    padding-left: 20px;
+    padding-right: 20px
+}
+
+
+.purpleColor{
+    color: #a841ff;
+}
+.purpleColor1{
+    color: #3b104c;
+}
+
+.wooden-a {
+    padding: 25px 45px;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 2px;
+    border-radius: 45px;
+    background-image: url('../static/img/woods/wood1.jpeg');
+    margin-top: 2em;
+    position: relative;
+    padding-right: 70px;
+    color: white;
+}
+
+@media only screen and (max-width: 600px) {
+.wooden-a {
+    padding: 20px 40px;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 2px;
+    border-radius: 45px;
+    background-image: url('../static/img/woods/wood1.jpeg');
+    margin-top: 2em;
+    position: relative;
+    padding-right: 70px;
+    color: white;
+}
+}   
+
+/* arrow-right-purple.svg */
+
+.wooden-a:after{
+    content: " ";
+    position: absolute;
+    right: 35px;
+    background-image: url(/static/icons/arrow-right-white.svg);
+    width: 15px;
+    height: 15px;
+    top: 26px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.wooden-a:hover:after{
+    background-image: url(/static/icons/arrow-right-purple.svg);
+}
+
+
+ .white-ghost-button:hover {
+    background-color: #fff
+}
+
+ .white-ghost-button:hover a {
+    color: #000
+}
+
+
+.banner{
+    background: url(bg.jpg);
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+}
+
+/* .navbar.sticky{
+    background-image: url('../static/img/woods/wood1.jpeg');
+    padding: 10px 10px;
+    z-index: 1;
+} */
+
+/* .dropdown-menu {
+    background-image: url('../static/img/woods/wood1.jpeg');
+    padding: 10px 10px;
+    color: white;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.dropdown-menu .dropdown-item{
+    background-image: url('../static/img/woods/wood1.jpeg');
+    padding: 10px 10px;
+    color: white;
+}
+.nav-item{
+
+    margin-left: 3.5em;
+} */
+
+.about-pic {
+        min-height: 600px;
+      }
+      
+      @media only screen and (max-width: 600px) {
+        .about-pic {
+          min-height: 400px;
+        }
+      }
+   
+
+    .letswork {
+    /* min-height: 600px; */
+    height: 600px;
+    
+    }
+
+    @media only screen and (max-width: 600px) {
+    .letswork {
+        height: 450px;
+        padding-left:10px;
+        /* height: 48px;
+        margin-top: -26px; */
+        /* min-height: 400px; */
+    }
+    }
+
+
+    .letswork-inner {
+        /* min-height: 600px; */
+        }
+    
+        @media only screen and (max-width: 600px) {
+        .letswork-inner {
+            /* height: 48px;
+            margin-top: -26px; */
+            /* min-height: 400px; */
+            height: 500px;
+        }
+        }
+
+
+
+.viewOpening {
+
+    }
+
+    @media only screen and (max-width: 600px) {
+    .viewOpening {
+        /* height: 48px;
+        margin-top: -26px; */
+        /* min-height: 400px; */
+        width: 75%;
+
+    }
+    }        
+    
+    .p-text{
+        font-size: 18px;
+        font-family: eqsans, Lato, sans-serif;
+    }
+    .p-20{
+        font-size: 20px;
+        font-family: eqsans, Lato, sans-serif;
+    }
+
+
+    .trail {
+        text-transform: uppercase;
+        color: #3c1a4e;
+        /* color: white; */
+        font-size: 14px;
+        letter-spacing: 2px
+    }
+
+    .trail .hr {
+        display: inline-block;
+        border-top: 1px solid #3c1a4e;
+        /* border-top: 1px solid white; */
+        width: 80px;
+        height: .35em;
+        margin-right: 20px
+    }
+    
+    @media screen and (max-width:39.9375em) {
+        .trail .hr {
+            display: inline-block;
+            border-top: 1px solid #3c1a4e;
+            width: 44px;
+            height: 15px;
+            margin-right: 12px;
+            float: left;
+            margin-top: 10px
+        }
+    }
+
+
+    .trailw {
+        text-transform: uppercase;
+        /* color: #3c1a4e; */
+        color: white;
+        font-size: 14px;
+        letter-spacing: 2px
+    }
+
+    .trailw .hr {
+        display: inline-block;
+        /* border-top: 1px solid #3c1a4e; */
+        border-top: 1px solid white;
+        width: 80px;
+        height: .35em;
+        margin-right: 20px
+    }
+    
+    @media screen and (max-width:39.9375em) {
+        .trailw .hr {
+            display: inline-block;
+            /* border-top: 1px solid #3c1a4e; */
+            border-top: 1px solid white;
+            width: 44px;
+            height: 15px;
+            margin-right: 12px;
+            float: left;
+            margin-top: 10px
+        }
+    }
+
+
+    /* color: #fff;
+    font-size: .6em */
+
+    .trailwi {
+        text-transform: uppercase;
+        color: white;
+        font-size: 14px;
+        letter-spacing: 2px
+    }
+
+    .trailwi .hr {
+        display: inline-block;
+        border-top: 1px solid white;
+        width: 80px;
+        height: .35em;
+        margin-right: 20px;
+        /* color: #fff;
+        font-size: .6em */
+    }
+    
+    @media screen and (max-width:39.9375em) {
+        .trailwi .hr {
+            display: inline-block;
+            border-top: 1px solid white;
+            width: 44px;
+            height: 15px;
+            margin-right: 12px;
+            float: left;
+            margin-top: 10px
+        }
+    }
+
+
+
+
+
+    /* loader start */
+    .preloader {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;      
+  /* Great working */
+        background-color: #a55c1b;
+        background-image: linear-gradient(315deg, #a55c1b 0%, #000000 74%);
+        text-align: center;
+        z-index: 9999999
+    }
+  
+    .preloader .spinner {
+        width: 139px;
+        height: 49px;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto
+    }
+  
+    .loader-logo {
+        float: left
+    }
+  
+    .loader-logo img {
+        width: 139px;
+        height: auto
+    }
+    /* loader end */
+
+
+
+
+
+    /* paul page start  */
+.nostyle-list{
+
+}
+.paul-bg{
+    background-color: white;
+    border-radius: 25px;
+    background-image: url(../../static/img/woods/7.webp);
+    color: #ffffff;
+    padding: 30px 10px 30px 20px;
+    /* padding: 30px; */
+    margin-bottom: 30px;
+    width: 315px;
+    min-height: 500px;
+}
+
+  .paul-li:nth-of-type(1){
+    margin-bottom: 50px;
+} 
+
+.paul-li{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: white;
+}
+
+/* paul page end  */
+
+
+/* contact page start  */
+
+.subscribe{
+    /* background-image: url(../static/img/woods/wood2-c.jpg); */
+    background-size: cover;
+    background-position: center;
+}
+
+/* contact page end */
+
+/* pm page start */
+
+
+.applicationsAccepted {
+    padding: 20px;
+    /* padding 20px, 0px, 0px, 20px; */
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .applicationsAccepted {
+      padding: 40px;
+    }
+  }
+
+
+  .input-ht{
+    height: 45px;
+  }
+  /* pm page end */

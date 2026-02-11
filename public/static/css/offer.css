@@ -1,0 +1,190 @@
+
+.bg-imgo{
+  background-image: url("../../static/offer/img/mat-d-27.webp");
+  min-height: 650px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  border-radius: 0px 0px 20px 20px !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .bg-imgo{
+    background-image: url("../../static/offer/img/mat-d-27.webp"); 
+    background-position-x: 64% !important;
+    background-position-y: -13px;
+
+  }
+  .top-text-h{
+    color: brown !important; 
+  }
+  .top-text{
+    /* color: #a841ff !important;  */
+    color: brown !important;
+  }
+  .h-top-btn{
+    margin-top: 180px;
+  }
+
+}   
+
+
+
+.top-article{
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 40px;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+
+  }   
+  
+  
+
+
+/* .form-small-labels{
+  color:black !important; 
+  font-size: 11px; 
+  line-height: 12px ; 
+  padding-left:3px; 
+  margin-left: 7px;
+} */
+
+/* Full-width input fields */
+input[type=text]{
+  width: 100%;
+  /* padding: 15px; */
+  margin: 5px 0 3px 0;
+  border: none;
+  background: white;
+  padding: 8px 16px !important;
+  box-shadow: #dddddd 0 0 0 1px inset !important;
+  border-radius: 5px;
+  padding-top: 15px;
+  min-height: 42px !important;
+}
+
+input[type=text]:focus {
+  background-color: white;
+  outline: none;
+  border-radius: 50px;
+}
+
+
+
+.above-sell-for-more{
+  /* margin-top: 120px; */
+}
+@media only screen and (max-width: 600px) {
+  .above-sell-for-more{
+    /* margin-top:100px; */
+  }  
+  }    
+
+
+.sell-4-more-container{
+  padding-left: 60px;
+  margin-top: 65px;
+}
+@media only screen and (max-width: 600px) {
+  .sell-4-more-container{
+    padding-left: 17px;
+  }  
+  }   
+  
+
+
+
+.hot-market-container{
+  margin-top: 52px;
+}
+@media only screen and (max-width: 600px) {
+  .hot-market-container{
+    /* padding-left: 17px; */
+  }  
+  }
+
+
+/* Set a style for the submit button */
+.btn {
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+  margin-top: 15px;
+  background-color: #2a2a72;
+  background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
+  border-radius: 5px;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+.table-item{
+  font-weight: normal !important;
+  font-size: 22px !important;
+  height: 62px !important;
+  padding-top: 18px !important;
+  text-align: left;
+}
+
+.heading-msg{
+  /* font-size: 64px; */
+  font-size: 50px;
+  line-height: 76px;
+}
+
+
+.resBtn{
+  margin-left: 45px !important;
+  text-decoration: none;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+.resBtn{
+  padding-left: 27px !important;
+
+}  
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+.resBtn{
+
+}
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+.resBtn{
+
+}
+}
+
+ .table>:not(:last-child)>:last-child>*{
+  border-bottom-width: 0px; 
+} 
+
+.accordion-button:not(.collapsed){
+  /* background-color: wheat; */
+
+  /* background-color: #f4f4f4; */
+  background-color: white;
+}
+
+.NoLRPadding{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  /* margin-left: 0px !important;
+  margin-right: 0px !important; */
+  background-color: #00AEEF;
+  
+}
