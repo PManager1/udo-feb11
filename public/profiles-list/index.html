@@ -60,9 +60,200 @@
     </div>
   </header>
 
+  <!-- Toggle Sidebar Button -->
+  <button id="sidebarToggle" class="fixed left-4 bottom-8 z-[150] bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-lg transition-all duration-300 flex items-center gap-2">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+    </svg>
+    <span class="font-semibold">Filters</span>
+  </button>
+
+  <!-- Sidebar -->
+  <div id="sidebar" class="fixed left-0 top-0 h-full w-80 bg-white shadow-2xl z-[100] transform -translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-900">Filters</h2>
+        <button id="closeSidebar" class="text-gray-500 hover:text-gray-700 transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="mb-6">
+        <h3 class="font-semibold text-gray-900 mb-3">Category</h3>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="category" value="furniture-assembly" />
+            <span class="text-gray-700">Furniture Assembly</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="category" value="home-improvement" />
+            <span class="text-gray-700">Home Improvement</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="category" value="plumbing" />
+            <span class="text-gray-700">Plumbing</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="category" value="electrical" />
+            <span class="text-gray-700">Electrical Work</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="category" value="moving" />
+            <span class="text-gray-700">Moving Services</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="category" value="cleaning" />
+            <span class="text-gray-700">Cleaning Services</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="category" value="mounting" />
+            <span class="text-gray-700">Mount Art/Shelves</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Rating Filter -->
+      <div class="mb-6">
+        <h3 class="font-semibold text-gray-900 mb-3">Minimum Rating</h3>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="rating" class="w-4 h-4 text-orange-500 focus:ring-orange-500" data-filter="rating" value="4.5" />
+            <span class="text-gray-700">4.5 & Up ★★★★★</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="rating" class="w-4 h-4 text-orange-500 focus:ring-orange-500" data-filter="rating" value="4.0" />
+            <span class="text-gray-700">4.0 & Up ★★★☆</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="rating" class="w-4 h-4 text-orange-500 focus:ring-orange-500" data-filter="rating" value="3.5" />
+            <span class="text-gray-700">3.5 & Up ★★★☆</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="rating" class="w-4 h-4 text-orange-500 focus:ring-orange-500" data-filter="rating" value="0" checked />
+            <span class="text-gray-700">Any Rating</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Price Range Filter -->
+      <div class="mb-6">
+        <h3 class="font-semibold text-gray-900 mb-3">Price Range</h3>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="price" class="w-4 h-4 text-orange-500 focus:ring-orange-500" data-filter="price" value="0-50" />
+            <span class="text-gray-700">$0 - $50/hr</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="price" class="w-4 h-4 text-orange-500 focus:ring-orange-500" data-filter="price" value="50-100" />
+            <span class="text-gray-700">$50 - $100/hr</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="price" class="w-4 h-4 text-orange-500 focus:ring-orange-500" data-filter="price" value="100-200" />
+            <span class="text-gray-700">$100 - $200/hr</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="price" class="w-4 h-4 text-orange-500 focus:ring-orange-500" data-filter="price" value="200+" />
+            <span class="text-gray-700">$200+/hr</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="price" class="w-4 h-4 text-orange-500 focus:ring-orange-500" data-filter="price" value="" checked />
+            <span class="text-gray-700">Any Price</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Location Filter -->
+      <div class="mb-6">
+        <h3 class="font-semibold text-gray-900 mb-3">Location</h3>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="location" value="new-york" />
+            <span class="text-gray-700">New York</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="location" value="los-angeles" />
+            <span class="text-gray-700">Los Angeles</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="location" value="chicago" />
+            <span class="text-gray-700">Chicago</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="location" value="houston" />
+            <span class="text-gray-700">Houston</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="location" value="miami" />
+            <span class="text-gray-700">Miami</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Availability Filter -->
+      <div class="mb-6">
+        <h3 class="font-semibold text-gray-900 mb-3">Availability</h3>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="availability" value="available" />
+            <span class="text-gray-700">Available Now</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Verified Filter -->
+      <div class="mb-6">
+        <h3 class="font-semibold text-gray-900 mb-3">Verification</h3>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="verified" value="true" checked />
+            <span class="text-gray-700">Verified Professionals Only</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Experience Filter -->
+      <div class="mb-6">
+        <h3 class="font-semibold text-gray-900 mb-3">Years of Experience</h3>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="experience" value="0-5" />
+            <span class="text-gray-700">0-5 years</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="experience" value="5-10" />
+            <span class="text-gray-700">5-10 years</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" data-filter="experience" value="10+" />
+            <span class="text-gray-700">10+ years</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Apply Filters Button -->
+      <button id="applyFilters" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg mb-3">
+        Apply Filters
+      </button>
+      <button id="clearFilters" class="w-full border-2 border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold py-3 px-6 rounded-lg transition duration-300">
+        Clear All Filters
+      </button>
+
+      <!-- Results Count -->
+      <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+        <p class="text-gray-600 text-sm">Showing <span id="resultsCount" class="font-bold text-orange-500">9</span> professionals</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay for sidebar -->
+  <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-[95] hidden"></div>
+
   <!-- Main Content - Profiles List -->
   <main class="flex-1 px-4 py-8">
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-6xl mx-auto">
       <!-- Page Header -->
       <div class="text-center mb-10">
         <h1 class="text-4xl font-bold mb-3">
@@ -71,52 +262,10 @@
         <p class="text-gray-600 text-lg">Connect with skilled experts who can help you get the job done right</p>
       </div>
 
-      <!-- Filter Bar -->
-      <div class="bg-white rounded-xl shadow-md p-6 mb-8">
-        <div class="flex flex-wrap gap-4 items-center">
-          <div class="flex-1 min-w-[200px]">
-            <label for="categoryFilter" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-            <select id="categoryFilter" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white">
-              <option value="">All Categories</option>
-              <option value="furniture-assembly">Furniture Assembly</option>
-              <option value="home-improvement">Home Improvement</option>
-              <option value="plumbing">Plumbing</option>
-              <option value="electrical">Electrical Work</option>
-              <option value="moving">Moving Services</option>
-              <option value="cleaning">Cleaning Services</option>
-              <option value="mounting">Mount Art/Shelves</option>
-            </select>
-          </div>
-          <div class="flex-1 min-w-[200px]">
-            <label for="ratingFilter" class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
-            <select id="ratingFilter" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white">
-              <option value="">Any Rating</option>
-              <option value="4.5">4.5 & Up</option>
-              <option value="4.0">4.0 & Up</option>
-              <option value="3.5">3.5 & Up</option>
-            </select>
-          </div>
-          <div class="flex-1 min-w-[200px]">
-            <label for="priceFilter" class="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
-            <select id="priceFilter" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white">
-              <option value="">Any Price</option>
-              <option value="0-50">$0 - $50/hr</option>
-              <option value="50-100">$50 - $100/hr</option>
-              <option value="100-200">$100 - $200/hr</option>
-              <option value="200+">$200+/hr</option>
-            </select>
-          </div>
-          <div class="flex-1 min-w-[200px]">
-            <label for="locationFilter" class="block text-sm font-medium text-gray-700 mb-2">Location</label>
-            <select id="locationFilter" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white">
-              <option value="">All Locations</option>
-              <option value="new-york">New York</option>
-              <option value="los-angeles">Los Angeles</option>
-              <option value="chicago">Chicago</option>
-              <option value="houston">Houston</option>
-              <option value="miami">Miami</option>
-            </select>
-          </div>
+      <!-- Quick Filter Pills -->
+      <div class="bg-white rounded-xl shadow-md p-4 mb-8">
+        <div class="flex flex-wrap gap-2 justify-center" id="quickFilterContainer">
+          <!-- Quick filter buttons will be inserted here by JavaScript -->
         </div>
       </div>
 
@@ -366,7 +515,7 @@
         id: 9,
         name: "Robert Brown",
         title: "Furniture & Cabinet Maker",
-        image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80",
+        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80",
         category: "furniture-assembly",
         rating: 4.5,
         reviewCount: 81,
@@ -463,27 +612,6 @@
       return stars;
     }
 
-    // Filter profiles
-    function filterProfiles() {
-      const category = document.getElementById('categoryFilter').value;
-      const rating = parseFloat(document.getElementById('ratingFilter').value) || 0;
-      const priceRange = document.getElementById('priceFilter').value;
-      const location = document.getElementById('locationFilter').value;
-
-      let filtered = professionals.filter(pro => {
-        if (category && pro.category !== category) return false;
-        if (rating && pro.rating < rating) return false;
-        if (location && pro.location.toLowerCase() !== location.toLowerCase()) return false;
-        if (priceRange) {
-          const [min, max] = priceRange.split('-').map(v => v === '+' ? Infinity : parseInt(v));
-          if (pro.price < min || pro.price > max) return false;
-        }
-        return true;
-      });
-
-      renderProfiles(filtered);
-    }
-
     // Open profile modal
     function openProfileModal(id) {
       const pro = professionals.find(p => p.id === id);
@@ -514,11 +642,177 @@
       }
     });
 
-    // Filter event listeners
-    document.getElementById('categoryFilter').addEventListener('change', filterProfiles);
-    document.getElementById('ratingFilter').addEventListener('change', filterProfiles);
-    document.getElementById('priceFilter').addEventListener('change', filterProfiles);
-    document.getElementById('locationFilter').addEventListener('change', filterProfiles);
+    // Sidebar toggle functionality
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function openSidebar() {
+      sidebar.classList.remove('-translate-x-full');
+      sidebarOverlay.classList.remove('hidden');
+    }
+
+    function closeSidebarFn() {
+      sidebar.classList.add('-translate-x-full');
+      sidebarOverlay.classList.add('hidden');
+    }
+
+    sidebarToggle.addEventListener('click', openSidebar);
+    closeSidebar.addEventListener('click', closeSidebarFn);
+    sidebarOverlay.addEventListener('click', closeSidebarFn);
+
+    // Sidebar filter functionality
+    const sidebarFilters = {
+      category: [],
+      rating: 0,
+      price: '',
+      location: [],
+      availability: [],
+      verified: ['true'],
+      experience: []
+    };
+
+    document.querySelectorAll('[data-filter]').forEach(checkbox => {
+      checkbox.addEventListener('change', (e) => {
+        const filterType = e.target.dataset.filter;
+        const value = e.target.value;
+
+        if (e.target.type === 'checkbox') {
+          if (e.target.checked) {
+            sidebarFilters[filterType].push(value);
+          } else {
+            sidebarFilters[filterType] = sidebarFilters[filterType].filter(v => v !== value);
+          }
+        } else if (e.target.type === 'radio') {
+          sidebarFilters[filterType] = parseFloat(value);
+        }
+      });
+    });
+
+    document.getElementById('applyFilters').addEventListener('click', () => {
+      applySidebarFilters();
+      closeSidebarFn();
+    });
+
+    document.getElementById('clearFilters').addEventListener('click', () => {
+      document.querySelectorAll('[data-filter]').forEach(el => {
+        if (el.type === 'checkbox') {
+          if (el.dataset.filter === 'verified') {
+            el.checked = true;
+          } else {
+            el.checked = false;
+          }
+        } else if (el.type === 'radio' && (el.value === '0' || el.value === '')) {
+          el.checked = true;
+        }
+      });
+      sidebarFilters.category = [];
+      sidebarFilters.rating = 0;
+      sidebarFilters.price = '';
+      sidebarFilters.location = [];
+      sidebarFilters.availability = [];
+      sidebarFilters.verified = ['true'];
+      sidebarFilters.experience = [];
+      renderProfiles(professionals);
+      document.getElementById('resultsCount').textContent = professionals.length;
+    });
+
+    function applySidebarFilters() {
+      let filtered = professionals.filter(pro => {
+        // Category filter
+        if (sidebarFilters.category.length > 0) {
+          if (!sidebarFilters.category.includes(pro.category)) return false;
+        }
+
+        // Rating filter
+        if (sidebarFilters.rating > 0) {
+          if (pro.rating < sidebarFilters.rating) return false;
+        }
+
+        // Price filter
+        if (sidebarFilters.price) {
+          const [min, max] = sidebarFilters.price.split('-').map(v => v === '+' ? Infinity : parseInt(v));
+          if (pro.price < min || pro.price > max) return false;
+        }
+
+        // Location filter
+        if (sidebarFilters.location.length > 0) {
+          if (!sidebarFilters.location.some(loc => pro.location.toLowerCase().includes(loc.toLowerCase()))) return false;
+        }
+
+        // Availability filter
+        if (sidebarFilters.availability.includes('available')) {
+          if (!pro.available) return false;
+        }
+
+        // Verified filter
+        if (sidebarFilters.verified.includes('true')) {
+          if (!pro.verified) return false;
+        }
+
+        // Experience filter
+        if (sidebarFilters.experience.length > 0) {
+          const experienceMatch = sidebarFilters.experience.some(exp => {
+            if (exp === '0-5') return pro.experience >= 0 && pro.experience <= 5;
+            if (exp === '5-10') return pro.experience >= 5 && pro.experience <= 10;
+            if (exp === '10+') return pro.experience >= 10;
+            return false;
+          });
+          if (!experienceMatch) return false;
+        }
+
+        return true;
+      });
+
+      renderProfiles(filtered);
+      document.getElementById('resultsCount').textContent = filtered.length;
+    }
+
+    // Quick filter pills
+    const quickFilters = [
+      { label: 'All', value: 'all' },
+      { label: 'Available', value: 'available' },
+      { label: 'Verified', value: 'verified' },
+      { label: 'Top Rated', value: '4.5' },
+      { label: 'Budget ($0-$50)', value: '0-50' }
+    ];
+
+    const quickFilterContainer = document.getElementById('quickFilterContainer');
+    quickFilters.forEach(filter => {
+      const button = document.createElement('button');
+      button.className = 'px-4 py-2 rounded-full text-sm font-medium transition duration-200 border border-gray-200 text-gray-600 hover:border-orange-500 hover:text-orange-500 bg-white';
+      button.textContent = filter.label;
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        quickFilterContainer.querySelectorAll('button').forEach(btn => {
+          btn.classList.remove('bg-orange-500', 'text-white', 'border-orange-500');
+          btn.classList.add('border-gray-200', 'text-gray-600');
+        });
+        // Add active class to clicked button
+        button.classList.remove('border-gray-200', 'text-gray-600');
+        button.classList.add('bg-orange-500', 'text-white', 'border-orange-500');
+
+        // Apply quick filter
+        if (filter.value === 'all') {
+          renderProfiles(professionals);
+        } else if (filter.value === 'available') {
+          renderProfiles(professionals.filter(p => p.available));
+        } else if (filter.value === 'verified') {
+          renderProfiles(professionals.filter(p => p.verified));
+        } else if (filter.value === '4.5') {
+          renderProfiles(professionals.filter(p => p.rating >= 4.5));
+        } else if (filter.value === '0-50') {
+          renderProfiles(professionals.filter(p => p.price >= 0 && p.price <= 50));
+        }
+        document.getElementById('resultsCount').textContent = document.getElementById('profilesGrid').children.length;
+      });
+      quickFilterContainer.appendChild(button);
+    });
+
+    // Set default active state
+    quickFilterContainer.querySelector('button').classList.remove('border-gray-200', 'text-gray-600');
+    quickFilterContainer.querySelector('button').classList.add('bg-orange-500', 'text-white', 'border-orange-500');
 
     // Search overlay
     const searchInput = document.getElementById('searchInput');
@@ -544,7 +838,7 @@
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
+        if (e.key === 'Escape') {
         searchOverlay.classList.remove('active');
         document.getElementById('profileModal').classList.add('hidden');
       }

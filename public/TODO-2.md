@@ -1,3 +1,8 @@
+On the profiles list page add a button 'contact' there 
+
+when i click on one of the profiles on profiles list it shoudl show the full profile on that page. 
+
+
 On the top right of this page add option to join and sign in. 
 
 
