@@ -360,10 +360,10 @@
             <div id="modalSkills" class="flex flex-wrap gap-2"></div>
           </div>
           <div class="flex gap-3 pt-4">
-            <button class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg">
+            <button id="modalContactBtn" class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg">
               Contact Now
             </button>
-            <button class="flex-1 border-2 border-orange-500 text-orange-500 hover:bg-orange-50 font-semibold py-3 px-6 rounded-lg transition duration-300">
+            <button id="modalViewProfileBtn" class="flex-1 border-2 border-orange-500 text-orange-500 hover:bg-orange-50 font-semibold py-3 px-6 rounded-lg transition duration-300">
               View Full Profile
             </button>
           </div>
@@ -603,7 +603,7 @@
               ${pro.skills.map(skill => `<span class="bg-orange-50 text-orange-700 text-sm px-3 py-1 rounded-full">${skill}</span>`).join('')}
             </div>
 
-            <button class="w-1/2 bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-full text-base transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105">
+            <button class="w-1/2 bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-full text-base transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-105" onclick="openContactModal(1)">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
@@ -612,6 +612,11 @@
           </div>
         </div>
       `).join('');
+    }
+
+    // View full profile
+    function viewFullProfile(id) {
+      window.location.href = `../profile/index.html?id=${id}`;
     }
 
     // Render star ratings
@@ -644,6 +649,10 @@
       document.getElementById('modalPrice').textContent = `$${pro.price}/${pro.priceType}`;
       document.getElementById('modalBio').textContent = pro.bio;
       document.getElementById('modalSkills').innerHTML = pro.skills.map(skill => `<span class="bg-orange-100 text-orange-700 text-sm px-3 py-1 rounded-full">${skill}</span>`).join('');
+
+      // Set up button click handlers with the correct profile ID
+      document.getElementById('modalContactBtn').onclick = () => openContactModal(pro.id);
+      document.getElementById('modalViewProfileBtn').onclick = () => viewFullProfile(pro.id);
 
       document.getElementById('profileModal').classList.remove('hidden');
     }
