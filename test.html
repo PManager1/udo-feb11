@@ -13,6 +13,18 @@
     .card-hover:hover img {
       transform: scale(1.06);
     }
+    .search-overlay {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+      top: 0;
+    }
+    .search-overlay.active {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
   </style>
 </head>
 <body class="min-h-screen font-sans antialiased text-gray-900">
@@ -30,8 +42,10 @@
         <div class="relative">
           <input
             type="text"
+            id="searchInput"
             placeholder="Search"
-            class="w-full pl-5 pr-12 py-3.5 bg-gray-100/80 border border-gray-300 rounded-full text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition shadow-sm"
+            class="w-full pl-5 pr-12 py-3.5 bg-gray-100/80 border border-gray-300 rounded-full text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition shadow-sm cursor-pointer"
+            readonly
           />
           <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -89,8 +103,7 @@
           class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-        <div class="absolute bottom-5 left-5 text-white">
-          <p class="text-xs uppercase tracking-wider opacity-90">Trending now</p>
+        <div class="absolute bottom-5 left-5 text-white">          <p class="text-xs uppercase tracking-wider opacity-90">Trending now</p>
           <p class="text-lg font-semibold">Cabbage Crush</p>
         </div>
       </div>
@@ -168,6 +181,92 @@
     </div>
 
   </main>
+
+  <!-- Search Overlay -->
+  <div id="searchOverlay" class="search-overlay fixed left-0 right-0 z-[100] pt-[70px]">
+    <div class="w-full h-[50vh] bg-white shadow-2xl p-8 overflow-y-auto">
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex-1 mr-4">
+          <input
+            type="text"
+            id="overlaySearchInput"
+            placeholder="Search for ideas..."
+            class="w-full text-2xl font-light border-b-2 border-gray-200 pb-3 focus:outline-none focus:border-[#e60023] transition"
+            autofocus
+          />
+        </div>
+        <button id="closeSearch" class="p-2 hover:bg-gray-100 rounded-full transition">
+          <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Recent searches</h3>
+        <div class="space-y-2">
+          <div class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-gray-700">Valentine's Day treats</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-gray-700">Date night outfits</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-gray-700">Makeup for special nights</span>
+          </div>
+        </div>
+
+        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mt-8">Trending</h3>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-700 cursor-pointer transition">Cabbage Crush</span>
+          <span class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-700 cursor-pointer transition">Yearning aesthetic</span>
+          <span class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-700 cursor-pointer transition">Date night glam</span>
+          <span class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-700 cursor-pointer transition">Evening wear</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const searchOverlay = document.getElementById('searchOverlay');
+    const closeSearch = document.getElementById('closeSearch');
+    const overlaySearchInput = document.getElementById('overlaySearchInput');
+
+    // Open search overlay
+    searchInput.addEventListener('click', () => {
+      searchOverlay.classList.add('active');
+      overlaySearchInput.focus();
+    });
+
+    // Close search overlay
+    closeSearch.addEventListener('click', () => {
+      searchOverlay.classList.remove('active');
+    });
+
+    // Close on click outside
+    searchOverlay.addEventListener('click', (e) => {
+      if (e.target === searchOverlay) {
+        searchOverlay.classList.remove('active');
+      }
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        searchOverlay.classList.remove('active');
+      }
+    });
+  </script>
 
 </body>
 </html>
