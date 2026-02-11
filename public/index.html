@@ -20,7 +20,7 @@
     }
     .search-overlay.active {
       opacity: 1;
-      pointer-events: auto;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -173,8 +173,8 @@
   </main>
 
   <!-- Search Overlay -->
-  <div id="searchOverlay" class="search-overlay fixed left-0 right-0 top-0 z-[100] pt-[70px] bg-black/20 backdrop-blur-sm">
-    <div class="mx-4 h-[70vh] bg-white shadow-2xl p-8 overflow-y-auto">
+  <div id="searchOverlay" class="search-overlay fixed left-0 right-0 top-0 z-[100] pt-[70px] bg-black/20 backdrop-blur-sm pointer-events-none">
+    <div class="mx-4 h-[70vh] bg-white shadow-2xl p-8 overflow-y-auto pointer-events-auto">
       <div class="flex items-center justify-between mb-8">
         <div class="flex-1 mr-4">
           <input
@@ -325,9 +325,11 @@
       searchOverlay.classList.remove('active');
     });
 
-    // Close on click outside
-    searchOverlay.addEventListener('click', (e) => {
-      if (e.target === searchOverlay) {
+    // Close on click outside (only close if clicking on the overlay background, not the inner box)
+    document.addEventListener('click', (e) => {
+      if (searchOverlay.classList.contains('active') && 
+          !searchOverlay.querySelector('.bg-white').contains(e.target) &&
+          e.target !== document.getElementById('searchInput')) {
         searchOverlay.classList.remove('active');
       }
     });
