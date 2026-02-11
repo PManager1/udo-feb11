@@ -61,7 +61,7 @@
   </header>
 
   <!-- Toggle Sidebar Button -->
-  <button id="sidebarToggle" class="fixed left-4 bottom-8 z-[150] bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-lg transition-all duration-300 flex items-center gap-2">
+  <button id="sidebarToggle" class="fixed right-4 top-24 z-[150] bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-lg transition-all duration-300 flex items-center gap-2">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
     </svg>
@@ -69,7 +69,7 @@
   </button>
 
   <!-- Sidebar -->
-  <div id="sidebar" class="fixed left-0 top-0 h-full w-80 bg-white shadow-2xl z-[100] transform -translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto">
+  <div id="sidebar" class="fixed right-0 top-0 h-full w-80 bg-white shadow-2xl z-[100] transform translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto">
     <div class="p-6">
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold text-gray-900">Filters</h2>
@@ -649,12 +649,12 @@
     const sidebarOverlay = document.getElementById('sidebarOverlay');
 
     function openSidebar() {
-      sidebar.classList.remove('-translate-x-full');
+      sidebar.classList.remove('translate-x-full');
       sidebarOverlay.classList.remove('hidden');
     }
 
     function closeSidebarFn() {
-      sidebar.classList.add('-translate-x-full');
+      sidebar.classList.add('translate-x-full');
       sidebarOverlay.classList.add('hidden');
     }
 
@@ -838,7 +838,7 @@
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
+      if (e.key === 'Escape') {
         searchOverlay.classList.remove('active');
         document.getElementById('profileModal').classList.add('hidden');
       }

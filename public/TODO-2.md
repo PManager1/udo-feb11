@@ -1,3 +1,5 @@
+Browse professionals on home page doesnt goes to profiles list page. 
+
 On the profiles list page add a button 'contact' there 
 
 when i click on one of the profiles on profiles list it shoudl show the full profile on that page. 
