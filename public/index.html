@@ -328,7 +328,7 @@
       searchOverlay.classList.remove('active');
     });
 
-    // Close on click outside (only close if clicking on the overlay background, not the inner box)
+    // Close on click outside (only close if clicking on overlay background, not on inner box)
     document.addEventListener('click', (e) => {
       if (searchOverlay.classList.contains('active') && 
           !searchOverlay.querySelector('.bg-white').contains(e.target) &&
