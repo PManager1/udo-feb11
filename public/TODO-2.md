@@ -1,4 +1,2 @@
-Make the text in these rectangles more darker
-
-For the overlay i want you to add a margin of somethign on the left and right of it. 
-
+in overlay , I want you to duplicate the rectangles 
+for popular on u do and also for trending now. 
