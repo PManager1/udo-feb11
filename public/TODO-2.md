@@ -1,3 +1,6 @@
+
+when user clicks view full profile it shoudl it should navigate to that page and show the full profile on that page. 
+
 Browse professionals on home page doesnt goes to profiles list page. 
 
 On the profiles list page add a button 'contact' there 
