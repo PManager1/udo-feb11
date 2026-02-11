@@ -387,6 +387,7 @@
         location: "New York",
         price: 75,
         priceType: "hourly",
+        distance: 2.5,
         bio: "Professional furniture assembler with over 8 years of experience. I specialize in assembling all types of furniture from IKEA, Wayfair, and other major retailers. Fast, reliable, and meticulous attention to detail.",
         skills: ["Furniture Assembly", "IKEA Expert", "Heavy Lifting", "Same Day Service", "Clean Workspace"],
         available: true,
@@ -404,6 +405,7 @@
         location: "Los Angeles",
         price: 120,
         priceType: "hourly",
+        distance: 5.2,
         bio: "Licensed master electrician with 12 years of experience in residential and commercial electrical work. Expert in lighting installation, outlet repair, panel upgrades, and electrical troubleshooting.",
         skills: ["Licensed Electrician", "Lighting Installation", "Panel Upgrades", "Troubleshooting", "Safety Inspections"],
         available: true,
@@ -421,6 +423,7 @@
         location: "Chicago",
         price: 95,
         priceType: "hourly",
+        distance: 8.7,
         bio: "Master plumber with 15 years of experience. Specializing in leak detection, pipe repair, water heater installation, and bathroom renovations. Available for emergency services 24/7.",
         skills: ["Master Plumber", "Leak Detection", "Water Heater", "Bathroom Renovation", "Emergency Service"],
         available: true,
@@ -438,6 +441,7 @@
         location: "Miami",
         price: 150,
         priceType: "per-job",
+        distance: 12.3,
         bio: "Professional mover with a team of experienced helpers. We specialize in residential and commercial moves, packing services, and furniture disassembly/reassembly. Your belongings are in safe hands with us.",
         skills: ["Moving Services", "Packing", "Furniture Disassembly", "Loading/Unloading", "Local & Long Distance"],
         available: false,
@@ -455,6 +459,7 @@
         location: "Houston",
         price: 85,
         priceType: "hourly",
+        distance: 3.8,
         bio: "Skilled handyman with expertise in home repairs, painting, drywall installation, and general home improvements. No job is too small or too big. Quality work guaranteed.",
         skills: ["Painting", "Drywall", "Carpentry", "General Repairs", "Home Renovation"],
         available: true,
@@ -472,6 +477,7 @@
         location: "New York",
         price: 45,
         priceType: "hourly",
+        distance: 4.1,
         bio: "Professional cleaning service specializing in residential deep cleaning, move-in/move-out cleaning, and regular maintenance cleaning. Eco-friendly products available upon request.",
         skills: ["Deep Cleaning", "Move-out Cleaning", "Eco-friendly", "Carpet Cleaning", "Window Cleaning"],
         available: true,
@@ -489,6 +495,7 @@
         location: "Los Angeles",
         price: 65,
         priceType: "per-job",
+        distance: 6.4,
         bio: "Expert in hanging artwork, mirrors, TV mounts, shelves, and decorative items. I bring all the necessary tools and ensure precise, level installations every time.",
         skills: ["Art Hanging", "TV Mounting", "Shelf Installation", "Mirror Hanging", "Heavy Item Mounting"],
         available: true,
@@ -506,6 +513,7 @@
         location: "Miami",
         price: 135,
         priceType: "hourly",
+        distance: 9.2,
         bio: "Electrical engineer with expertise in residential and commercial electrical systems. Specializing in smart home installations, electrical panel upgrades, and complete rewiring projects.",
         skills: ["Smart Home", "Panel Upgrades", "Rewiring", "Circuit Installation", "Safety Compliance"],
         available: true,
@@ -523,6 +531,7 @@
         location: "Chicago",
         price: 90,
         priceType: "hourly",
+        distance: 7.6,
         bio: "Master craftsman with 20 years of experience in furniture assembly and cabinet making. I can assemble any piece of furniture and also build custom cabinets to your specifications.",
         skills: ["Custom Cabinets", "Furniture Assembly", "Woodworking", "Restoration", "Custom Design"],
         available: true,
@@ -578,6 +587,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 <span>${pro.location}</span>
+                <span class="text-gray-500">• ${pro.distance} miles away</span>
               </div>
               <div class="flex items-center gap-2 text-gray-600">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -589,9 +599,16 @@
 
             <p class="text-gray-600 text-sm mb-4 line-clamp-2">${pro.bio}</p>
 
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2 mb-4">
               ${pro.skills.map(skill => `<span class="bg-orange-50 text-orange-700 text-sm px-3 py-1 rounded-full">${skill}</span>`).join('')}
             </div>
+
+            <button class="self-start bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-full text-sm transition-all duration-300 flex items-center gap-2 shadow-md hover:shadow-lg">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Contact
+            </button>
           </div>
         </div>
       `).join('');
