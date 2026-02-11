@@ -12,7 +12,7 @@
   <style>
     body {
       background-color: #f9f7f5;
-    }
+    } 
     .card-hover:hover img {
       transform: scale(1.06);
     }
@@ -70,9 +70,15 @@
       <p class="text-xl sm:text-2xl text-gray-700 font-light">
          Select the best. Skip the (middleman) commission.
       </p>
-      <div class="mt-6">
-        <a href="profiles-list/" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-full text-lg transition duration-300 shadow-md hover:shadow-lg">
+      <div class="mt-6 flex gap-4 justify-center flex-wrap">
+        <a href="profiles-list/index.html" onclick="window.location.href='profiles-list/index.html'; return false;" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-full text-lg transition duration-300 shadow-md hover:shadow-lg cursor-pointer">
           Browse Professionals
+        </a>
+        <a href="profiles-list/index.html" onclick="window.location.href='profiles-list/index.html'; return false;" class="inline-block border-2 border-orange-500 text-orange-500 hover:bg-orange-50 font-semibold py-3 px-8 rounded-full text-lg transition duration-300 cursor-pointer">
+          Profiles
+        </a>
+        <a href="login/" onclick="window.location.href='login/'; return false;" class="inline-block border-2 border-gray-400 text-gray-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-full text-lg transition duration-300 cursor-pointer">
+          Login
         </a>
       </div>
     </div>
@@ -224,7 +230,7 @@
   </section>
 
   <!-- Search Overlay -->
-  <div id="searchOverlay" class="search-overlay fixed left-0 right-0 top-0 z-[100] pt-[70px] bg-black/20 backdrop-blur-sm pointer-events-none">
+  <div id="searchOverlay" class="hidden fixed left-0 right-0 top-0 z-[100] pt-[70px] bg-black/20 backdrop-blur-sm pointer-events-none">
     <div class="mx-4 h-[70vh] bg-white shadow-2xl p-8 overflow-y-auto pointer-events-auto">
       <div class="flex items-center justify-between mb-8">
         <div class="flex-1 mr-4">
@@ -364,7 +370,8 @@
     const closeSearch = document.getElementById('closeSearch');
     const overlaySearchInput = document.getElementById('overlaySearchInput');
 
-    searchInput.addEventListener('click', () => {
+    searchInput.addEventListener('click', (e) => {
+      e.preventDefault();
       searchOverlay.classList.add('active');
       overlaySearchInput.focus();
     });
@@ -373,10 +380,8 @@
       searchOverlay.classList.remove('active');
     });
 
-    document.addEventListener('click', (e) => {
-      if (searchOverlay.classList.contains('active') && 
-          !searchOverlay.querySelector('.bg-white').contains(e.target) &&
-          e.target !== document.getElementById('searchInput')) {
+    searchOverlay.addEventListener('click', (e) => {
+      if (e.target === searchOverlay) {
         searchOverlay.classList.remove('active');
       }
     });
