@@ -1,12 +1,13 @@
-
-I want you to add  Carousel Controls or Navigation Arrows. at the beginning and end of the five carosals. 
+Under the text ( Foods near you
+Tailored to your taste:) there are five carrousals.
+I want you to add  Carousel Controls or Navigation Arrows. at the end of the five carosals. place the controls just above the last carousal. 
 
 
 
 Under the text ( Foods near you
 Tailored to your taste:) there are five carrousals
 For all these five carrousals it uses h-48 which tells the height of the carrousal which equates to 12rem  I want to change this height to 13.5 rem.  
-How can we do that for all these carrousals ? 
+How can we do that for all these five carrousals ? 
 
 
 
