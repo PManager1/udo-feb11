@@ -12,6 +12,87 @@
         body {
             font-family: 'Nunito', sans-serif;
         }
+        
+        .category-wrapper {
+            position: relative;
+        }
+        
+        .category-scroll {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 32px;
+            padding: 12px 0;
+            scrollbar-width: none;
+        }
+        
+        .category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            min-width: fit-content;
+            padding: 8px 16px;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .category-item:hover, .category-item.active {
+            opacity: 1;
+            border-bottom: 2px solid orange;
+        }
+        
+        .category-item .icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .category-item .label {
+            font-size: 14px;
+            color: #1f2937;
+            font-weight: 500;
+        }
+        
+        .scroll-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .category-wrapper:hover .scroll-arrow {
+            display: flex;
+        }
+        
+        .scroll-arrow.left {
+            left: 0;
+        }
+        
+        .scroll-arrow.right {
+            right: 0;
+        }
+        
+        .scroll-arrow:hover {
+            background: #f9fafb;
+        }
     </style>
 </head>
 <body class="bg-white min-h-screen">
@@ -191,6 +272,121 @@
     <div class="text-left py-8 px-4 md:px-8 lg:px-16 xl:px-24">
         <h2 class="text-4xl font-bold text-gray-800 mb-2">Find your perfect real food</h2>
         <!-- <p class="text-xl text-gray-600">Tailored to your taste:</p> -->
+        
+        <!-- Horizontal Category Scroller -->
+        <div class="category-wrapper mt-4">
+            <button class="scroll-arrow left" onclick="document.querySelector('.category-scroll').scrollBy({left: -200, behavior: 'smooth'})">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            
+            <div class="category-scroll px-12">
+                <button class="category-item active">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h24M4 12h24M4 18h24"/>
+                    </svg>
+                    <span class="label">All</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">American</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">Italian</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">Mexican</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">Chinese</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">Japanese</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">Indian</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">Thai</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">Mediterranean</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">Korean</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">Vegetarian</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">Vegan</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">Gluten Free</span>
+                </button>
+                
+                <button class="category-item">
+                    <svg viewBox="0 0 32 32" class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 1a15 15 0 1 0 15 15A15 15 0 0 0 16 1zm0 28a13 13 0 1 1 13-13 13 13 0 0 1-13 13z"/>
+                    </svg>
+                    <span class="label">Seafood</span>
+                </button>
+            </div>
+            
+            <button class="scroll-arrow right" onclick="document.querySelector('.category-scroll').scrollBy({left: 200, behavior: 'smooth'})">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7-7"/>
+                </svg>
+            </button>
+        </div>
     </div>
 
     <!-- Food Cards Carousel -->
