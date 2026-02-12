@@ -1,7 +1,13 @@
 
-Under this ( Foods near you
-Tailored to your taste:) there are five carosals
-I want you to increase the size of ( all five carosals ) image or that html element where images show , increase the height  by 1/5.
+I want you to add  Carousel Controls or Navigation Arrows. at the beginning and end of the five carosals. 
+
+
+
+Under the text ( Foods near you
+Tailored to your taste:) there are five carrousals
+For all these five carrousals it uses h-48 which tells the height of the carrousal which equates to 12rem  I want to change this height to 13.5 rem.  
+How can we do that for all these carrousals ? 
+
 
 
 
