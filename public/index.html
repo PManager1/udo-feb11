@@ -367,23 +367,35 @@
 
     searchInput.addEventListener('click', (e) => {
       e.preventDefault();
-      searchOverlay.classList.add('active');
+      searchOverlay.classList.remove('hidden');
+      setTimeout(() => {
+        searchOverlay.classList.add('active');
+      }, 10);
       overlaySearchInput.focus();
     });
 
     closeSearch.addEventListener('click', () => {
       searchOverlay.classList.remove('active');
+      setTimeout(() => {
+        searchOverlay.classList.add('hidden');
+      }, 300);
     });
 
     searchOverlay.addEventListener('click', (e) => {
       if (e.target === searchOverlay) {
         searchOverlay.classList.remove('active');
+        setTimeout(() => {
+          searchOverlay.classList.add('hidden');
+        }, 300);
       }
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         searchOverlay.classList.remove('active');
+        setTimeout(() => {
+          searchOverlay.classList.add('hidden');
+        }, 300);
       }
     });
   </script>
