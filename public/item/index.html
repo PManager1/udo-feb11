@@ -18,9 +18,13 @@
     <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <a href="../index.html" class="text-2xl font-bold">
+                <!-- <a href="../index.html" class="flex items-center">
+                    <img src="../logo/uletter.jpg" alt="UDO" class="h-10 w-auto">
+                </a> -->
+                 <a href="../index.html" class="text-2xl font-bold">
                     <span class="text-orange-500">U</span><span class="text-gray-800">DO™</span>
-                </a>
+                 </a>
+                 
                 <div class="flex items-center space-x-4">
                     <a href="../foods/" class="text-gray-700 hover:text-orange-500 transition-colors">Foods</a>
                     <a href="#" class="text-gray-700 hover:text-orange-500 transition-colors">Settings</a>
@@ -60,40 +64,40 @@
         </nav>
 
         <!-- Item Details Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            <!-- Image Gallery -->
-            <div class="space-y-4">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=800&h=600&fit=crop" 
-                         alt="Grilled Salmon" 
-                         class="w-full h-[400px] object-cover rounded-2xl shadow-lg">
-                    <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="white" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0-7.78z"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div class="grid grid-cols-3 gap-3">
-                    <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=200&h=150&fit=crop" alt="Salmon 1" class="w-full h-24 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity border-2 border-orange-500">
-                    <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=200&h=150&fit=crop" alt="Salmon 2" class="w-full h-24 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity border-2 border-transparent hover:border-gray-300">
-                    <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=200&h=150&fit=crop" alt="Salmon 3" class="w-full h-24 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity border-2 border-transparent hover:border-gray-300">
-                </div>
+        <!-- Image Gallery - Full Width Top Section -->
+        <div class="space-y-4 mb-8">
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=1600&h=800&fit=crop" 
+                     alt="Grilled Salmon" 
+                     class="w-full h-[500px] object-cover rounded-2xl shadow-lg">
+                <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="white" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0-7.78z"></path>
+                    </svg>
+                </button>
             </div>
+            <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400&h=300&fit=crop" alt="Salmon 1" class="w-full h-32 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity border-2 border-orange-500">
+                <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop" alt="Salmon 2" class="w-full h-32 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity border-2 border-transparent hover:border-gray-300">
+                <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400&h=300&fit=crop" alt="Salmon 3" class="w-full h-32 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity border-2 border-transparent hover:border-gray-300">
+                <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=400&h=300&fit=crop" alt="Salmon 4" class="hidden lg:block w-full h-32 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity border-2 border-transparent hover:border-gray-300">
+                <img src="https://images.unsplash.com/photo-1626803775151-61d756612f97?w=400&h=300&fit=crop" alt="Salmon 5" class="hidden lg:block w-full h-32 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity border-2 border-transparent hover:border-gray-300">
+            </div>
+        </div>
 
-            <!-- Item Info -->
-            <div class="space-y-6">
-                <!-- Rating Badge -->
-                <div class="flex items-center gap-3">
-                    <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.4</span>
-                    <div class="flex items-center gap-2">
-                        <span class="font-semibold text-gray-900">Exceptional</span>
-                        <span class="text-gray-500">(13 reviews)</span>
+        <!-- Item Info - Below Images -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Rating Badge & Title & Location -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.4</span>
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold text-gray-900">Exceptional</span>
+                            <span class="text-gray-500">(13 reviews)</span>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Title & Location -->
-                <div>
-                    <h1 class="text-4xl font-bold text-gray-900 mb-2">Grilled Salmon</h1>
+                    <h1 class="text-4xl font-bold text-gray-900">Grilled Salmon</h1>
                     <p class="text-lg text-gray-600 flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
@@ -112,7 +116,7 @@
                 </div>
 
                 <!-- Key Features -->
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="bg-white rounded-xl p-4 border border-gray-200">
                         <svg class="w-6 h-6 text-orange-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -153,18 +157,15 @@
                         <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">Fresh Catch</span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Price & CTA -->
-                <div class="border-t border-gray-200 pt-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <p class="text-gray-500 text-sm">Price per serving</p>
-                            <p class="text-3xl font-bold text-gray-900">$24.99</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-gray-500 text-sm">For 2 servings</p>
-                            <p class="text-xl font-semibold text-gray-900">$49.98</p>
-                        </div>
+            <!-- Sidebar - Price & CTA -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm sticky top-24">
+                    <div class="border-b border-gray-200 pb-4 mb-4">
+                        <p class="text-gray-500 text-sm mb-1">Price per serving</p>
+                        <p class="text-3xl font-bold text-gray-900">$24.99</p>
+                        <p class="text-gray-500 text-sm mt-1">For 2 servings: <span class="font-semibold text-gray-900">$49.98</span></p>
                     </div>
                     <div class="flex items-center text-green-600 mb-4">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
@@ -172,15 +173,164 @@
                         </svg>
                         <span class="text-sm font-medium text-green-700">All fees included</span>
                     </div>
-                    <button class="w-full bg-orange-500 text-white font-bold py-4 rounded-full hover:bg-orange-600 transition-all shadow-lg hover:shadow-xl active:scale-95">
+                    <button class="w-full bg-orange-500 text-white font-bold py-4 rounded-full hover:bg-orange-600 transition-all shadow-lg hover:shadow-xl active:scale-95 mb-3">
                         Book This Dish
                     </button>
-                    <button class="w-full mt-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold py-4 rounded-full hover:bg-gray-50 transition-all">
+                    <button class="w-full bg-white border-2 border-gray-300 text-gray-700 font-semibold py-4 rounded-full hover:bg-gray-50 transition-all">
                         Contact Host
                     </button>
                 </div>
             </div>
         </div>
+
+        <!-- Calendar & Availability Section -->
+        <section class="mt-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Availability</h2>
+            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-gray-200">
+                    <!-- Calendar -->
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <button class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <h3 class="text-xl font-semibold text-gray-900">February 2026</h3>
+                            <button class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Calendar Grid -->
+                        <div class="mb-4">
+                            <div class="grid grid-cols-7 gap-1 text-center text-sm font-medium text-gray-500 mb-2">
+                                <div>Sun</div>
+                                <div>Mon</div>
+                                <div>Tue</div>
+                                <div>Wed</div>
+                                <div>Thu</div>
+                                <div>Fri</div>
+                                <div>Sat</div>
+                            </div>
+                            <div class="grid grid-cols-7 gap-1 text-center" id="calendar-grid">
+                                <!-- Previous month days -->
+                                <div class="p-2 text-gray-300">26</div>
+                                <div class="p-2 text-gray-300">27</div>
+                                <div class="p-2 text-gray-300">28</div>
+                                <div class="p-2 text-gray-300">29</div>
+                                <div class="p-2 text-gray-300">30</div>
+                                <div class="p-2 text-gray-300">31</div>
+                                <!-- Current month days -->
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">1</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">2</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">3</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">4</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">5</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">6</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">7</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">8</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">9</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">10</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">11</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">12</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">13</div>
+                                <div class="p-2 text-gray-700 bg-gray-100 rounded-lg cursor-pointer">14</div>
+                                <div class="p-2 text-white bg-orange-500 rounded-lg cursor-pointer font-bold">15</div>
+                                <div class="p-2 text-gray-700 hover:bg-orange-50 rounded-lg cursor-pointer relative">16
+                                    <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full"></span>
+                                </div>
+                                <div class="p-2 text-gray-700 hover:bg-orange-50 rounded-lg cursor-pointer relative">17
+                                    <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full"></span>
+                                </div>
+                                <div class="p-2 text-gray-700 hover:bg-orange-50 rounded-lg cursor-pointer relative">18
+                                    <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full"></span>
+                                </div>
+                                <div class="p-2 text-gray-700 hover:bg-orange-50 rounded-lg cursor-pointer relative">19
+                                    <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full"></span>
+                                </div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">20</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">21</div>
+                                <div class="p-2 text-gray-700 hover:bg-orange-50 rounded-lg cursor-pointer relative">22
+                                    <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full"></span>
+                                </div>
+                                <div class="p-2 text-gray-700 hover:bg-orange-50 rounded-lg cursor-pointer relative">23
+                                    <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full"></span>
+                                </div>
+                                <div class="p-2 text-gray-700 hover:bg-orange-50 rounded-lg cursor-pointer relative">24
+                                    <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full"></span>
+                                </div>
+                                <div class="p-2 text-gray-700 hover:bg-orange-50 rounded-lg cursor-pointer relative">25
+                                    <span class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full"></span>
+                                </div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">26</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">27</div>
+                                <div class="p-2 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer">28</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 flex items-center gap-4 text-sm">
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 bg-orange-500 rounded"></div>
+                                <span class="text-gray-600">Selected</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 bg-white border border-gray-300 rounded relative">
+                                    <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
+                                </div>
+                                <span class="text-gray-600">Available</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 bg-gray-100 rounded"></div>
+                                <span class="text-gray-600">Past/Unavailable</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Time Slots -->
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-semibold text-gray-900">Available Time Slots</h3>
+                            <span class="text-sm text-gray-500" id="selected-date">February 15, 2026</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-6">Select a time to reserve your spot</p>
+                        
+                        <div class="grid grid-cols-2 gap-3" id="time-slots">
+                            <button class="time-slot p-4 border-2 border-gray-200 rounded-xl hover:border-orange-500 hover:bg-orange-50 transition-all text-left">
+                                <span class="block text-lg font-semibold text-gray-900">12:00 PM</span>
+                                <span class="text-sm text-gray-500">2 spots left</span>
+                            </button>
+                            <button class="time-slot p-4 border-2 border-gray-200 rounded-xl hover:border-orange-500 hover:bg-orange-50 transition-all text-left">
+                                <span class="block text-lg font-semibold text-gray-900">2:00 PM</span>
+                                <span class="text-sm text-gray-500">4 spots left</span>
+                            </button>
+                            <button class="time-slot p-4 border-2 border-orange-500 bg-orange-50 rounded-xl transition-all text-left">
+                                <span class="block text-lg font-semibold text-gray-900">4:00 PM</span>
+                                <span class="text-sm text-green-600 font-medium">Selected</span>
+                            </button>
+                            <button class="time-slot p-4 border-2 border-gray-200 rounded-xl hover:border-orange-500 hover:bg-orange-50 transition-all text-left">
+                                <span class="block text-lg font-semibold text-gray-900">6:00 PM</span>
+                                <span class="text-sm text-gray-500">3 spots left</span>
+                            </button>
+                            <button class="time-slot p-4 border-2 border-gray-200 rounded-xl hover:border-orange-500 hover:bg-orange-50 transition-all text-left">
+                                <span class="block text-lg font-semibold text-gray-900">7:30 PM</span>
+                                <span class="text-sm text-gray-500">5 spots left</span>
+                            </button>
+                            <button class="time-slot p-4 border-2 border-gray-200 rounded-xl hover:border-orange-500 hover:bg-orange-50 transition-all text-left opacity-50 cursor-not-allowed" disabled>
+                                <span class="block text-lg font-semibold text-gray-900">8:30 PM</span>
+                                <span class="text-sm text-red-500 font-medium">Fully booked</span>
+                            </button>
+                        </div>
+
+                        <button class="w-full mt-6 bg-orange-500 text-white font-bold py-4 rounded-full hover:bg-orange-600 transition-all shadow-lg hover:shadow-xl active:scale-95">
+                            Continue to Booking
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Reviews Section -->
         <section class="mt-16">
@@ -265,10 +415,8 @@
     <footer class="bg-gray-800 text-gray-300 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center space-x-2 mb-4 md:mb-0">
-                    <span class="text-2xl font-bold">
-                        <span class="text-orange-500">U</span><span class="text-white">DO™</span>
-                    </span>
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img src="../logo/uletter.jpg" alt="UDO" class="h-10 w-auto">
                 </div>
                 <p class="text-sm">© 2026 UDO. All rights reserved.</p>
             </div>
@@ -277,7 +425,8 @@
 
     <script>
         // Thumbnail click handler
-        const thumbnails = document.querySelectorAll('.grid-cols-3 img');
+        const thumbnailContainer = document.querySelector('.grid-cols-3') || document.querySelector('.md\\:grid-cols-4');
+        const thumbnails = thumbnailContainer ? thumbnailContainer.querySelectorAll('img') : [];
         const mainImage = document.querySelector('.relative img');
         
         thumbnails.forEach(thumb => {
@@ -291,9 +440,89 @@
                 this.classList.remove('border-transparent');
                 this.classList.add('border-orange-500');
                 // Update main image
-                mainImage.src = this.src.replace('w=200&h=150', 'w=800&h=600');
+                mainImage.src = this.src.replace('w=400&h=300', 'w=1600&h=800');
             });
         });
+
+        // Calendar functionality
+        const calendarGrid = document.getElementById('calendar-grid');
+        const selectedDateEl = document.getElementById('selected-date');
+        const timeSlots = document.querySelectorAll('.time-slot');
+        
+        // Available dates with data
+        const availableDates = {
+            15: ['12:00 PM', '2:00 PM', '4:00 PM', '6:00 PM', '7:30 PM'],
+            16: ['12:00 PM', '2:00 PM', '6:00 PM', '7:30 PM'],
+            17: ['12:00 PM', '4:00 PM', '6:00 PM'],
+            18: ['2:00 PM', '4:00 PM', '7:30 PM'],
+            19: ['12:00 PM', '2:00 PM', '4:00 PM', '6:00 PM'],
+            22: ['12:00 PM', '2:00 PM', '6:00 PM'],
+            23: ['2:00 PM', '4:00 PM', '7:30 PM'],
+            24: ['12:00 PM', '6:00 PM', '7:30 PM'],
+            25: ['2:00 PM', '4:00 PM']
+        };
+
+        let selectedDate = 15;
+        let selectedTime = '4:00 PM';
+
+        // Calendar day click handler
+        calendarGrid.addEventListener('click', function(e) {
+            const dayEl = e.target;
+            const day = parseInt(dayEl.textContent);
+            
+            // Check if clicked element is a valid day and is available
+            if (!isNaN(day) && availableDates[day]) {
+                // Remove previous selection
+                document.querySelectorAll('#calendar-grid > div').forEach(el => {
+                    el.classList.remove('bg-orange-500', 'text-white', 'font-bold');
+                    el.classList.add('text-gray-700');
+                });
+                
+                // Add selection to clicked day
+                dayEl.classList.remove('text-gray-700');
+                dayEl.classList.add('bg-orange-500', 'text-white', 'font-bold');
+                
+                selectedDate = day;
+                selectedDateEl.textContent = `February ${day}, 2026`;
+                
+                // Update time slots for selected date
+                updateTimeSlots();
+            }
+        });
+
+        // Time slot click handler
+        function updateTimeSlots() {
+            const timeSlotsContainer = document.getElementById('time-slots');
+            const times = availableDates[selectedDate];
+            
+            timeSlotsContainer.innerHTML = times.map((time, index) => {
+                const isSelected = time === selectedTime;
+                const spots = Math.floor(Math.random() * 5) + 1;
+                const fullyBooked = spots === 0;
+                
+                return `
+                    <button 
+                        class="time-slot p-4 border-2 ${isSelected ? 'border-orange-500 bg-orange-50' : 'border-gray-200'} ${fullyBooked ? 'opacity-50 cursor-not-allowed' : 'hover:border-orange-500 hover:bg-orange-50'} rounded-xl transition-all text-left"
+                        ${fullyBooked ? 'disabled' : ''}
+                        onclick="${fullyBooked ? '' : `selectTimeSlot('${time}')`}"
+                    >
+                        <span class="block text-lg font-semibold text-gray-900">${time}</span>
+                        <span class="text-sm ${fullyBooked ? 'text-red-500 font-medium' : (isSelected ? 'text-green-600 font-medium' : 'text-gray-500')}">
+                            ${fullyBooked ? 'Fully booked' : (isSelected ? 'Selected' : `${spots} spots left`)}
+                        </span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        // Select time slot function (made global)
+        window.selectTimeSlot = function(time) {
+            selectedTime = time;
+            updateTimeSlots();
+        };
+
+        // Initialize time slots on page load
+        updateTimeSlots();
     </script>
 </body>
 </html>
