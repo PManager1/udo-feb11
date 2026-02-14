@@ -186,12 +186,15 @@
             <div class="lg:col-span-2 space-y-6">
                 <!-- Rating Badge & Title & Location -->
                 <div class="space-y-3">
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" id="ratingSection">
                         <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.4</span>
                         <div class="flex items-center gap-2">
                             <span class="font-semibold text-gray-900">Exceptional</span>
                             <span class="text-gray-500">(13 reviews)</span>
                         </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
                     </div>
                     <h1 class="text-4xl font-bold text-gray-900">Grilled Salmon</h1>
                     <p class="text-lg text-gray-600 flex items-center gap-2">
@@ -534,6 +537,233 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
             </svg>
         </button>
+    </div>
+
+    <!-- Reviews Modal -->
+    <div id="reviewsModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] mx-4 overflow-hidden flex flex-col">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <span class="bg-orange-500 text-white text-2xl font-bold px-4 py-2 rounded-full">9.4</span>
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-900">Exceptional</h2>
+                            <p class="text-gray-500">13 reviews</p>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="closeReviewsModal()" class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Body - Reviews List -->
+            <div class="flex-1 overflow-y-auto px-6 py-4">
+                <div class="space-y-6">
+                    <!-- Review 1 -->
+                    <div class="border-b border-gray-100 pb-6">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xl shrink-0">JD</div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-900 text-lg">John Doe</h3>
+                                    <p class="text-sm text-gray-500">February 10, 2026</p>
+                                </div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">10</span>
+                                    <span class="text-sm font-medium text-gray-700">Excellent</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">
+                            The grilled salmon was absolutely delicious! Perfectly cooked with amazing seasoning. The host was incredibly welcoming and entire experience exceeded my expectations. Will definitely come back!
+                        </p>
+                        <div class="flex items-center gap-2 mt-3">
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">👍 Helpful (12)</button>
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">Reply</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="border-b border-gray-100 pb-6">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl shrink-0">SM</div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-900 text-lg">Sarah Miller</h3>
+                                    <p class="text-sm text-gray-500">February 8, 2026</p>
+                                </div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">9</span>
+                                    <span class="text-sm font-medium text-gray-700">Wonderful</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">
+                            Fresh ingredients and authentic flavors. The portion sizes were generous and presentation was beautiful. A wonderful dining experience in a cozy home setting.
+                        </p>
+                        <div class="flex items-center gap-2 mt-3">
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">👍 Helpful (8)</button>
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">Reply</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="border-b border-gray-100 pb-6">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-xl shrink-0">MJ</div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-900 text-lg">Mike Johnson</h3>
+                                    <p class="text-sm text-gray-500">February 5, 2026</p>
+                                </div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">9.5</span>
+                                    <span class="text-sm font-medium text-gray-700">Exceptional</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">
+                            Best salmon I've had in years! The lemon butter sauce was divine. The host made us feel right at home. Highly recommend for anyone looking for authentic home-cooked meals.
+                        </p>
+                        <div class="flex items-center gap-2 mt-3">
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">👍 Helpful (15)</button>
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">Reply</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 4 -->
+                    <div class="border-b border-gray-100 pb-6">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="w-14 h-14 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-xl shrink-0">EW</div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-900 text-lg">Emily Watson</h3>
+                                    <p class="text-sm text-gray-500">February 3, 2026</p>
+                                </div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">8.5</span>
+                                    <span class="text-sm font-medium text-gray-700">Very Good</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">
+                            Great food and lovely atmosphere. The salmon was fresh and cooked perfectly. Only minor feedback would be about serving temperature, but overall a fantastic experience.
+                        </p>
+                        <div class="flex items-center gap-2 mt-3">
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">👍 Helpful (6)</button>
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">Reply</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 5 -->
+                    <div class="border-b border-gray-100 pb-6">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="w-14 h-14 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xl shrink-0">AL</div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-900 text-lg">Amy Lee</h3>
+                                    <p class="text-sm text-gray-500">January 30, 2026</p>
+                                </div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">10</span>
+                                    <span class="text-sm font-medium text-gray-700">Excellent</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">
+                            Absolutely phenomenal experience! The host was so kind and knowledgeable about the dish. The salmon was cooked to perfection - crispy skin, tender meat. 10/10 would recommend to everyone!
+                        </p>
+                        <div class="flex items-center gap-2 mt-3">
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">👍 Helpful (9)</button>
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">Reply</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 6 -->
+                    <div class="border-b border-gray-100 pb-6">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="w-14 h-14 bg-teal-500 rounded-full flex items-center justify-center text-white font-bold text-xl shrink-0">RB</div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-900 text-lg">Robert Brown</h3>
+                                    <p class="text-sm text-gray-500">January 28, 2026</p>
+                                </div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">9</span>
+                                    <span class="text-sm font-medium text-gray-700">Wonderful</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">
+                            Came here for a special occasion and was not disappointed. The food was exquisite and the atmosphere was warm and inviting. The salmon paired perfectly with the seasonal vegetables. Will definitely return!
+                        </p>
+                        <div class="flex items-center gap-2 mt-3">
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">👍 Helpful (11)</button>
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">Reply</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 7 -->
+                    <div class="border-b border-gray-100 pb-6">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="w-14 h-14 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-xl shrink-0">JG</div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-900 text-lg">Jennifer Garcia</h3>
+                                    <p class="text-sm text-gray-500">January 25, 2026</p>
+                                </div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">9.5</span>
+                                    <span class="text-sm font-medium text-gray-700">Exceptional</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">
+                            This is exactly what I was looking for - authentic home-cooked food with a personal touch. The host was fantastic and really made us feel welcome. The salmon was cooked to perfection with amazing flavor. Highly recommend!
+                        </p>
+                        <div class="flex items-center gap-2 mt-3">
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">👍 Helpful (13)</button>
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">Reply</button>
+                        </div>
+                    </div>
+
+                    <!-- Review 8 -->
+                    <div class="pb-6">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="w-14 h-14 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold text-xl shrink-0">DW</div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-900 text-lg">David Wilson</h3>
+                                    <p class="text-sm text-gray-500">January 22, 2026</p>
+                                </div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">8</span>
+                                    <span class="text-sm font-medium text-gray-700">Very Good</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">
+                            Great experience overall. The food quality was excellent and the host was very friendly. The salmon was delicious and well-seasoned. Only minor issue was a small delay in service, but definitely worth the wait!
+                        </p>
+                        <div class="flex items-center gap-2 mt-3">
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">👍 Helpful (7)</button>
+                            <button class="text-sm text-gray-500 hover:text-orange-500 transition-colors">Reply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                <button class="w-full bg-orange-500 text-white font-bold py-3 rounded-full hover:bg-orange-600 transition-all">
+                    Write a Review
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
@@ -910,6 +1140,38 @@
                 svg.setAttribute('fill', '#e11d48');
                 svg.setAttribute('stroke', '#e11d48');
                 alert('Saved to your favorites!');
+            }
+        });
+
+        // Reviews modal functionality
+        const ratingSection = document.getElementById('ratingSection');
+        const reviewsModal = document.getElementById('reviewsModal');
+
+        // Open reviews modal
+        ratingSection.addEventListener('click', function() {
+            reviewsModal.classList.remove('hidden');
+            reviewsModal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Close reviews modal
+        window.closeReviewsModal = function() {
+            reviewsModal.classList.add('hidden');
+            reviewsModal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        };
+
+        // Close reviews modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !reviewsModal.classList.contains('hidden')) {
+                closeReviewsModal();
+            }
+        });
+
+        // Close reviews modal when clicking outside
+        reviewsModal.addEventListener('click', function(e) {
+            if (e.target === reviewsModal) {
+                closeReviewsModal();
             }
         });
     </script>
