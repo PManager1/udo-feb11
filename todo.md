@@ -1,6 +1,21 @@
 Todo : 
 Allow user to post on rideshare page. 
 
+Rideshare: 
+Make the post a ride button / option work. 
+
+
+
+
+Roadie :
+Go see this page and see other options that you can add on to it like van type etc 
+For the page roadie. 
+https://www.curri.com/drive 
+
+
+Other companies : https://bungii.com/
+
+
 
 
 
