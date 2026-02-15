@@ -15,6 +15,9 @@
             position: sticky;
             top: 88px;
         }
+        .carousel-slide {
+            transition: transform 0.3s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -94,20 +97,47 @@
             <div class="lg:w-[70%]">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     
-                    <!-- Food Card 1 -->
-                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-[420px]">
-                        <div class="relative flex-[7]">
-                            <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600&h=400&fit=crop" 
-                                 alt="Grilled Salmon" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute top-4 left-4">
-                                <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.4</span>
+                    <!-- Food Card 1 - Grilled Salmon -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-[420px]" data-images='["https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1467003909585-2f8a72700288d?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=600&h=400&fit=crop"]'>
+                        <div class="relative flex-[7] overflow-hidden">
+                            <div class="carousel-container w-full h-full relative">
+                                <div class="carousel-track flex w-full h-full transition-transform duration-300" data-current="0">
+                                    <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600&h=400&fit=crop" 
+                                         alt="Grilled Salmon 1" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&h=400&fit=crop" 
+                                         alt="Grilled Salmon 2" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=600&h=400&fit=crop" 
+                                         alt="Grilled Salmon 3" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                </div>
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.4</span>
+                                </div>
+                                <button class="favorite-btn absolute top-4 right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                </button>
+                                <!-- Carousel Navigation -->
+                                <button class="prev-btn absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-colors z-10">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                    </svg>
+                                </button>
+                                <button class="next-btn absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-colors z-10">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                                <!-- Image Indicators -->
+                                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors active"></span>
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors"></span>
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors"></span>
+                                </div>
                             </div>
-                            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
-                                <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                </svg>
-                            </button>
                         </div>
                         <div class="flex-[3] p-4 flex flex-col justify-between">
                             <div>
@@ -127,20 +157,45 @@
                         </div>
                     </div>
 
-                    <!-- Food Card 2 -->
-                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-[420px]">
-                        <div class="relative flex-[7]">
-                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop" 
-                                 alt="Margherita Pizza" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute top-4 left-4">
-                                <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.2</span>
+                    <!-- Food Card 2 - Margherita Pizza -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-[420px]" data-images='["https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=600&h=400&fit=crop"]'>
+                        <div class="relative flex-[7] overflow-hidden">
+                            <div class="carousel-container w-full h-full relative">
+                                <div class="carousel-track flex w-full h-full transition-transform duration-300" data-current="0">
+                                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop" 
+                                         alt="Margherita Pizza 1" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&h=400&fit=crop" 
+                                         alt="Margherita Pizza 2" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=600&h=400&fit=crop" 
+                                         alt="Margherita Pizza 3" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                </div>
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.2</span>
+                                </div>
+                                <button class="favorite-btn absolute top-4 right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                </button>
+                                <button class="prev-btn absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-colors z-10">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                    </svg>
+                                </button>
+                                <button class="next-btn absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-colors z-10">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors active"></span>
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors"></span>
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors"></span>
+                                </div>
                             </div>
-                            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                </svg>
-                            </button>
                         </div>
                         <div class="flex-[3] p-4 flex flex-col justify-between">
                             <div>
@@ -160,20 +215,45 @@
                         </div>
                     </div>
 
-                    <!-- Food Card 3 -->
-                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-[420px]">
-                        <div class="relative flex-[7]">
-                            <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop" 
-                                 alt="Beef Tacos" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute top-4 left-4">
-                                <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.6</span>
+                    <!-- Food Card 3 - Beef Tacos -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-[420px]" data-images='["https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1623689046286-4c8eab710062?w=600&h=400&fit=crop"]'>
+                        <div class="relative flex-[7] overflow-hidden">
+                            <div class="carousel-container w-full h-full relative">
+                                <div class="carousel-track flex w-full h-full transition-transform duration-300" data-current="0">
+                                    <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop" 
+                                         alt="Beef Tacos 1" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=600&h=400&fit=crop" 
+                                         alt="Beef Tacos 2" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1623689046286-4c8eab710062?w=600&h=400&fit=crop" 
+                                         alt="Beef Tacos 3" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                </div>
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.6</span>
+                                </div>
+                                <button class="favorite-btn absolute top-4 right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                </button>
+                                <button class="prev-btn absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-colors z-10">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                    </svg>
+                                </button>
+                                <button class="next-btn absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-colors z-10">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors active"></span>
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors"></span>
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors"></span>
+                                </div>
                             </div>
-                            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
-                                <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                </svg>
-                            </button>
                         </div>
                         <div class="flex-[3] p-4 flex flex-col justify-between">
                             <div>
@@ -193,20 +273,45 @@
                         </div>
                     </div>
 
-                    <!-- Food Card 4 -->
-                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-[420px]">
-                        <div class="relative flex-[7]">
-                            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop" 
-                                 alt="Vegetable Bowl" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute top-4 left-4">
-                                <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.0</span>
+                    <!-- Food Card 4 - Buddha Bowl -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-[420px]" data-images='["https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600&h=400&fit=crop"]'>
+                        <div class="relative flex-[7] overflow-hidden">
+                            <div class="carousel-container w-full h-full relative">
+                                <div class="carousel-track flex w-full h-full transition-transform duration-300" data-current="0">
+                                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop" 
+                                         alt="Buddha Bowl 1" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=400&fit=crop" 
+                                         alt="Buddha Bowl 2" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=600&h=400&fit=crop" 
+                                         alt="Buddha Bowl 3" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                </div>
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.0</span>
+                                </div>
+                                <button class="favorite-btn absolute top-4 right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                </button>
+                                <button class="prev-btn absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-colors z-10">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                    </svg>
+                                </button>
+                                <button class="next-btn absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-colors z-10">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors active"></span>
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors"></span>
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors"></span>
+                                </div>
                             </div>
-                            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                </svg>
-                            </button>
                         </div>
                         <div class="flex-[3] p-4 flex flex-col justify-between">
                             <div>
@@ -226,20 +331,45 @@
                         </div>
                     </div>
 
-                    <!-- Food Card 5 -->
-                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-[420px]">
-                        <div class="relative flex-[7]">
-                            <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&h=400&fit=crop" 
-                                 alt="Pad Thai" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute top-4 left-4">
-                                <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.3</span>
+                    <!-- Food Card 5 - Pad Thai -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-[420px]" data-images='["https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1559314809-0d155014e29e?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1619881590739-a7750c2c7c86?w=600&h=400&fit=crop"]'>
+                        <div class="relative flex-[7] overflow-hidden">
+                            <div class="carousel-container w-full h-full relative">
+                                <div class="carousel-track flex w-full h-full transition-transform duration-300" data-current="0">
+                                    <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&h=400&fit=crop" 
+                                         alt="Pad Thai 1" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1559314809-0d155014e29e?w=600&h=400&fit=crop" 
+                                         alt="Pad Thai 2" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1619881590739-a7750c2c7c86?w=600&h=400&fit=crop" 
+                                         alt="Pad Thai 3" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                </div>
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.3</span>
+                                </div>
+                                <button class="favorite-btn absolute top-4 right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                </button>
+                                <button class="prev-btn absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-colors z-10">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                    </svg>
+                                </button>
+                                <button class="next-btn absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-colors z-10">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors active"></span>
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors"></span>
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors"></span>
+                                </div>
                             </div>
-                            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                </svg>
-                            </button>
                         </div>
                         <div class="flex-[3] p-4 flex flex-col justify-between">
                             <div>
@@ -259,20 +389,45 @@
                         </div>
                     </div>
 
-                    <!-- Food Card 6 -->
-                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-[420px]">
-                        <div class="relative flex-[7]">
-                            <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&h=400&fit=crop" 
-                                 alt="Chicken Parmesan" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute top-4 left-4">
-                                <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.5</span>
+                    <!-- Food Card 6 - Chicken Parmesan -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col h-[420px]" data-images='["https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&h=400&fit=crop","https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&h=400&fit=crop"]'>
+                        <div class="relative flex-[7] overflow-hidden">
+                            <div class="carousel-container w-full h-full relative">
+                                <div class="carousel-track flex w-full h-full transition-transform duration-300" data-current="0">
+                                    <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&h=400&fit=crop" 
+                                         alt="Chicken Parmesan 1" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&h=400&fit=crop" 
+                                         alt="Chicken Parmesan 2" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&h=400&fit=crop" 
+                                         alt="Chicken Parmesan 3" 
+                                         class="w-full h-full object-cover flex-shrink-0">
+                                </div>
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="bg-orange-500 text-white text-sm font-bold px-3 py-1 rounded-full">9.5</span>
+                                </div>
+                                <button class="favorite-btn absolute top-4 right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                </button>
+                                <button class="prev-btn absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-colors z-10">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                    </svg>
+                                </button>
+                                <button class="next-btn absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-colors z-10">
+                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors active"></span>
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors"></span>
+                                    <span class="carousel-dot w-2 h-2 rounded-full bg-white/80 cursor-pointer transition-colors"></span>
+                                </div>
                             </div>
-                            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                </svg>
-                            </button>
                         </div>
                         <div class="flex-[3] p-4 flex flex-col justify-between">
                             <div>
@@ -500,21 +655,70 @@
     </footer>
 
     <script>
-        // Save/favorite button toggle
-        const favoriteButtons = document.querySelectorAll('[class*="w-5 h-5"][class*="text"]');
+        // Carousel functionality
+        document.querySelectorAll('[data-images]').forEach(card => {
+            const track = card.querySelector('.carousel-track');
+            const prevBtn = card.querySelector('.prev-btn');
+            const nextBtn = card.querySelector('.next-btn');
+            const dots = card.querySelectorAll('.carousel-dot');
+            let currentIndex = 0;
+            
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const images = track.querySelectorAll('img');
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                updateCarousel();
+            });
+            
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const images = track.querySelectorAll('img');
+                currentIndex = (currentIndex + 1) % images.length;
+                updateCarousel();
+            });
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    currentIndex = index;
+                    updateCarousel();
+                });
+            });
+            
+            function updateCarousel() {
+                const images = track.querySelectorAll('img');
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                track.setAttribute('data-current', currentIndex);
+                
+                // Update dots
+                dots.forEach((dot, index) => {
+                    if (index === currentIndex) {
+                        dot.classList.add('bg-white');
+                        dot.classList.remove('bg-white/50');
+                    } else {
+                        dot.classList.remove('bg-white');
+                        dot.classList.add('bg-white/50');
+                    }
+                });
+            }
+        });
+
+        // Favorite button toggle
+        const favoriteButtons = document.querySelectorAll('.favorite-btn');
         
         favoriteButtons.forEach(button => {
             button.addEventListener('click', function(e) {
                 e.stopPropagation();
+                const svg = this.querySelector('svg');
                 
-                if (this.classList.contains('text-gray-400')) {
-                    this.classList.remove('text-gray-400');
-                    this.classList.add('text-red-500');
-                    this.setAttribute('fill', 'currentColor');
+                if (svg.classList.contains('text-gray-400')) {
+                    svg.classList.remove('text-gray-400');
+                    svg.classList.add('text-red-500');
+                    svg.setAttribute('fill', 'currentColor');
                 } else {
-                    this.classList.remove('text-red-500');
-                    this.classList.add('text-gray-400');
-                    this.setAttribute('fill', 'none');
+                    svg.classList.remove('text-red-500');
+                    svg.classList.add('text-gray-400');
+                    svg.setAttribute('fill', 'none');
                 }
             });
         });
@@ -524,14 +728,14 @@
         
         searchInput.addEventListener('keyup', function(e) {
             const searchTerm = e.target.value.toLowerCase();
-            const foodCards = document.querySelectorAll('.group');
+            const foodCards = document.querySelectorAll('[data-images]');
             
             foodCards.forEach(card => {
                 const title = card.querySelector('h3').textContent.toLowerCase();
                 const description = card.querySelector('p').textContent.toLowerCase();
                 
                 if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                    card.style.display = 'block';
+                    card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
                 }
