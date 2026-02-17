@@ -2216,32 +2216,8 @@
 
             
 
-  <!-- Search Overlay -->
-  <div id="searchOverlay" class="fixed left-0 right-0 top-0 z-[100] pt-[70px] bg-black/20 backdrop-blur-sm" style="display: none;">
-    <div class="mx-4 h-[70vh] bg-white shadow-2xl p-8 overflow-y-auto">
-      <div class="flex items-center justify-between mb-8">
-        <div class="flex-1 mr-4">
-          <input
-            type="text"
-            id="overlaySearchInput"
-            placeholder="Search for foods, meals, or hosts..."
-            class="w-full text-2xl font-light border-b-2 border-gray-200 pb-3 focus:outline-none focus:border-orange-500 transition"
-            autofocus
-          />
-        </div>
-        <button id="closeSearch" class="p-2 hover:bg-gray-100 rounded-full transition">
-          <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="space-y-4">
-        <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider">Popular searches</h3>
-        <p class="text-gray-500">Your popular searches will appear here</p>
-      </div>
-    </div>
-  </div>
 
+            <script src="/static/js/search-overlay.js"></script>
             <script>
         // --- MAIN HERO CAROUSEL LOGO ---
         const slides = document.querySelectorAll('.carousel-slide');
@@ -2286,39 +2262,6 @@
                 idx = (idx - 1 + images.length) % images.length;
                 updateImages();
             });
-        });
-
-        // --- SEARCH OVERLAY FUNCTIONALITY ---
-        const searchInput = document.getElementById('searchInput');
-        const searchOverlay = document.getElementById('searchOverlay');
-        const closeSearch = document.getElementById('closeSearch');
-        const overlaySearchInput = document.getElementById('overlaySearchInput');
-
-        if (searchInput && searchOverlay) {
-            searchInput.addEventListener('click', () => {
-                searchOverlay.style.display = 'block';
-                overlaySearchInput.focus();
-            });
-        }
-
-        if (closeSearch && searchOverlay) {
-            closeSearch.addEventListener('click', () => {
-                searchOverlay.style.display = 'none';
-            });
-        }
-
-        document.addEventListener('click', (e) => {
-            if (searchOverlay && searchOverlay.style.display === 'block' && 
-                !searchOverlay.querySelector('.bg-white').contains(e.target) &&
-                e.target !== searchInput) {
-                searchOverlay.style.display = 'none';
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && searchOverlay) {
-                searchOverlay.style.display = 'none';
-            }
         });
     </script>
   +++++++ REPLACE
