@@ -286,31 +286,6 @@
     </div>
   </main>
 
-  <!-- Search Overlay -->
-  <div id="searchOverlay" class="search-overlay fixed left-0 right-0 top-0 z-[100] pt-[70px] bg-black/20 backdrop-blur-sm">
-    <div class="mx-4 h-[70vh] bg-white shadow-2xl p-8 overflow-y-auto">
-      <div class="flex items-center justify-between mb-8">
-        <div class="flex-1 mr-4">
-          <input
-            type="text"
-            id="overlaySearchInput"
-            placeholder="Search for professionals..."
-            class="w-full text-2xl font-light border-b-2 border-gray-200 pb-3 focus:outline-none focus:border-orange-500 transition"
-            autofocus
-          />
-        </div>
-        <button id="closeSearch" class="p-2 hover:bg-gray-100 rounded-full transition">
-          <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="space-y-4">
-        <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider">Recent searches</h3>
-        <p class="text-gray-500">Your recent searches will appear here</p>
-      </div>
-    </div>
-  </div>
 
   <!-- Profile Detail Modal -->
   <div id="profileModal" class="hidden fixed inset-0 z-[200] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
@@ -373,6 +348,7 @@
     </div>
   </div>
 
+  <script src="/static/js/search-overlay.js"></script>
   <script>
     // Dummy data for professionals
     const professionals = [
@@ -840,36 +816,6 @@
     // Set default active state
     quickFilterContainer.querySelector('button').classList.remove('border-gray-200', 'text-gray-600');
     quickFilterContainer.querySelector('button').classList.add('bg-orange-500', 'text-white', 'border-orange-500');
-
-    // Search overlay
-    const searchInput = document.getElementById('searchInput');
-    const searchOverlay = document.getElementById('searchOverlay');
-    const closeSearch = document.getElementById('closeSearch');
-    const overlaySearchInput = document.getElementById('overlaySearchInput');
-
-    searchInput.addEventListener('click', () => {
-      searchOverlay.classList.add('active');
-      overlaySearchInput.focus();
-    });
-
-    closeSearch.addEventListener('click', () => {
-      searchOverlay.classList.remove('active');
-    });
-
-    document.addEventListener('click', (e) => {
-      if (searchOverlay.classList.contains('active') && 
-          !searchOverlay.querySelector('.bg-white').contains(e.target) &&
-          e.target !== document.getElementById('searchInput')) {
-        searchOverlay.classList.remove('active');
-      }
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        searchOverlay.classList.remove('active');
-        document.getElementById('profileModal').classList.add('hidden');
-      }
-    });
 
     // Initial render
     renderProfiles(professionals);
