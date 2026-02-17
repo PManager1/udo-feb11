@@ -1,3 +1,8 @@
+on home page the top navigation isnt working fine,  the logo position and search bar are over each other , maybe we need the top right button hamburger button to show options. 
+
+
+
+
 Under the text ( Foods near you
 Tailored to your taste:) there are five carrousals.
 I want you to add  Carousel Controls or Navigation Arrows. at the end of the five carosals. place the controls just above the last carousal. 
