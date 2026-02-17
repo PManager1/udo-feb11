@@ -1,193 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UDO Rideshare</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2270%22 font-family=%22Arial, sans-serif%22 font-weight=%22900%22 letter-spacing=%22-2%22><tspan fill=%22%23f97316%22>U</tspan><tspan fill=%22%23000000%22>DO</tspan></text></svg">  
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-        }
-        .fade-in {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="UDO - Let somebody else do it for you."/>
+  <title>UDO </title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2270%22 font-family=%22Arial, sans-serif%22 font-weight=%22900%22 letter-spacing=%22-2%22><tspan fill=%22%23f97316%22>U</tspan><tspan fill=%22%23000000%22>DO</tspan></text></svg>">
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #f9f7f5;
+    } 
+    .card-hover:hover img {
+      transform: scale(1.06);
+    }
+    .search-overlay {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .search-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
 </head>
+  <body class="min-h-screen antialiased text-gray-900" style="font-family: 'Nunito', sans-serif;">
+
+  <!-- Top Search Bar -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <a href="index.html" class="absolute left-12 top-1/2 -translate-y-1/2 z-[60] hover:opacity-90 transition text-4xl font-bold">
+      <span class="text-orange-500">U</span><span class="text-gray-800">DO</span>
+    </a>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+      <div class="w-48 hidden lg:block"></div>
+      <div class="flex-1 max-w-3xl">
+        <div class="relative">
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search"
+            class="w-full pl-5 pr-12 py-3.5 bg-[#DADAD3] border border-gray-300 rounded-full text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition shadow-sm cursor-pointer"
+            readonly
+          />
+          <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="login/" class="text-gray-700 hover:text-orange-500 font-medium text-base transition">Sign in</a>
+        <a href="signup/" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-full text-base transition duration-300 shadow-sm hover:shadow-md">Join</a>
+      </div>
+    </div>
+  </header>
+
+
+
+
 <body class="bg-gray-50 min-h-screen">
 
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="../index.html" class="text-2xl font-bold">
-                    <span class="text-orange-500">U</span><span class="text-gray-800">DO</span>
-                </a>
-                
-                <div class="flex items-center space-x-4">
-                    <button class="bg-orange-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-orange-600 transition-colors">
-                        Post a Ride
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
+    
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Page Header -->
-        <div class="mb-8">
-            <h1 class="text-4xl font-bold text-gray-900 mb-2">Rideshare Marketplace</h1>
-            <p class="text-gray-600 text-lg">Find rides or offer rides to others</p>
-        </div>
+        <!-- Ride Cards Grid -->
 
-        <!-- Tabs -->
-        <div class="flex gap-2 mb-8">
-            <button id="allTab" class="tab-btn active px-6 py-3 rounded-full font-semibold transition-all bg-orange-500 text-white">
-                All Rides
-            </button>
-            <button id="needRideTab" class="tab-btn px-6 py-3 rounded-full font-semibold transition-all bg-white text-gray-700 hover:bg-gray-100">
-                Need a Ride
-            </button>
-            <button id="offerRideTab" class="tab-btn px-6 py-3 rounded-full font-semibold transition-all bg-white text-gray-700 hover:bg-gray-100">
-                Offering a Ride
-            </button>
-        </div>
-
-        <!-- Search & Filters -->
-        <div class="bg-white rounded-2xl shadow-sm p-6 mb-8">
-            <div class="flex flex-col gap-4">
-                <!-- Route Search: From and To -->
-                <div class="flex flex-col md:flex-row gap-4">
-                    <!-- From Search -->
-                    <div class="relative flex-1">
-                        <div class="absolute left-4 top-1/2 -translate-y-1/2">
-                            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                        </div>
-                        <div class="flex items-center flex-1">
-                            <input type="text" 
-                                   id="fromSearch"
-                                   placeholder="From (e.g., Washington D.C.)" 
-                                   list="fromLocations"
-                                   class="w-full pl-12 pr-10 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                                   autocomplete="off">
-                            <button id="clearFromBtn" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors hidden" title="Clear">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <datalist id="fromLocations">
-                            <option value="Rosslyn, VA">
-                            <option value="Washington D.C.">
-                            <option value="Washington">
-                            <option value="DC Area">
-                            <option value="Arlington, VA">
-                            <option value="Baltimore, MD">
-                            <option value="Virginia">
-                            <option value="Maryland">
-                            <option value="San Francisco, CA">
-                            <option value="San Diego, CA">
-                            <option value="Oakland, CA">
-                            <option value="Long Beach, CA">
-                            <option value="Bakersfield, CA">
-                            <option value="Houston, TX">
-                            <option value="Austin, TX">
-                            <option value="Fort Worth, TX">
-                            <option value="Corpus Christi, TX">
-                            <option value="Plano, TX">
-                        </datalist>
-                    </div>
-                    
-                    <!-- Arrow Icon -->
-                    <div class="flex items-center justify-center">
-                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </div>
-                    
-                    <!-- To Search -->
-                    <div class="relative flex-1">
-                        <div class="absolute left-4 top-1/2 -translate-y-1/2">
-                            <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                        </div>
-                        <div class="flex items-center flex-1">
-                            <input type="text" 
-                                   id="toSearch"
-                                   placeholder="To (e.g., New York City)" 
-                                   list="toLocations"
-                                   class="w-full pl-12 pr-10 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                                   autocomplete="off">
-                            <button id="clearToBtn" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors hidden" title="Clear">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <datalist id="toLocations">
-                            <option value="North Florida">
-                            <option value="Florida">
-                            <option value="Miami, FL">
-                            <option value="Texas">
-                            <option value="Toronto, ON">
-                            <option value="Canada">
-                            <option value="New York City">
-                            <option value="Boston, MA">
-                            <option value="Philadelphia">
-                            <option value="Los Angeles, CA">
-                            <option value="Sacramento, CA">
-                            <option value="Fresno, CA">
-                            <option value="San Jose, CA">
-                            <option value="Santa Barbara, CA">
-                            <option value="Dallas, TX">
-                            <option value="San Antonio, TX">
-                            <option value="El Paso, TX">
-                            <option value="Houston, TX">
-                        </datalist>
-                    </div>
-                </div>
-                
-                <!-- Filters Row -->
-                <div class="flex flex-col lg:flex-row gap-4 pt-2">
-                    <!-- Location Filter -->
-                    <select id="locationFilter" class="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white min-w-[180px]">
-                        <option value="all">All Locations</option>
-                        <option value="dc">Washington D.C.</option>
-                        <option value="va">Virginia</option>
-                        <option value="md">Maryland</option>
-                        <option value="fl">Florida</option>
-                        <option value="ca">California</option>
-                        <option value="tx">Texas</option>
-                        <option value="canada">Canada</option>
-                    </select>
-                    
-                    <!-- Price Filter -->
-                    <select id="priceFilter" class="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white min-w-[160px]">
-                        <option value="all">All Prices</option>
-                        <option value="under50">Under $50</option>
-                        <option value="50to100">$50 - $100</option>
-                        <option value="100to200">$100 - $200</option>
-                        <option value="over200">$200+</option>
-                    </select>
-                    
-                    <!-- Similar Direction Toggle -->
-                    <button id="similarDirectionBtn" class="px-4 py-3 border-2 border-orange-500 bg-white text-orange-500 rounded-xl font-semibold hover:bg-orange-50 transition-all flex items-center gap-2 min-w-[220px]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                        </svg>
-                        <span>Show Similar Direction</span>
-                    </button>
-                </div>
-            </div>
-        </div>
 
         <!-- Ride Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="rideCardsGrid">
