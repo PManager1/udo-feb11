@@ -1,14 +1,26 @@
 // Search Overlay Loader
 async function loadSearchOverlay() {
   try {
-    // 1. Fetch the overlay HTML
+    // 1. Determine the correct base path
+    const pathDepth = window.location.pathname.split('/').filter(Boolean).length;
+    const basePath = pathDepth > 0 ? '../'.repeat(pathDepth) : '';
+
+    // 2. Fetch the overlay HTML
     const response = await fetch('/search-overlay.html');
-    const html = await response.text();
+    let html = await response.text();
     
-    // 2. Insert it into the bottom of the body
+    // 3. Replace all href paths with correct relative paths
+    html = html.replace(/href="\.\/profiles-list\/"/g, `href="${basePath}profiles-list/"`);
+    html = html.replace(/href="\.\.\/profiles-list\/"/g, `href="${basePath}profiles-list/"`);
+    html = html.replace(/href="\.\/rideshare\/"/g, `href="${basePath}rideshare/"`);
+    html = html.replace(/href="\.\.\/rideshare\/"/g, `href="${basePath}rideshare/"`);
+    html = html.replace(/href="\.\/foods\/"/g, `href="${basePath}foods/"`);
+    html = html.replace(/href="\.\.\/foods\/"/g, `href="${basePath}foods/"`);
+    
+    // 4. Insert it into the bottom of the body
     document.body.insertAdjacentHTML('beforeend', html);
 
-    // 3. Re-attach the event listeners now that elements exist
+    // 5. Re-attach the event listeners now that elements exist
     const searchInput = document.getElementById('searchInput');
     const searchOverlay = document.getElementById('searchOverlay');
     const closeSearch = document.getElementById('closeSearch');
