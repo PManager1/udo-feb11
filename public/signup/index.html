@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up - UDo</title>
-  <link rel="icon" type="image/jpeg" href="../logo/uletter.jpg">
+  <meta name="description" content="UDO - Let somebody else do it for you."/>
+  <title>UDO </title>
+  <link rel="icon" type="image/jpeg" href="logo/uletter.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,35 +13,39 @@
   <style>
     body {
       background-color: #f9f7f5;
+    } 
+    .card-hover:hover img {
+      transform: scale(1.06);
     }
     .search-overlay {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       opacity: 0;
-      visibility: hidden;
+      pointer-events: none;
     }
     .search-overlay.active {
       opacity: 1;
-      visibility: visible;
+      pointer-events: auto;
     }
   </style>
 </head>
-  <body class="min-h-screen antialiased text-gray-900 flex flex-col" style="font-family: 'Nunito', sans-serif;">
+  <body class="min-h-screen antialiased text-gray-900" style="font-family: 'Nunito', sans-serif;">
 
   <!-- Top Search Bar -->
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
-    <a href="../index.html" class="absolute left-12 top-1/2 -translate-y-1/2 z-[60] hover:opacity-90 transition">
-      <img src="../UDO-6.jpg" alt="UDO" class="h-32 w-auto max-w-none shadow-lg rounded-lg" />
+    <a href="../index.html" class="absolute left-12 top-1/2 -translate-y-1/2 z-[60] hover:opacity-90 transition text-4xl font-bold">
+      <span class="text-orange-500">U</span><span class="text-gray-800">DO</span>
     </a>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
-      <div class="w-40 hidden lg:block"></div>
+      <div class="w-48 hidden lg:block"></div>
       <div class="flex-1 max-w-3xl">
         <div class="relative">
           <input
             id="searchInput"
             type="text"
             placeholder="Search"
-            class="w-full pl-5 pr-12 py-3.5 bg-gray-100/80 border border-gray-300 rounded-full text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition shadow-sm cursor-pointer"
+            class="w-full pl-5 pr-12 py-3.5 bg-[#DADAD3] border border-gray-300 rounded-full text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition shadow-sm cursor-pointer"
+            readonly
           />
           <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,7 +56,7 @@
       </div>
       <div class="flex items-center gap-3">
         <a href="../login/" class="text-gray-700 hover:text-orange-500 font-medium text-base transition">Sign in</a>
-        <a href="../signup/" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-full text-base transition duration-300 shadow-sm hover:shadow-md">Join</a>
+        <!-- <a href="signup/" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-full text-base transition duration-300 shadow-sm hover:shadow-md">Join</a> -->
       </div>
     </div>
   </header>
