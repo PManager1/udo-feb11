@@ -65,8 +65,25 @@
         <!-- Search & Filters -->
         <div class="bg-white rounded-2xl shadow-sm p-6 mb-8">
             <div class="flex flex-col gap-4">
+                <!-- Subscribe to Alerts Button -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                        </svg>
+                        <span class="font-semibold text-gray-900">Get Notified</span>
+                    </div>
+                    <button id="subscribeBtn" class="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-full font-semibold hover:bg-orange-600 transition-all text-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Subscribe to Alerts
+                    </button>
+                </div>
+                
                 <!-- Route Search: From and To -->
                 <div class="flex flex-col md:flex-row gap-4">
+  +++++++ REPLACE
                     <!-- From Search -->
                     <div class="relative flex-1">
                         <div class="absolute left-4 top-1/2 -translate-y-1/2">
@@ -297,6 +314,108 @@
             </div>
         </div>
     </footer>
+
+    <!-- Notification Subscription Modal -->
+    <div id="notificationModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Subscribe to Alerts</h2>
+                            <p class="text-gray-600 text-sm">Get notified when matching rides are posted</p>
+                        </div>
+                    </div>
+                    <button id="closeModal" class="text-gray-400 hover:text-gray-600 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <form id="notificationForm" class="space-y-4">
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                        <input type="email" id="notificationEmail" required
+                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                               placeholder="your@email.com">
+                    </div>
+
+                    <!-- Alert Type -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Alert Type</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="flex items-center gap-2 p-3 border border-gray-300 rounded-xl cursor-pointer hover:bg-orange-50 transition-colors">
+                                <input type="radio" name="alertType" value="email" checked class="w-4 h-4 text-orange-500 focus:ring-orange-500">
+                                <span class="text-gray-700">Email</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-3 border border-gray-300 rounded-xl cursor-pointer hover:bg-orange-50 transition-colors">
+                                <input type="radio" name="alertType" value="rss" class="w-4 h-4 text-orange-500 focus:ring-orange-500">
+                                <span class="text-gray-700">RSS Feed</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Search Criteria Summary -->
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <h3 class="text-sm font-semibold text-gray-900 mb-3">Current Search Criteria</h3>
+                        <div id="searchCriteriaSummary" class="space-y-2 text-sm">
+                            <p class="text-gray-600">Route: <span class="font-medium">Any → Any</span></p>
+                            <p class="text-gray-600">Type: <span class="font-medium">All</span></p>
+                            <p class="text-gray-600">Location: <span class="font-medium">All</span></p>
+                            <p class="text-gray-600">Price: <span class="font-medium">All</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Frequency -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Frequency</label>
+                        <select id="alertFrequency" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white">
+                            <option value="immediate">Immediate (as soon as posted)</option>
+                            <option value="hourly">Hourly digest</option>
+                            <option value="daily">Daily digest</option>
+                            <option value="weekly">Weekly digest</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 px-6 rounded-xl transition-colors flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Subscribe to Alerts
+                    </button>
+
+                    <!-- RSS Link (hidden by default) -->
+                    <div id="rssLinkContainer" class="hidden">
+                        <p class="text-sm text-gray-600 text-center mb-2">Your personalized RSS feed:</p>
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="rssUrl" readonly
+                                   class="flex-1 px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg text-sm"
+                                   value="">
+                            <button type="button" id="copyRssBtn" class="px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-semibold hover:bg-orange-600 transition-colors">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="successToast" class="hidden fixed bottom-8 right-8 bg-green-500 text-white px-6 py-4 rounded-xl shadow-lg z-50 flex items-center gap-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        <span id="toastMessage">Successfully subscribed to alerts!</span>
+    </div>
 
     <script>
         // Global state
@@ -654,6 +773,211 @@
 
         // Initialize - load data and render cards
         loadRidesData();
+
+        // ==================== NOTIFICATION FUNCTIONALITY ====================
+        
+        // Notification Modal Controls
+        const notificationModal = document.getElementById('notificationModal');
+        const subscribeBtn = document.getElementById('subscribeBtn');
+        const closeModal = document.getElementById('closeModal');
+        const notificationForm = document.getElementById('notificationForm');
+        const searchCriteriaSummary = document.getElementById('searchCriteriaSummary');
+        const rssLinkContainer = document.getElementById('rssLinkContainer');
+        const rssUrlInput = document.getElementById('rssUrl');
+        const copyRssBtn = document.getElementById('copyRssBtn');
+        const successToast = document.getElementById('successToast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        // Open notification modal
+        subscribeBtn.addEventListener('click', function() {
+            updateSearchCriteriaSummary();
+            notificationModal.classList.remove('hidden');
+        });
+
+        // Close notification modal
+        closeModal.addEventListener('click', function() {
+            notificationModal.classList.add('hidden');
+            resetNotificationForm();
+        });
+
+        // Close modal when clicking outside
+        notificationModal.addEventListener('click', function(e) {
+            if (e.target === notificationModal) {
+                notificationModal.classList.add('hidden');
+                resetNotificationForm();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !notificationModal.classList.contains('hidden')) {
+                notificationModal.classList.add('hidden');
+                resetNotificationForm();
+            }
+        });
+
+        // Update search criteria summary in modal
+        function updateSearchCriteriaSummary() {
+            const fromText = currentFromSearch || 'Any';
+            const toText = currentToSearch || 'Any';
+            const typeText = currentTypeFilter === 'all' ? 'All' : 
+                            currentTypeFilter === 'need' ? 'Need a Ride' : 'Offering a Ride';
+            const locationText = currentLocationFilter === 'all' ? 'All' : 
+                                document.getElementById('locationFilter').options[document.getElementById('locationFilter').selectedIndex].text;
+            const priceText = currentPriceFilter === 'all' ? 'All' : 
+                            document.getElementById('priceFilter').options[document.getElementById('priceFilter').selectedIndex].text;
+
+            searchCriteriaSummary.innerHTML = `
+                <p class="text-gray-600">Route: <span class="font-medium">${fromText} → ${toText}</span></p>
+                <p class="text-gray-600">Type: <span class="font-medium">${typeText}</span></p>
+                <p class="text-gray-600">Location: <span class="font-medium">${locationText}</span></p>
+                <p class="text-gray-600">Price: <span class="font-medium">${priceText}</span></p>
+            `;
+        }
+
+        // Handle alert type selection
+        document.querySelectorAll('input[name="alertType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'rss') {
+                    rssLinkContainer.classList.remove('hidden');
+                    generateRSSUrl();
+                } else {
+                    rssLinkContainer.classList.add('hidden');
+                }
+            });
+        });
+
+        // Generate personalized RSS URL
+        function generateRSSUrl() {
+            const params = new URLSearchParams();
+            
+            if (currentFromSearch) params.append('from', currentFromSearch);
+            if (currentToSearch) params.append('to', currentToSearch);
+            if (currentTypeFilter !== 'all') params.append('type', currentTypeFilter);
+            if (currentLocationFilter !== 'all') params.append('location', currentLocationFilter);
+            if (currentPriceFilter !== 'all') params.append('price', currentPriceFilter);
+            
+            const frequency = document.getElementById('alertFrequency').value;
+            params.append('frequency', frequency);
+            
+            // Base URL for RSS feed (would be your backend endpoint)
+            const baseUrl = window.location.origin + '/rideshare/rss';
+            const rssUrl = baseUrl + '?' + params.toString();
+            
+            rssUrlInput.value = rssUrl;
+        }
+
+        // Update RSS URL when frequency changes
+        document.getElementById('alertFrequency').addEventListener('change', function() {
+            if (document.querySelector('input[name="alertType"]:checked').value === 'rss') {
+                generateRSSUrl();
+            }
+        });
+
+        // Copy RSS URL
+        copyRssBtn.addEventListener('click', function() {
+            rssUrlInput.select();
+            rssUrlInput.setSelectionRange(0, 99999); // For mobile devices
+            navigator.clipboard.writeText(rssUrlInput.value).then(function() {
+                showToast('RSS URL copied to clipboard!');
+            }).catch(function() {
+                // Fallback for older browsers
+                document.execCommand('copy');
+                showToast('RSS URL copied to clipboard!');
+            });
+        });
+
+        // Handle form submission
+        notificationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('notificationEmail').value;
+            const alertType = document.querySelector('input[name="alertType"]:checked').value;
+            const frequency = document.getElementById('alertFrequency').value;
+            
+            // Create subscription data object
+            const subscriptionData = {
+                email: email,
+                alertType: alertType,
+                frequency: frequency,
+                criteria: {
+                    from: currentFromSearch,
+                    to: currentToSearch,
+                    type: currentTypeFilter,
+                    location: currentLocationFilter,
+                    price: currentPriceFilter
+                },
+                timestamp: new Date().toISOString()
+            };
+            
+            // Store subscription in localStorage (in a real app, this would be sent to a backend)
+            const subscriptions = JSON.parse(localStorage.getItem('rideshare_subscriptions') || '[]');
+            subscriptions.push(subscriptionData);
+            localStorage.setItem('rideshare_subscriptions', JSON.stringify(subscriptions));
+            
+            // Show success message
+            if (alertType === 'email') {
+                showToast('Successfully subscribed to email alerts!');
+            } else {
+                showToast('RSS feed generated! Copy the URL to your RSS reader.');
+            }
+            
+            // Close modal after short delay
+            setTimeout(function() {
+                notificationModal.classList.add('hidden');
+                resetNotificationForm();
+            }, 2000);
+        });
+
+        // Reset notification form
+        function resetNotificationForm() {
+            notificationForm.reset();
+            rssLinkContainer.classList.add('hidden');
+            document.querySelector('input[name="alertType"][value="email"]').checked = true;
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            toastMessage.textContent = message;
+            successToast.classList.remove('hidden');
+            
+            setTimeout(function() {
+                successToast.classList.add('hidden');
+            }, 4000);
+        }
+
+        // Check for existing subscriptions and show indicator
+        function checkExistingSubscriptions() {
+            const subscriptions = JSON.parse(localStorage.getItem('rideshare_subscriptions') || '[]');
+            if (subscriptions.length > 0) {
+                // Update subscribe button to show active status
+                subscribeBtn.innerHTML = `
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Manage Alerts (${subscriptions.length})
+                `;
+                subscribeBtn.classList.remove('bg-orange-500');
+                subscribeBtn.classList.add('bg-green-500');
+            }
+        }
+
+        // Check for existing subscriptions on page load
+        checkExistingSubscriptions();
+
+        // Simulate new ride notification (for demo purposes)
+        function simulateNewRide() {
+            // In a real app, this would be triggered by a backend push notification
+            const existingSubscriptions = JSON.parse(localStorage.getItem('rideshare_subscriptions') || '[]');
+            if (existingSubscriptions.length > 0) {
+                // Check if any subscription criteria match a new ride
+                // This is a simplified version - in production, this would be done on the server
+                console.log('Checking for new matching rides...');
+            }
+        }
+
+        // Check for new rides every 30 seconds (in a real app, use WebSocket or Server-Sent Events)
+        setInterval(simulateNewRide, 30000);
     </script>
 
 </body>
