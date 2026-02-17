@@ -89,11 +89,10 @@
                         <div class="absolute left-4 top-1/2 -translate-y-1/2">
                             <div class="w-3 h-3 bg-green-500 rounded-full"></div>
                         </div>
-                        <div class="flex items-center flex-1">
+                        <div class="flex items-center flex-1 relative">
                             <input type="text" 
                                    id="fromSearch"
                                    placeholder="From (e.g., Washington D.C.)" 
-                                   list="fromLocations"
                                    class="w-full pl-12 pr-10 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                                    autocomplete="off">
                             <button id="clearFromBtn" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors hidden" title="Clear">
@@ -101,27 +100,9 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
                             </button>
+                            <!-- Custom autocomplete dropdown -->
+                            <div id="fromAutocomplete" class="hidden absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-xl shadow-lg z-50 max-h-60 overflow-y-auto"></div>
                         </div>
-                        <datalist id="fromLocations">
-                            <option value="Rosslyn, VA">
-                            <option value="Washington D.C.">
-                            <option value="Washington">
-                            <option value="DC Area">
-                            <option value="Arlington, VA">
-                            <option value="Baltimore, MD">
-                            <option value="Virginia">
-                            <option value="Maryland">
-                            <option value="San Francisco, CA">
-                            <option value="San Diego, CA">
-                            <option value="Oakland, CA">
-                            <option value="Long Beach, CA">
-                            <option value="Bakersfield, CA">
-                            <option value="Houston, TX">
-                            <option value="Austin, TX">
-                            <option value="Fort Worth, TX">
-                            <option value="Corpus Christi, TX">
-                            <option value="Plano, TX">
-                        </datalist>
                     </div>
                     
                     <!-- Arrow Icon -->
@@ -136,11 +117,10 @@
                         <div class="absolute left-4 top-1/2 -translate-y-1/2">
                             <div class="w-3 h-3 bg-red-500 rounded-full"></div>
                         </div>
-                        <div class="flex items-center flex-1">
+                        <div class="flex items-center flex-1 relative">
                             <input type="text" 
                                    id="toSearch"
                                    placeholder="To (e.g., New York City)" 
-                                   list="toLocations"
                                    class="w-full pl-12 pr-10 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                                    autocomplete="off">
                             <button id="clearToBtn" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors hidden" title="Clear">
@@ -148,27 +128,9 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
                             </button>
+                            <!-- Custom autocomplete dropdown -->
+                            <div id="toAutocomplete" class="hidden absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-xl shadow-lg z-50 max-h-60 overflow-y-auto"></div>
                         </div>
-                        <datalist id="toLocations">
-                            <option value="North Florida">
-                            <option value="Florida">
-                            <option value="Miami, FL">
-                            <option value="Texas">
-                            <option value="Toronto, ON">
-                            <option value="Canada">
-                            <option value="New York City">
-                            <option value="Boston, MA">
-                            <option value="Philadelphia">
-                            <option value="Los Angeles, CA">
-                            <option value="Sacramento, CA">
-                            <option value="Fresno, CA">
-                            <option value="San Jose, CA">
-                            <option value="Santa Barbara, CA">
-                            <option value="Dallas, TX">
-                            <option value="San Antonio, TX">
-                            <option value="El Paso, TX">
-                            <option value="Houston, TX">
-                        </datalist>
                     </div>
                 </div>
                 
@@ -978,6 +940,146 @@
 
         // Check for new rides every 30 seconds (in a real app, use WebSocket or Server-Sent Events)
         setInterval(simulateNewRide, 30000);
+
+        // ==================== AUTOCOMPLETE FUNCTIONALITY ====================
+        
+        // Location suggestions for "From" input
+        const fromLocations = [
+            'Rosslyn, VA',
+            'Washington D.C.',
+            'Washington',
+            'DC Area',
+            'Arlington, VA',
+            'Baltimore, MD',
+            'Virginia',
+            'Maryland',
+            'San Francisco, CA',
+            'San Diego, CA',
+            'Oakland, CA',
+            'Long Beach, CA',
+            'Bakersfield, CA',
+            'Houston, TX',
+            'Austin, TX',
+            'Fort Worth, TX',
+            'Corpus Christi, TX',
+            'Plano, TX'
+        ];
+
+        // Location suggestions for "To" input
+        const toLocations = [
+            'North Florida',
+            'Florida',
+            'Miami, FL',
+            'Texas',
+            'Toronto, ON',
+            'Canada',
+            'New York City',
+            'Boston, MA',
+            'Philadelphia',
+            'Los Angeles, CA',
+            'Sacramento, CA',
+            'Fresno, CA',
+            'San Jose, CA',
+            'Santa Barbara, CA',
+            'Dallas, TX',
+            'San Antonio, TX',
+            'El Paso, TX',
+            'Houston, TX'
+        ];
+
+        // Function to show autocomplete suggestions
+        function showAutocomplete(inputId, dropdownId, locations) {
+            const input = document.getElementById(inputId);
+            const dropdown = document.getElementById(dropdownId);
+            const value = input.value.toLowerCase().trim();
+
+            // Clear previous suggestions
+            dropdown.innerHTML = '';
+
+            if (value.length < 1) {
+                dropdown.classList.add('hidden');
+                return;
+            }
+
+            // Filter locations based on input
+            const filtered = locations.filter(loc => 
+                loc.toLowerCase().includes(value)
+            );
+
+            if (filtered.length === 0) {
+                dropdown.classList.add('hidden');
+                return;
+            }
+
+            // Show dropdown and add suggestions
+            dropdown.classList.remove('hidden');
+            
+            filtered.forEach(location => {
+                const div = document.createElement('div');
+                div.className = 'px-4 py-3 hover:bg-orange-50 cursor-pointer transition-colors border-b border-gray-100 last:border-b-0';
+                div.textContent = location;
+                
+                div.addEventListener('click', () => {
+                    input.value = location;
+                    dropdown.classList.add('hidden');
+                    // Trigger the search
+                    input.dispatchEvent(new Event('keyup'));
+                });
+                
+                dropdown.appendChild(div);
+            });
+        }
+
+        // "From" input autocomplete
+        const fromSearch = document.getElementById('fromSearch');
+        const fromAutocomplete = document.getElementById('fromAutocomplete');
+
+        fromSearch.addEventListener('input', () => {
+            showAutocomplete('fromSearch', 'fromAutocomplete', fromLocations);
+        });
+
+        fromSearch.addEventListener('focus', () => {
+            if (fromSearch.value.trim().length > 0) {
+                showAutocomplete('fromSearch', 'fromAutocomplete', fromLocations);
+            }
+        });
+
+        // Hide autocomplete when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!fromSearch.contains(e.target) && !fromAutocomplete.contains(e.target)) {
+                fromAutocomplete.classList.add('hidden');
+            }
+            if (!toSearch.contains(e.target) && !toAutocomplete.contains(e.target)) {
+                toAutocomplete.classList.add('hidden');
+            }
+        });
+
+        // "To" input autocomplete
+        const toSearch = document.getElementById('toSearch');
+        const toAutocomplete = document.getElementById('toAutocomplete');
+
+        toSearch.addEventListener('input', () => {
+            showAutocomplete('toSearch', 'toAutocomplete', toLocations);
+        });
+
+        toSearch.addEventListener('focus', () => {
+            if (toSearch.value.trim().length > 0) {
+                showAutocomplete('toSearch', 'toAutocomplete', toLocations);
+            }
+        });
+
+        // Handle keyboard navigation (Enter key)
+        fromSearch.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                fromAutocomplete.classList.add('hidden');
+            }
+        });
+
+        toSearch.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                toAutocomplete.classList.add('hidden');
+            }
+        });
     </script>
 
 </body>
