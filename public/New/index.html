@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="UDO - Let somebody else do it for you."/>
-  <title>UDO </title>
+  <meta name="description" content="UDO - Moving Jobs with Guaranteed Payouts"/>
+  <title>UDO Movers</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2270%22 font-family=%22Arial, sans-serif%22 font-weight=%22900%22 letter-spacing=%22-2%22><tspan fill=%22%23f97316%22>U</tspan><tspan fill=%22%23000000%22>DO</tspan></text></svg>">
-
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,22 +14,18 @@
   <style>
     body {
       background-color: #f9f7f5;
-    } 
-    .card-hover:hover img {
-      transform: scale(1.06);
     }
-    .search-overlay {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      opacity: 0;
-      pointer-events: none;
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
     }
-    .search-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
-  <body class="min-h-screen antialiased text-gray-900" style="font-family: 'Nunito', sans-serif;">
+
+<body class="min-h-screen antialiased text-gray-900" style="font-family: 'Nunito', sans-serif;">
 
   <!-- Top Search Bar -->
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
@@ -63,12 +58,32 @@
     </div>
   </header>
 
-<body class="bg-gray-50 min-h-screen">
+  <!-- Page Header -->
+  <section class="bg-gradient-to-br from-orange-500 to-orange-600 py-12 lg:py-16">
+   
+  </section>
+  
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Job Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="jobCardsGrid">
+      <!-- Cards will be dynamically loaded from data.json -->
+    </div>
 
-    <!-- App Download Banner -->
-    <section class="bg-gradient-to-br from-orange-500 to-orange-600 py-12 lg:py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Load More Button -->
+    <div class="mt-8 text-center" id="loadMoreContainer" style="display: none;">
+      <button id="loadMoreBtn" class="bg-white border-2 border-orange-500 text-orange-500 px-8 py-3 rounded-full font-semibold hover:bg-orange-500 hover:text-white transition-all">
+        Load More Jobs
+      </button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#b0b0a8] text-gray-800 mt-16">
+  
+                
             
+            </div>
         </div>
     </section>
     
@@ -78,17 +93,7 @@
 
 
 
-        <!-- Ride Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="rideCardsGrid">
-            <!-- Cards will be dynamically loaded from data.json -->
-        </div>
-
-        <!-- Load More Button -->
-        <div class="mt-8 text-center" id="loadMoreContainer" style="display: none;">
-            <button id="loadMoreBtn" class="bg-white border-2 border-orange-500 text-orange-500 px-8 py-3 rounded-full font-semibold hover:bg-orange-500 hover:text-white transition-all">
-                Load More Rides
-            </button>
-        </div>
+        
     </main>
 
     <!-- Footer -->
