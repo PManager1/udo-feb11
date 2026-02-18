@@ -329,19 +329,19 @@
               </svg>
             </div>
             <div class="flex gap-2 mt-2">
-              <button class="flex items-center gap-1 text-sm text-gray-600 hover:text-orange-500 transition px-3 py-1.5 rounded-lg hover:bg-orange-50">
+              <button class="pickup-location-btn flex items-center gap-1 text-sm text-gray-600 hover:text-orange-500 transition px-3 py-1.5 rounded-lg hover:bg-orange-50" data-location="home">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                 </svg>
                 Home
               </button>
-              <button class="flex items-center gap-1 text-sm text-gray-600 hover:text-orange-500 transition px-3 py-1.5 rounded-lg hover:bg-orange-50">
+              <button class="pickup-location-btn flex items-center gap-1 text-sm text-gray-600 hover:text-orange-500 transition px-3 py-1.5 rounded-lg hover:bg-orange-50" data-location="office">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                 </svg>
                 Office
               </button>
-              <button class="flex items-center gap-1 text-sm text-gray-600 hover:text-orange-500 transition px-3 py-1.5 rounded-lg hover:bg-orange-50">
+              <button class="pickup-location-btn flex items-center gap-1 text-sm text-gray-600 hover:text-orange-500 transition px-3 py-1.5 rounded-lg hover:bg-orange-50" data-location="storage">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
                 </svg>
@@ -370,19 +370,19 @@
               </svg>
             </div>
             <div class="flex gap-2 mt-2">
-              <button class="flex items-center gap-1 text-sm text-gray-600 hover:text-orange-500 transition px-3 py-1.5 rounded-lg hover:bg-orange-50">
+              <button class="dropoff-location-btn flex items-center gap-1 text-sm text-gray-600 hover:text-orange-500 transition px-3 py-1.5 rounded-lg hover:bg-orange-50" data-location="home">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                 </svg>
                 Home
               </button>
-              <button class="flex items-center gap-1 text-sm text-gray-600 hover:text-orange-500 transition px-3 py-1.5 rounded-lg hover:bg-orange-50">
+              <button class="dropoff-location-btn flex items-center gap-1 text-sm text-gray-600 hover:text-orange-500 transition px-3 py-1.5 rounded-lg hover:bg-orange-50" data-location="office">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                 </svg>
                 Office
               </button>
-              <button class="flex items-center gap-1 text-sm text-gray-600 hover:text-orange-500 transition px-3 py-1.5 rounded-lg hover:bg-orange-50">
+              <button class="dropoff-location-btn flex items-center gap-1 text-sm text-gray-600 hover:text-orange-500 transition px-3 py-1.5 rounded-lg hover:bg-orange-50" data-location="storage">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
                 </svg>
@@ -900,6 +900,36 @@
       const count = selectedItems.length;
       document.getElementById('itemCount').textContent = `${count} item${count !== 1 ? 's' : ''} selected`;
     }
+
+    // Pickup Location buttons
+    document.querySelectorAll('.pickup-location-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Remove active state from all pickup location buttons
+        document.querySelectorAll('.pickup-location-btn').forEach(b => {
+          b.classList.remove('bg-orange-50', 'text-orange-500');
+          b.classList.add('text-gray-600');
+        });
+        
+        // Set active state for clicked button
+        this.classList.remove('text-gray-600');
+        this.classList.add('bg-orange-50', 'text-orange-500');
+      });
+    });
+
+    // Drop-off Location buttons
+    document.querySelectorAll('.dropoff-location-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Remove active state from all dropoff location buttons
+        document.querySelectorAll('.dropoff-location-btn').forEach(b => {
+          b.classList.remove('bg-orange-50', 'text-orange-500');
+          b.classList.add('text-gray-600');
+        });
+        
+        // Set active state for clicked button
+        this.classList.remove('text-gray-600');
+        this.classList.add('bg-orange-50', 'text-orange-500');
+      });
+    });
   </script>
 
 </body>
