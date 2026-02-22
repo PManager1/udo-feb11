@@ -698,317 +698,133 @@
 
 <!-- part 1 new start -->
 
-<div class="text-left py-8 px-4 md:px-8 lg:px-16 xl:px-24">
-        <div class="flex justify-between items-center">
-            <div>
-                 <h2 class="text-3xl font-bold text-gray-800 mb-1"> </h2>
-                <p class="text-base text-gray-600"> </p>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="document.querySelector('.scrollbar-hide').scrollBy({left: -300, behavior: 'smooth'})" class="bg-white border border-gray-200 hover:bg-gray-100 text-gray-700 p-2 rounded-full shadow-md transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-                <button onclick="document.querySelector('.scrollbar-hide').scrollBy({left: 300, behavior: 'smooth'})" class="bg-white border border-gray-200 hover:bg-gray-100 text-gray-700 p-2 rounded-full shadow-md transition-all">
-                 
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="StyledInlineSvg-sc-45a1y2-0 jIkpSI fetched-icon"><path d="M5.79289 2.79289C6.18342 2.40237 6.81643 2.40237 7.20696 2.79289L11.707 7.29289C12.0975 7.68342 12.0975 8.31643 11.707 8.70696L7.20696 13.207C6.81643 13.5974 6.18341 13.5975 5.79289 13.207C5.40242 12.8164 5.40242 12.1834 5.79289 11.7929L9.58586 7.99992L5.79289 4.20696C5.40237 3.81643 5.40237 3.18342 5.79289 2.79289Z" fill="currentColor"></path></svg>
-                </button>
-            </div>
+ <div class="text-left py-8 px-4 md:px-8 lg:px-16 xl:px-24">
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-1">Featured Dishes</h2>
+            <p class="text-base text-gray-600">Handpicked favorites for you</p>
         </div>
-    </div>
-
-
-
- <div class="px-4 pb-12 md:px-8 lg:px-16 xl:px-24">
-        <div class="flex overflow-x-auto space-x-4 pb-4 snap-x snap-mandatory scrollbar-hide">
-   
-      <!-- Card 1 -->
-            <div class="flex-shrink-0 w-72 snap-center">
-                <div class="relative overflow-hidden">
-        
-        <button class="absolute top-3 right-3 z-10 bg-white rounded-full p-2 shadow-sm hover:bg-gray-100 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="white" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0-7.78z"></path>
-            </svg>
-        </button>
-
-        <div class="relative h-[13.5rem] overflow-hidden rounded-2xl mini-carousel" data-card="0">
-            <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400&h=300&fit=crop" alt="Grilled Salmon 1" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-100">
-            <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop" alt="Grilled Salmon 2" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0">
-            <button class="mini-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-800 p-1 rounded-full text-sm">‹</button>
-            <button class="mini-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-800 p-1 rounded-full text-sm">›</button>
+        <div class="flex gap-2">
+            <button onclick="document.querySelector('.dish-carousel').scrollBy({left: -340, behavior: 'smooth'})" class="bg-white border border-gray-200 hover:bg-gray-100 text-gray-700 p-2 rounded-full shadow-md transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button onclick="document.querySelector('.dish-carousel').scrollBy({left: 340, behavior: 'smooth'})" class="bg-white border border-gray-200 hover:bg-gray-100 text-gray-700 p-2 rounded-full shadow-md transition-all">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
+                    <path d="M5.79289 2.79289C6.18342 2.40237 6.81643 2.40237 7.20696 2.79289L11.707 7.29289C12.0975 7.68342 12.0975 8.31643 11.707 8.70696L7.20696 13.207C6.81643 13.5974 6.18341 13.5975 5.79289 13.207C5.40242 12.8164 5.40242 12.1834 5.79289 11.7929L9.58586 7.99992L5.79289 4.20696C5.40237 3.81643 5.40237 3.18342 5.79289 2.79289Z" fill="currentColor"></path>
+                </svg>
+            </button>
         </div>
-
-        <section class="pt-3 pb-4 px-1 relative">
-            <div class="flex items-center gap-2 mb-2">
-                <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">
-                    9.4
-                </span>
-                <div class="flex items-center gap-1 text-sm">
-                    <span class="font-semibold text-gray-900">Exceptional</span>
-                    <span class="text-gray-500">(13 reviews)</span>
-                </div>
-            </div>
-
-            <div class="mb-2">
-
-                <h3 class="text-[16px] font-bold text-gray-900 truncate">Tacos Los Cholos</h3>
-                <p class="text-black text-sm">Philadelphia</p>
-            </div>
-
-            <div class="flex flex-col">
-                <span class="text-base font-bold text-gray-900">$16</span>
-                <span class="text-xs text-black">$30 for 2 orders</span>
-                
-                <div class="flex items-center text-green-600 mt-1">
-                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                    </svg>
-                    <span class="text-xs font-medium text-green-700">All fees included</span>
-                </div>
-            </div>
-
-            <a href="#" class="absolute inset-0 z-10">
-                <span class="sr-only">View Details</span>
-            </a>
-        </section>
     </div>
 </div>
 
-
-
-   <!-- Card 2 -->
-        <div class="flex-shrink-0 w-72 snap-center">
-                <div class="relative overflow-hidden">
+<section class="px-4 pb-12 md:px-8 lg:px-16 xl:px-24">
+    <div class="dish-carousel flex overflow-x-auto space-x-4 pb-4 snap-x snap-mandatory scrollbar-hide">
         
-        <button class="absolute top-3 right-3 z-10 bg-white rounded-full p-2 shadow-sm hover:bg-gray-100 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="white" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0-7.78z"></path>
-            </svg>
-        </button>
-
-        <div class="relative h-[13.5rem] overflow-hidden rounded-2xl mini-carousel" data-card="0">
-            <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&h=300&fit=crop" alt="Garlic Butter Shrimp 1" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-100">
-                        <img src="https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=400&h=300&fit=crop" alt="Garlic Butter Shrimp 2" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0">
-            <button class="mini-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-800 p-1 rounded-full text-sm">‹</button>
-            <button class="mini-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-800 p-1 rounded-full text-sm">›</button>
+        <div class="flex-shrink-0 w-[21rem] snap-center bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col border border-gray-100">
+            <div class="relative border-b border-gray-300 h-48 overflow-hidden mini-carousel" data-card="0">
+                <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600&h=400&fit=crop" alt="Grilled Salmon 1" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-100">
+                <img src="https://lh3.googleusercontent.com/gps-cs-s/AHVAwercHg7Z0cAuqRHyUdBQZVfn2PwgKW5CKYsfhp0X0ZyONiK6BphMfb11ElrZ39zfkg-gfdpdC0MXMAx2iME9svNnmur1ULo3v2TKBdHL0UI0eo_FSB2lilwrCq6mjuiERrXKir7Yzw=s1360-w1360-h1020-rw?w=600&h=400&fit=crop" alt="Grilled Salmon 2" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0">
+                <div class="absolute top-3 left-3 z-10"><span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">9.4</span></div>
+                <button class="mini-prev absolute left-2 top-1/2 z-10 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 p-1 rounded-full text-sm">‹</button>
+                <button class="mini-next absolute right-2 top-1/2 z-10 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 p-1 rounded-full text-sm">›</button>
+            </div>
+            <div class="p-3">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[12px] text-black font-medium tracking-wider">American</span>
+                    <span class="text-[12px] text-black">25-30 min</span>
+                </div>
+                <h3 class="text-base font-bold text-gray-900 mb-1 truncate">Grilled Salmon</h3>
+                <div class="flex items-end justify-between pt-0.5">
+                    <div class="flex flex-col"><span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span><span class="text-[11px] text-black">48 reviews</span></div>
+                    <div class="text-lg font-bold text-gray-900">$24.99</div>
+                </div>
+            </div>
         </div>
 
-        <section class="pt-3 pb-4 px-1 relative">
-            <div class="flex items-center gap-2 mb-2">
-                <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">
-                    9.4
-                </span>
-                <div class="flex items-center gap-1 text-sm">
-                    <span class="font-semibold text-gray-900">Exceptional</span>
-                    <span class="text-gray-500">(13 reviews)</span>
+        <div class="flex-shrink-0 w-[21rem] snap-center bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col border border-gray-100">
+            <div class="relative border-b border-gray-300 h-48 overflow-hidden mini-carousel" data-card="1">
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop" alt="Pizza" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-100">
+                <img src="https://cdn.loveandlemons.com/wp-content/uploads/2023/07/margherita-pizza-recipe.jpg?w=600&h=400&fit=crop" alt="Pizza" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0">
+                <button class="mini-prev absolute left-2 top-1/2 z-10 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 p-1 rounded-full text-sm">‹</button>
+                <button class="mini-next absolute right-2 top-1/2 z-10 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 p-1 rounded-full text-sm">›</button>
+            </div>
+            <div class="p-3">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[12px] text-black font-medium tracking-wider">Italian</span>
+                    <span class="text-[12px] text-black">30-40 min</span>
+                </div>
+                <h3 class="text-base font-bold text-gray-900 mb-1 truncate">Margherita Pizza</h3>
+                <div class="flex items-end justify-between pt-0.5">
+                    <div class="flex flex-col"><span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span><span class="text-[11px] text-black">48 reviews</span></div>
+                    <div class="text-lg font-bold text-gray-900">$18.99</div>
                 </div>
             </div>
-
-            <div class="mb-2">
-                <h3 class="text-[16px] font-bold text-gray-900 truncate">Garlic Butter Shrimp</h3>
-                <p class="text-gray-600 mb-2"></p>
-                <p class="text-black text-sm">NY</p>
-            </div>
-
-            <div class="flex flex-col">
-                <span class="text-base font-bold text-gray-900">$18</span>
-                <span class="text-xs text-black">$32 for 2 orders</span>
-                
-                <div class="flex items-center text-green-600 mt-1">
-                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                    </svg>
-                    <span class="text-xs font-medium text-green-700">All fees included</span>
-                </div>
-            </div>
-
-            <a href="#" class="absolute inset-0 z-10">
-                <span class="sr-only">View Details</span>
-            </a>
-        </section>
-    </div>
-</div>
-
-
-            <!-- Card 3 -->
-
-        <div class="flex-shrink-0 w-72 snap-center">
-            <div class="relative overflow-hidden">
-        
-        <button class="absolute top-3 right-3 z-10 bg-white rounded-full p-2 shadow-sm hover:bg-gray-100 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="white" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0-7.78z"></path>
-            </svg>
-        </button>
-
-        <div class="relative h-[13.5rem] overflow-hidden rounded-2xl mini-carousel" data-card="0">
-            <img src="https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=400&h=300&fit=crop" alt="Lobster Tail 1" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-100">
-             <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400&h=300&fit=crop" alt="Lobster Tail 2" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0">
-                        
-            <button class="mini-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-800 p-1 rounded-full text-sm">‹</button>
-            <button class="mini-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-800 p-1 rounded-full text-sm">›</button>
         </div>
 
-        <section class="pt-3 pb-4 px-1 relative">
-            <div class="flex items-center gap-2 mb-2">
-                <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">
-                    9.4
-                </span>
-                <div class="flex items-center gap-1 text-sm">
-                    <span class="font-semibold text-gray-900">Exceptional</span>
-                    <span class="text-gray-500">(13 reviews)</span>
+        <div class="flex-shrink-0 w-[21rem] snap-center bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col border border-gray-100">
+            <div class="relative border-b border-gray-300 h-48 overflow-hidden mini-carousel" data-card="2">
+                <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop" alt="Tacos" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-100">
+                <img src="https://sprinkledwithbalance.com/wp-content/uploads/2022/02/beef-taco-bowl-4.jpg?w=600&h=400&fit=crop" alt="Tacos" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0">
+                <button class="mini-prev absolute left-2 top-1/2 z-10 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 p-1 rounded-full text-sm">‹</button>
+                <button class="mini-next absolute right-2 top-1/2 z-10 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 p-1 rounded-full text-sm">›</button>
+            </div>
+            <div class="p-3">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[12px] text-black font-medium tracking-wider">Mexican</span>
+                    <span class="text-[12px] text-black">20-25 min</span>
+                </div>
+                <h3 class="text-base font-bold text-gray-900 mb-1 truncate">Beef Tacos</h3>
+                <div class="flex items-end justify-between pt-0.5">
+                    <div class="flex flex-col"><span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span><span class="text-[11px] text-black">48 reviews</span></div>
+                    <div class="text-lg font-bold text-gray-900">$14.99</div>
                 </div>
             </div>
-
-            <div class="mb-2">
-                <h3 class="text-[16px] font-bold text-gray-900 truncate">Lobster Tail</h3>
-                <p class="text-gray-600 mb-2">Premium Maine lobster tail</p>
-                <p class="text-black text-sm">NY</p>
-            </div>
-
-            <div class="flex flex-col">
-                <span class="text-base font-bold text-gray-900">$34.99</span>
-                <span class="text-xs text-black">$32 for 2 orders</span>
-                
-                <div class="flex items-center text-green-600 mt-1">
-                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                    </svg>
-                    <span class="text-xs font-medium text-green-700">All fees included</span>
-                </div>
-            </div>
-
-            <a href="#" class="absolute inset-0 z-10">
-                <span class="sr-only">View Details</span>
-            </a>
-        </section>
-    </div>
-</div>
-
-
-
-           
-
-            <!-- Card 4 -->
-
-            <div class="flex-shrink-0 w-72 snap-center">
-            <div class="relative overflow-hidden">
-        
-        <button class="absolute top-3 right-3 z-10 bg-white rounded-full p-2 shadow-sm hover:bg-gray-100 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="white" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0-7.78z"></path>
-            </svg>
-        </button>
-
-        <div class="relative h-[13.5rem] overflow-hidden rounded-2xl mini-carousel" data-card="0">
-             <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=400&h=300&fit=crop" alt="Seared Scallops 1" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-100">
-                        <img src="https://images.unsplash.com/photo-1626803775151-61d756612f97?w=400&h=300&fit=crop" alt="Seared Scallops 2" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0">
-                       
-                        
-            <button class="mini-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-800 p-1 rounded-full text-sm">‹</button>
-            <button class="mini-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-800 p-1 rounded-full text-sm">›</button>
         </div>
 
-        <section class="pt-3 pb-4 px-1 relative">
-            <div class="flex items-center gap-2 mb-2">
-                <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">
-                    9.4
-                </span>
-                <div class="flex items-center gap-1 text-sm">
-                    <span class="font-semibold text-gray-900">Exceptional</span>
-                    <span class="text-gray-500">(13 reviews)</span>
+        <div class="flex-shrink-0 w-[21rem] snap-center bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col border border-gray-100">
+            <div class="relative border-b border-gray-300 h-48 overflow-hidden mini-carousel" data-card="3">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop" alt="Bowl" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-100">
+                <img src="https://www.eatingbirdfood.com/wp-content/uploads/2022/04/buddha-bowl-hero-633x950.jpg?w=600&h=400&fit=crop" alt="Bowl" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0">
+                <button class="mini-prev absolute left-2 top-1/2 z-10 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 p-1 rounded-full text-sm">‹</button>
+                <button class="mini-next absolute right-2 top-1/2 z-10 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 p-1 rounded-full text-sm">›</button>
+            </div>
+            <div class="p-3">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[12px] text-black font-medium tracking-wider">Steak</span>
+                    <span class="text-[12px] text-black">15-20 min</span>
+                </div>
+                <h3 class="text-base font-bold text-gray-900 mb-1 truncate">Buddha Bowl</h3>
+                <div class="flex items-end justify-between pt-0.5">
+                    <div class="flex flex-col"><span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span><span class="text-[11px] text-black">48 reviews</span></div>
+                    <div class="text-lg font-bold text-gray-900">$16.99</div>
                 </div>
             </div>
-
-            <div class="mb-2">
-                <h3 class="text-[16px] font-bold text-gray-900 truncate">Seared Scallops</h3>
-                <p class="text-gray-600 mb-2">Pan-seared scallops with lemon</p>
-                <p class="text-black text-sm">NY</p>
-            </div>
-
-            <div class="flex flex-col">
-                <span class="text-base font-bold text-gray-900">$34.99</span>
-                <span class="text-xs text-black">$32 for 2 orders</span>
-                
-                <div class="flex items-center text-green-600 mt-1">
-                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                    </svg>
-                    <span class="text-xs font-medium text-green-700">All fees included</span>
-                </div>
-            </div>
-
-            <a href="#" class="absolute inset-0 z-10">
-                <span class="sr-only">View Details</span>
-            </a>
-        </section>
-    </div>
-</div>
-
-
-
-         
-
-            <!-- Card 5 -->
-
-              <div class="flex-shrink-0 w-72 snap-center">
-            <div class="relative overflow-hidden">
-        
-        <button class="absolute top-3 right-3 z-10 bg-white rounded-full p-2 shadow-sm hover:bg-gray-100 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="white" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0-7.78z"></path>
-            </svg>
-        </button>
-
-        <div class="relative h-[13.5rem] overflow-hidden rounded-2xl mini-carousel" data-card="0">
-            <img src="https://images.unsplash.com/photo-1626803775151-61d756612f97?w=400&h=300&fit=crop" alt="Grilled Octopus 1" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-100">
-                        <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&h=300&fit=crop" alt="Grilled Octopus 2" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0">
-                       
-                        
-            <button class="mini-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-800 p-1 rounded-full text-sm">‹</button>
-            <button class="mini-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-800 p-1 rounded-full text-sm">›</button>
         </div>
 
-        <section class="pt-3 pb-4 px-1 relative">
-            <div class="flex items-center gap-2 mb-2">
-                <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded">
-                    9.4
-                </span>
-                <div class="flex items-center gap-1 text-sm">
-                    <span class="font-semibold text-gray-900">Exceptional</span>
-                    <span class="text-gray-500">(13 reviews)</span>
+        <div class="flex-shrink-0 w-[21rem] snap-center bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col border border-gray-100">
+            <div class="relative border-b border-gray-300 h-48 overflow-hidden mini-carousel" data-card="4">
+                <img src="https://www.modernhoney.com/wp-content/uploads/2022/09/Garlic-Butter-Steak-Bites-9-1200x1800.jpg?w=600&h=400&fit=crop" alt="Bowl Duplicate" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-100">
+                <img src="https://www.simplyrecipes.com/thmb/b4SdSA5YY1hTAXgZXNNdmlF1cg8=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/simply-recipes-garlic-butter-steak-bites-lead-4-370aa5d4594148c18f650795791f918e.jpg?w=600&h=400&fit=crop" alt="Bowl Duplicate" class="carousel-img absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0">
+                <button class="mini-prev absolute left-2 top-1/2 z-10 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 p-1 rounded-full text-sm">‹</button>
+                <button class="mini-next absolute right-2 top-1/2 z-10 transform -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 p-1 rounded-full text-sm">›</button>
+            </div>
+            <div class="p-3">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[12px] text-black font-medium tracking-wider">Vegetarian</span>
+                    <span class="text-[12px] text-black">15-20 min</span>
+                </div>
+                <h3 class="text-base font-bold text-gray-900 mb-1 truncate">Steak Bites</h3>
+                <div class="flex items-end justify-between pt-0.5">
+                    <div class="flex flex-col"><span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span><span class="text-[11px] text-black">48 reviews</span></div>
+                    <div class="text-lg font-bold text-gray-900">$16.99</div>
                 </div>
             </div>
-
-            <div class="mb-2">
-                <h3 class="text-[16px] font-bold text-gray-900 truncate">Grilled Octopus</h3>
-                <p class="text-gray-600 mb-2">Tender octopus with olive oil</p>
-                <p class="text-black text-sm">NY</p>
-            </div>
-
-            <div class="flex flex-col">
-                <span class="text-base font-bold text-gray-900">$26.99</span>
-                <span class="text-xs text-black">$40 for 2 orders</span>
-                
-                <div class="flex items-center text-green-600 mt-1">
-                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                    </svg>
-                    <span class="text-xs font-medium text-green-700">All fees included</span>
-                </div>
-            </div>
-
-            <a href="#" class="absolute inset-0 z-10">
-                <span class="sr-only">View Details</span>
-            </a>
-        </section>
-    </div>
-</div>
-
         </div>
+
     </div>
+</section>
 
  <!-- part 1 new end -->
 
