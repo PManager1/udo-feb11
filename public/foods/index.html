@@ -202,7 +202,20 @@
         </div>
 
         <!-- Slide 2 -->
-        <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" data-slide="1">
+          <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" data-slide="2">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&h=600&fit=crop" alt="Elegant gourmet platter" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                <div class="text-center text-white px-4">
+                    <h2 class="text-4xl font-bold mb-4">Fine Dining</h2>
+                    <p class="text-xl mb-6">Savor artistry of gourmet cuisine</p>
+                    <button class="bg-white text-gray-800 font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors">Book Table</button>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Slide 3 -->
+       <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" data-slide="1">
             <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&h=600&fit=crop" alt="Gourmet steak dish" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                 <div class="text-center text-white px-4">
@@ -213,17 +226,6 @@
             </div>
         </div>
 
-        <!-- Slide 3 -->
-        <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" data-slide="2">
-            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&h=600&fit=crop" alt="Elegant gourmet platter" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                <div class="text-center text-white px-4">
-                    <h2 class="text-4xl font-bold mb-4">Fine Dining</h2>
-                    <p class="text-xl mb-6">Savor artistry of gourmet cuisine</p>
-                    <button class="bg-white text-gray-800 font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors">Book Table</button>
-                </div>
-            </div>
-        </div>
 
         <!-- Navigation Arrows -->
         <button id="prevBtn" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-40 text-white p-3 rounded-full transition-all">
@@ -695,8 +697,8 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         
         <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col border border-gray-100">
-            <div class="relative border-b border-gray-300">
-                <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600&h=400&fit=crop" alt="Grilled Salmon" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300">
+            <div class="relative border-b border-gray-300 h-48 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600&h=400&fit=crop" alt="Grilled Salmon" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                 <div class="absolute top-3 left-3">
                     <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">9.4</span>
                 </div>
@@ -704,15 +706,14 @@
                     <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                 </button>
             </div>
-            <div class="p-3 flex flex-col flex-grow">
+            <div class="p-3 flex flex-col">
                 <div class="flex items-center justify-between mb-1">
                     <span class="text-[12px] text-black font-medium tracking-wider">American</span>
                     <span class="text-[12px] text-black">25-30 min</span>
                 </div>
-                <h3 class="text-base font-bold text-gray-900 mb-0.5 group-hover:text-orange-500 transition-colors truncate">Grilled Salmon</h3>
-                <p class="text-black text-sm mb-2 line-clamp-2 flex-grow">Perfectly grilled Atlantic salmon with herbs and lemon butter sauce.</p>
+                <h3 class="text-base font-bold text-gray-900 mb-1 group-hover:text-orange-500 transition-colors truncate">Grilled Salmon</h3>
                 
-                <div class="flex items-end justify-between mt-auto pt-1 border-t border-gray-50">
+                <div class="flex items-end justify-between pt-0.5">
                     <div class="flex flex-col">
                         <span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span>
                         <span class="text-[11px] text-black">48 reviews</span>
@@ -726,8 +727,8 @@
         </div>
 
         <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col border border-gray-100">
-            <div class="relative border-b border-gray-300">
-                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop" alt="Margherita Pizza" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300">
+            <div class="relative border-b border-gray-300 h-48 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop" alt="Margherita Pizza" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                 <div class="absolute top-3 left-3">
                     <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">9.2</span>
                 </div>
@@ -735,15 +736,14 @@
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                 </button>
             </div>
-            <div class="p-3 flex flex-col flex-grow">
+            <div class="p-3 flex flex-col">
                 <div class="flex items-center justify-between mb-1">
                     <span class="text-[12px] text-black font-medium tracking-wider">Italian</span>
                     <span class="text-[12px] text-black">30-40 min</span>
                 </div>
-                <h3 class="text-base font-bold text-gray-900 mb-0.5 group-hover:text-orange-500 transition-colors truncate">Margherita Pizza</h3>
-                <p class="text-black text-sm mb-2 line-clamp-2 flex-grow">Classic homemade pizza with fresh mozzarella and basil.</p>
+                <h3 class="text-base font-bold text-gray-900 mb-1 group-hover:text-orange-500 transition-colors truncate">Margherita Pizza</h3>
                 
-                <div class="flex items-end justify-between mt-auto pt-1 border-t border-gray-50">
+                <div class="flex items-end justify-between pt-0.5">
                     <div class="flex flex-col">
                         <span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span>
                         <span class="text-[11px] text-black">48 reviews</span>
@@ -757,8 +757,8 @@
         </div>
 
         <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col border border-gray-100">
-            <div class="relative border-b border-gray-300">
-                <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop" alt="Beef Tacos" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300">
+            <div class="relative border-b border-gray-300 h-48 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop" alt="Beef Tacos" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                 <div class="absolute top-3 left-3">
                     <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">9.6</span>
                 </div>
@@ -766,15 +766,14 @@
                     <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                 </button>
             </div>
-            <div class="p-3 flex flex-col flex-grow">
+            <div class="p-3 flex flex-col">
                 <div class="flex items-center justify-between mb-1">
                     <span class="text-[12px] text-black font-medium tracking-wider">Mexican</span>
                     <span class="text-[12px] text-black">20-25 min</span>
                 </div>
-                <h3 class="text-base font-bold text-gray-900 mb-0.5 group-hover:text-orange-500 transition-colors truncate">Beef Tacos</h3>
-                <p class="text-black text-sm mb-2 line-clamp-2 flex-grow">Authentic street-style tacos with seasoned beef and salsa.</p>
+                <h3 class="text-base font-bold text-gray-900 mb-1 group-hover:text-orange-500 transition-colors truncate">Beef Tacos</h3>
                 
-                <div class="flex items-end justify-between mt-auto pt-1 border-t border-gray-50">
+                <div class="flex items-end justify-between pt-0.5">
                     <div class="flex flex-col">
                         <span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span>
                         <span class="text-[11px] text-black">48 reviews</span>
@@ -788,8 +787,8 @@
         </div>
 
         <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group flex flex-col border border-gray-100">
-            <div class="relative border-b border-gray-300">
-                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop" alt="Vegetable Bowl" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300">
+            <div class="relative border-b border-gray-300 h-48 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop" alt="Vegetable Bowl" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                 <div class="absolute top-3 left-3">
                     <span class="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">9.0</span>
                 </div>
@@ -797,15 +796,14 @@
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                 </button>
             </div>
-            <div class="p-3 flex flex-col flex-grow">
+            <div class="p-3 flex flex-col">
                 <div class="flex items-center justify-between mb-1">
                     <span class="text-[12px] text-black font-medium tracking-wider">Vegetarian</span>
                     <span class="text-[12px] text-black">15-20 min</span>
                 </div>
-                <h3 class="text-base font-bold text-gray-900 mb-0.5 group-hover:text-orange-500 transition-colors truncate">Buddha Bowl</h3>
-                <p class="text-black text-sm mb-2 line-clamp-2 flex-grow">Nutritious grain bowl with roasted vegetables and quinoa.</p>
+                <h3 class="text-base font-bold text-gray-900 mb-1 group-hover:text-orange-500 transition-colors truncate">Buddha Bowl</h3>
                 
-                <div class="flex items-end justify-between mt-auto pt-1 border-t border-gray-50">
+                <div class="flex items-end justify-between pt-0.5">
                     <div class="flex flex-col">
                         <span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span>
                         <span class="text-[11px] text-black">48 reviews</span>
@@ -820,6 +818,8 @@
 
     </div>
 </section>
+
+
 
  <!-- part 1 end -->
 
@@ -836,22 +836,21 @@
                     <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                 </button>
             </div>
-            <div class="p-3 flex flex-col flex-grow">
+            <div class="p-3 flex flex-col">
                 <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] text-gray-500 font-medium uppercase tracking-wider">American</span>
-                    <span class="text-[10px] text-gray-500">25-30 min</span>
+                    <span class="text-[12px] text-black font-medium tracking-wider">American</span>
+                    <span class="text-[12px] text-black">25-30 min</span>
                 </div>
-                <h3 class="text-base font-bold text-gray-900 mb-0.5 group-hover:text-orange-500 transition-colors truncate">Grilled Salmon</h3>
-                <p class="text-gray-600 text-xs mb-2 line-clamp-2 flex-grow">Perfectly grilled Atlantic salmon with herbs and lemon butter sauce.</p>
+                <h3 class="text-base font-bold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors truncate">Grilled Salmon</h3>
                 
-                <div class="flex items-end justify-between mt-auto pt-1 border-t border-gray-50">
+                <div class="flex items-end justify-between pt-0.5">
                     <div class="flex flex-col">
                         <span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span>
-                        <span class="text-[10px] text-gray-500">48 reviews</span>
+                        <span class="text-[11px] text-black">48 reviews</span>
                     </div>
                     <div class="text-right">
                         <div class="text-lg font-bold text-gray-900 leading-none">$24.99</div>
-                        <div class="text-[9px] text-gray-500 leading-none mt-0.5">avg per 2 orders</div>
+                        <div class="text-[10px] text-black leading-none mt-0.5">avg per 2 orders</div>
                     </div>
                 </div>
             </div>
@@ -867,22 +866,21 @@
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                 </button>
             </div>
-            <div class="p-3 flex flex-col flex-grow">
+            <div class="p-3 flex flex-col">
                 <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] text-gray-500 font-medium uppercase tracking-wider">Italian</span>
-                    <span class="text-[10px] text-gray-500">30-40 min</span>
+                    <span class="text-[12px] text-black font-medium tracking-wider">Italian</span>
+                    <span class="text-[12px] text-black">30-40 min</span>
                 </div>
-                <h3 class="text-base font-bold text-gray-900 mb-0.5 group-hover:text-orange-500 transition-colors truncate">Margherita Pizza</h3>
-                <p class="text-gray-600 text-xs mb-2 line-clamp-2 flex-grow">Classic homemade pizza with fresh mozzarella and basil.</p>
+                <h3 class="text-base font-bold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors truncate">Margherita Pizza</h3>
                 
-                <div class="flex items-end justify-between mt-auto pt-1 border-t border-gray-50">
+                <div class="flex items-end justify-between pt-0.5">
                     <div class="flex flex-col">
                         <span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span>
-                        <span class="text-[10px] text-gray-500">48 reviews</span>
+                        <span class="text-[11px] text-black">48 reviews</span>
                     </div>
                     <div class="text-right">
                         <div class="text-lg font-bold text-gray-900 leading-none">$18.99</div>
-                        <div class="text-[9px] text-gray-500 leading-none mt-0.5">avg per 2 orders</div>
+                        <div class="text-[10px] text-black leading-none mt-0.5">avg per 2 orders</div>
                     </div>
                 </div>
             </div>
@@ -898,22 +896,21 @@
                     <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                 </button>
             </div>
-            <div class="p-3 flex flex-col flex-grow">
+            <div class="p-3 flex flex-col">
                 <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] text-gray-500 font-medium uppercase tracking-wider">Mexican</span>
-                    <span class="text-[10px] text-gray-500">20-25 min</span>
+                    <span class="text-[12px] text-black font-medium tracking-wider">Mexican</span>
+                    <span class="text-[12px] text-black">20-25 min</span>
                 </div>
-                <h3 class="text-base font-bold text-gray-900 mb-0.5 group-hover:text-orange-500 transition-colors truncate">Beef Tacos</h3>
-                <p class="text-gray-600 text-xs mb-2 line-clamp-2 flex-grow">Authentic street-style tacos with seasoned beef and salsa.</p>
+                <h3 class="text-base font-bold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors truncate">Beef Tacos</h3>
                 
-                <div class="flex items-end justify-between mt-auto pt-1 border-t border-gray-50">
+                <div class="flex items-end justify-between pt-0.5">
                     <div class="flex flex-col">
                         <span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span>
-                        <span class="text-[10px] text-gray-500">48 reviews</span>
+                        <span class="text-[11px] text-black">48 reviews</span>
                     </div>
                     <div class="text-right">
                         <div class="text-lg font-bold text-gray-900 leading-none">$14.99</div>
-                        <div class="text-[9px] text-gray-500 leading-none mt-0.5">avg per 2 orders</div>
+                        <div class="text-[10px] text-black leading-none mt-0.5">avg per 2 orders</div>
                     </div>
                 </div>
             </div>
@@ -929,22 +926,21 @@
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                 </button>
             </div>
-            <div class="p-3 flex flex-col flex-grow">
+            <div class="p-3 flex flex-col">
                 <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] text-gray-500 font-medium uppercase tracking-wider">Vegetarian</span>
-                    <span class="text-[10px] text-gray-500">15-20 min</span>
+                    <span class="text-[12px] text-black font-medium tracking-wider">Vegetarian</span>
+                    <span class="text-[12px] text-black">15-20 min</span>
                 </div>
-                <h3 class="text-base font-bold text-gray-900 mb-0.5 group-hover:text-orange-500 transition-colors truncate">Buddha Bowl</h3>
-                <p class="text-gray-600 text-xs mb-2 line-clamp-2 flex-grow">Nutritious grain bowl with roasted vegetables and quinoa.</p>
+                <h3 class="text-base font-bold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors truncate">Buddha Bowl</h3>
                 
-                <div class="flex items-end justify-between mt-auto pt-1 border-t border-gray-50">
+                <div class="flex items-end justify-between pt-0.5">
                     <div class="flex flex-col">
                         <span class="text-[11px] font-bold text-gray-900 leading-none">Exceptional</span>
-                        <span class="text-[10px] text-gray-500">48 reviews</span>
+                        <span class="text-[11px] text-black">48 reviews</span>
                     </div>
                     <div class="text-right">
                         <div class="text-lg font-bold text-gray-900 leading-none">$16.99</div>
-                        <div class="text-[9px] text-gray-500 leading-none mt-0.5">avg per 2 orders</div>
+                        <div class="text-[10px] text-black leading-none mt-0.5">avg per 2 orders</div>
                     </div>
                 </div>
             </div>
