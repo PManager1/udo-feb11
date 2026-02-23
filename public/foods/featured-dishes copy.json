@@ -10,7 +10,7 @@
     "price": "$24.99",
     "images": [
       "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&h=400&fit=crop"
+      "https://lh3.googleusercontent.com/gps-cs-s/AHVAwercHg7Z0cAuqRHyUdBQZVfn2PwgKW5CKYsfhp0X0ZyONiK6BphMfb11ElrZ39zfkg-gfdpdC0MXMAx2iME9svNnmur1ULo3v2TKBdHL0UI0eo_FSB2lilwrCq6mjuiERrXKir7Yzw=s1360-w1360-h1020-rw?w=600&h=400&fit=crop"
     ]
   },
   {
@@ -18,7 +18,6 @@
     "category": "Italian",
     "time": "30-40 min",
     "name": "Margherita Pizza",
-    "rating": "9.2",
     "ratingText": "Exceptional",
     "reviews": "48 reviews",
     "price": "$18.99",
@@ -32,7 +31,6 @@
     "category": "Mexican",
     "time": "20-25 min",
     "name": "Beef Tacos",
-    "rating": "8.9",
     "ratingText": "Exceptional",
     "reviews": "48 reviews",
     "price": "$14.99",
@@ -43,44 +41,28 @@
   },
   {
     "id": 4,
-    "category": "Indian",
-    "time": "35-45 min",
-    "name": "Butter Chicken",
-    "rating": "9.6",
+    "category": "Steak",
+    "time": "15-20 min",
+    "name": "Buddha Bowl",
     "ratingText": "Exceptional",
-    "reviews": "120 reviews",
-    "price": "$19.99",
+    "reviews": "48 reviews",
+    "price": "$16.99",
     "images": [
-      "https://thehappyfoodie.co.uk/wp-content/uploads/2023/03/Butter_Chicken-1024x1536.jpg?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=600&h=400&fit=crop"
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop",
+      "https://www.eatingbirdfood.com/wp-content/uploads/2022/04/buddha-bowl-hero-633x950.jpg?w=600&h=400&fit=crop"
     ]
   },
   {
     "id": 5,
-    "category": "Thai",
-    "time": "20-30 min",
-    "name": "Pad Thai",
-    "rating": "9.1",
+    "category": "Vegetarian",
+    "time": "15-20 min",
+    "name": "Steak Bites",
     "ratingText": "Exceptional",
-    "reviews": "85 reviews",
-    "price": "$17.50",
+    "reviews": "48 reviews",
+    "price": "$16.99",
     "images": [
-      "https://tastythriftytimely.com/wp-content/uploads/2021/08/Homemade-Pad-Thai-You-Need-To-Try-3.jpg?w=600&h=400&fit=crop",
-      "https://eatthegains.com/wp-content/uploads/2019/03/Chicken-Pad-Thai-10-1120x1120.jpg?w=600&h=400&fit=crop"
-    ]
-  },
-  {
-    "id": 6,
-    "category": "Chinese",
-    "time": "15-25 min",
-    "name": "Kung Pao Chicken",
-    "rating": "8.8",
-    "ratingText": "Exceptional",
-    "reviews": "62 reviews",
-    "price": "$16.00",
-    "images": [
-      "https://images.unsplash.com/photo-1525755662778-989d0524087e?w=600&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&h=400&fit=crop"
+      "https://www.modernhoney.com/wp-content/uploads/2022/09/Garlic-Butter-Steak-Bites-9-1200x1800.jpg?w=600&h=400&fit=crop",
+      "https://www.simplyrecipes.com/thmb/b4SdSA5YY1hTAXgZXNNdmlF1cg8=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/simply-recipes-garlic-butter-steak-bites-lead-4-370aa5d4594148c18f650795791f918e.jpg?w=600&h=400&fit=crop"
     ]
   }
 ]
