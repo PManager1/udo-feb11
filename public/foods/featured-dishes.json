@@ -82,8 +82,7 @@
       "https://images.unsplash.com/photo-1525755662778-989d0524087e?w=600&h=400&fit=crop",
       "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&h=400&fit=crop"
     ]
-  }
-  ,
+  },
   {
     "id": 7,
     "category": "Mexican",
@@ -97,13 +96,12 @@
       "https://thecozycook.com/wp-content/uploads/2024/03/Chicken-Enchiladas-2.jpg?w=600&h=400&fit=crop",
       "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&h=400&fit=crop"
     ]
-  }
-  ,
+  },
   {
     "id": 8,
-    "category": "Vegetarian",
+    "category": "Vegan",
     "time": "15-25 min",
-    "name": "Budha Bowl",
+    "name": "Buddha Bowl",
     "rating": "8.8",
     "ratingText": "Exceptional",
     "reviews": "62 reviews",
@@ -126,7 +124,8 @@
       "https://thecozycook.com/wp-content/uploads/2024/08/Burrito-Bowls-1-.jpg?w=600&h=400&fit=crop",
       "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&h=400&fit=crop"
     ]
-  },{
+  },
+  {
     "id": 10,
     "category": "Drinks",
     "time": "15-25 min",
@@ -139,11 +138,12 @@
       "https://www.thehungrybites.com/wp-content/uploads/2023/06/Strawberry-milkshake-frappuccino-featured.jpg?w=600&h=400&fit=crop",
       "https://www.thehungrybites.com/wp-content/uploads/2023/06/Strawberry-milkshake-no-ice-cream-blender.jpg?w=600&h=400&fit=crop"
     ]
-  },{
+  },
+  {
     "id": 11,
     "category": "Japanese",
     "time": "15-25 min",
-    "name": "Sushi",
+    "name": "Sushi Roll",
     "rating": "8.8",
     "ratingText": "Exceptional",
     "reviews": "62 reviews",
@@ -152,11 +152,12 @@
       "https://foodbyjonister.com/wp-content/uploads/2018/02/IMG_5906-2.jpg?w=600&h=400&fit=crop",
       "https://www.thehungrybites.com/wp-content/uploads/2023/06/Strawberry-milkshake-no-ice-cream-blender.jpg?w=600&h=400&fit=crop"
     ]
-  },{
+  },
+  {
     "id": 12,
     "category": "Japanese",
     "time": "15-25 min",
-    "name": "Sushi",
+    "name": "Sashimi Platter",
     "rating": "8.8",
     "ratingText": "Exceptional",
     "reviews": "62 reviews",
@@ -167,6 +168,3 @@
     ]
   }
 ]
-
-
-
