@@ -166,5 +166,21 @@
       "https://www.craftycookbook.com/wp-content/uploads/2024/03/tobiko-roll-1200.jpg?w=600&h=400&fit=crop",
       "https://www.thehungrybites.com/wp-content/uploads/2023/06/Strawberry-milkshake-no-ice-cream-blender.jpg?w=600&h=400&fit=crop"
     ]
+  },
+  {
+    "id": 12,
+    "category": "American, Burgers",
+    "time": "15-25 min",
+    "name": "Cheese Burger",
+    "rating": "8.8",
+    "ratingText": "Exceptional",
+    "reviews": "62 reviews",
+    "price": "$16.99",
+    "images": [
+      "https://diethood.com/wp-content/uploads/2014/05/american-cheeseburger-7.jpg?w=600&h=400&fit=crop",
+      "https://www.thehungrybites.com/wp-content/uploads/2023/06/Strawberry-milkshake-no-ice-cream-blender.jpg?w=600&h=400&fit=crop"
+    ]
   }
 ]
+
+
