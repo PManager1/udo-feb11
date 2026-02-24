@@ -83,4 +83,49 @@
       "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&h=400&fit=crop"
     ]
   }
+  ,
+  {
+    "id": 7,
+    "category": "Mexican",
+    "time": "15-25 min",
+    "name": "Chicken Enchilada",
+    "rating": "8.8",
+    "ratingText": "Exceptional",
+    "reviews": "62 reviews",
+    "price": "$14.99",
+    "images": [
+      "https://thecozycook.com/wp-content/uploads/2024/03/Chicken-Enchiladas-2.jpg?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&h=400&fit=crop"
+    ]
+  }
+  ,
+  {
+    "id": 8,
+    "category": "Vegetarian",
+    "time": "15-25 min",
+    "name": "Budha Bowl",
+    "rating": "8.8",
+    "ratingText": "Exceptional",
+    "reviews": "62 reviews",
+    "price": "$16.99",
+    "images": [
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&h=400&fit=crop"
+    ]
+  }
+  ,
+  {
+    "id": 8,
+    "category": "Mexican",
+    "time": "15-25 min",
+    "name": "Burrito Bowl",
+    "rating": "8.8",
+    "ratingText": "Exceptional",
+    "reviews": "62 reviews",
+    "price": "$16.99",
+    "images": [
+      "https://thecozycook.com/wp-content/uploads/2024/08/Burrito-Bowls-1-.jpg?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&h=400&fit=crop"
+    ]
+  }
 ]
