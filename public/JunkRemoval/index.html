@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="UDO - Moving Jobs with Guaranteed Payouts"/>
-  <title>UDO Movers</title>
+  <meta name="description" content="UDO - Full-Service Junk Removal - Gone Today, Guaranteed"/>
+  <title>UDO Junk Removal</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2270%22 font-family=%22Arial, sans-serif%22 font-weight=%22900%22 letter-spacing=%22-2%22><tspan fill=%22%23f97316%22>U</tspan><tspan fill=%22%23000000%22>DO</tspan></text></svg>">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +21,9 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+    .truck-illustration {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
   </style>
 </head>
@@ -58,497 +61,838 @@
     </div>
   </header>
 
-  <!-- Page Header -->
-  <section class="bg-gradient-to-br from-orange-500 to-orange-600 py-12 lg:py-16">
-   
-  </section>
-  
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Job Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="jobCardsGrid">
-      <!-- Cards will be dynamically loaded from data.json -->
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-green-600 to-green-700 py-16 lg:py-20 relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-10">
+      <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
+        </pattern>
+        <rect width="100" height="100" fill="url(#grid)"/>
+      </svg>
     </div>
 
-    <!-- Load More Button -->
-    <div class="mt-8 text-center" id="loadMoreContainer" style="display: none;">
-      <button id="loadMoreBtn" class="bg-white border-2 border-orange-500 text-orange-500 px-8 py-3 rounded-full font-semibold hover:bg-orange-500 hover:text-white transition-all">
-        Load More Jobs
-      </button>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center max-w-4xl mx-auto">
+        <!-- Trust Badges -->
+        <div class="flex flex-wrap justify-center gap-3 mb-6">
+          <div class="bg-white/20 backdrop-blur-sm text-white text-sm font-semibold px-4 py-2 rounded-full flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Licensed & Insured
+          </div>
+          <div class="bg-white/20 backdrop-blur-sm text-white text-sm font-semibold px-4 py-2 rounded-full flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            Same-Day Service
+          </div>
+          <div class="bg-white/20 backdrop-blur-sm text-white text-sm font-semibold px-4 py-2 rounded-full flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            Eco-Friendly Disposal
+          </div>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="text-4xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">
+          Full-Service Junk Removal in Your Area
+          <br>
+          <span class="text-green-100">Gone Today, Guaranteed</span>
+        </h1>
+
+        <p class="text-xl text-green-50 max-w-2xl mx-auto mb-8">
+          We haul it all - furniture, appliances, debris, and more. Get your free quote in under 2 minutes with upfront pricing.
+        </p>
+
+        <!-- CTAs -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+          <a href="#get-quote" class="w-full sm:w-auto bg-white text-green-600 font-bold py-4 px-8 rounded-full text-lg hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+            </svg>
+            Get a Free Quote
+          </a>
+          <a href="tel:+18005551234" class="w-full sm:w-auto bg-green-500 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-green-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            Call Now: (800) 555-1234
+          </a>
+        </div>
+
+        <!-- Photo Quote CTA -->
+        <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white text-sm font-medium px-4 py-3 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <a href="sms:+18005551234" class="hover:text-white/80 transition">Text a Photo for a Quote</a>
+        </div>
+      </div>
     </div>
-  </main>
+  </section>
+
+  <!-- Interactive Pricing & Estimates -->
+  <section id="get-quote" class="py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Transparent Pricing - No Surprises</h2>
+        <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+          Pricing is volume-based. See our truck sizes or use our instant estimator for a quick quote.
+        </p>
+      </div>
+
+      <!-- Visual Pricing Guide -->
+      <div class="grid md:grid-cols-3 gap-8 mb-12">
+        <!-- 1/8 Truck -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg border-2 border-gray-200 hover:border-green-500 transition-all">
+          <div class="text-center mb-6">
+            <div class="w-32 h-24 mx-auto mb-4 rounded-xl truck-illustration flex items-center justify-center">
+              <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900">1/8 Truck Load</h3>
+            <p class="text-gray-500 text-sm mt-1">~60 cubic feet</p>
+          </div>
+          <div class="text-center mb-4">
+            <span class="text-3xl font-bold text-green-600">$99-$149</span>
+          </div>
+          <ul class="space-y-2 text-sm text-gray-600">
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Small furniture items
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Single appliance
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              5-10 boxes
+            </li>
+          </ul>
+        </div>
+
+        <!-- 1/4 Truck -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg border-2 border-green-500 relative overflow-hidden">
+          <div class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">POPULAR</div>
+          <div class="text-center mb-6">
+            <div class="w-32 h-24 mx-auto mb-4 rounded-xl truck-illustration flex items-center justify-center">
+              <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900">1/4 Truck Load</h3>
+            <p class="text-gray-500 text-sm mt-1">~120 cubic feet</p>
+          </div>
+          <div class="text-center mb-4">
+            <span class="text-3xl font-bold text-green-600">$149-$249</span>
+          </div>
+          <ul class="space-y-2 text-sm text-gray-600">
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Sofa or loveseat
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              2-3 appliances
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              15-25 boxes
+            </li>
+          </ul>
+        </div>
+
+        <!-- Full Truck -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg border-2 border-gray-200 hover:border-green-500 transition-all">
+          <div class="text-center mb-6">
+            <div class="w-32 h-24 mx-auto mb-4 rounded-xl truck-illustration flex items-center justify-center">
+              <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900">Full Truck Load</h3>
+            <p class="text-gray-500 text-sm mt-1">~480 cubic feet</p>
+          </div>
+          <div class="text-center mb-4">
+            <span class="text-3xl font-bold text-green-600">$449-$649</span>
+          </div>
+          <ul class="space-y-2 text-sm text-gray-600">
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Full house cleanout
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Estate cleanout
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              50+ boxes
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Instant Estimator -->
+      <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 border-2 border-green-200">
+        <div class="max-w-2xl mx-auto">
+          <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center flex items-center justify-center gap-2">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            Instant Estimator
+          </h3>
+          
+          <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <!-- Item Selection -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Select Items</label>
+              <div class="space-y-2" id="itemSelector">
+                <label class="flex items-center gap-3 p-3 bg-white rounded-lg cursor-pointer hover:bg-green-50 transition">
+                  <input type="checkbox" class="w-5 h-5 text-green-600 rounded" data-price="150">
+                  <span class="text-gray-700">Sofa / Couch</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 bg-white rounded-lg cursor-pointer hover:bg-green-50 transition">
+                  <input type="checkbox" class="w-5 h-5 text-green-600 rounded" data-price="180">
+                  <span class="text-gray-700">Refrigerator</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 bg-white rounded-lg cursor-pointer hover:bg-green-50 transition">
+                  <input type="checkbox" class="w-5 h-5 text-green-600 rounded" data-price="100">
+                  <span class="text-gray-700">Mattress</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 bg-white rounded-lg cursor-pointer hover:bg-green-50 transition">
+                  <input type="checkbox" class="w-5 h-5 text-green-600 rounded" data-price="80">
+                  <span class="text-gray-700">10+ Boxes</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Quantity -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Additional Items</label>
+              <div class="space-y-3">
+                <div>
+                  <label class="text-sm text-gray-600">Boxes (quantity)</label>
+                  <input type="number" id="boxQuantity" value="0" min="0" class="w-full mt-1 px-4 py-2 bg-white border-2 border-gray-200 rounded-lg focus:outline-none focus:border-green-500">
+                </div>
+                <div>
+                  <label class="text-sm text-gray-600">Other Items</label>
+                  <input type="number" id="otherQuantity" value="0" min="0" class="w-full mt-1 px-4 py-2 bg-white border-2 border-gray-200 rounded-lg focus:outline-none focus:border-green-500">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Estimated Price -->
+          <div class="bg-white rounded-xl p-6 border-2 border-green-300 text-center">
+            <p class="text-sm text-gray-600 mb-2">Estimated Price</p>
+            <p class="text-4xl font-bold text-green-600 mb-2" id="estimatedPrice">$0</p>
+            <p class="text-xs text-gray-500">Final price may vary based on actual volume</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Categorization -->
+  <section class="py-16 lg:py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">What We Remove</h2>
+        <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+          We handle everything from single-item pickups to full property cleanouts
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8 mb-12">
+        <!-- Residential -->
+        <div class="bg-gray-50 rounded-2xl p-8">
+          <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Residential</h3>
+          <ul class="space-y-3 text-gray-600">
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Furniture removal
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Appliances & electronics
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Mattress disposal
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Estate cleanouts
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Hoarder situations
+            </li>
+          </ul>
+        </div>
+
+        <!-- Commercial -->
+        <div class="bg-gray-50 rounded-2xl p-8">
+          <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Commercial</h3>
+          <ul class="space-y-3 text-gray-600">
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Office furniture
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              E-waste disposal
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Retail de-branding
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Construction debris
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Warehouse cleanouts
+            </li>
+          </ul>
+        </div>
+
+        <!-- Specialty -->
+        <div class="bg-gray-50 rounded-2xl p-8">
+          <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Specialty Items</h3>
+          <ul class="space-y-3 text-gray-600">
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Hot tubs & spas
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Sheds & playhouses
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Swing sets
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Pianos (requires prep)
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Safe cracking
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- We Don't Take -->
+      <div class="bg-red-50 rounded-2xl p-8 border-2 border-red-200">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Items We Cannot Remove</h3>
+            <p class="text-gray-600 mb-4">For safety and environmental regulations, we cannot accept:</p>
+            <div class="grid md:grid-cols-2 gap-3 text-sm text-gray-700">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                Paint & chemicals
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                Tires & batteries
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                Hazardous waste
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                Medical waste
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust & Social Proof -->
+  <section class="py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Why Choose UDO?</h2>
+        <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+          Real pros, real results - see what our customers say
+        </p>
+      </div>
+
+      <!-- Reviews -->
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">JD</div>
+            <div>
+              <h4 class="font-bold text-gray-900">John D.</h4>
+              <div class="flex items-center gap-1">
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600 mb-4">
+            "Amazing service! The crew arrived on time, were super polite, and cleared out my entire garage in under 2 hours. Couldn't recommend them more!"
+          </p>
+          <p class="text-sm text-gray-500">Garage Cleanout • Feb 2026</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">SM</div>
+            <div>
+              <h4 class="font-bold text-gray-900">Sarah M.</h4>
+              <div class="flex items-center gap-1">
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600 mb-4">
+            "Fast, professional, and eco-friendly! They recycled 80% of what they took from my office. Great for businesses that care about sustainability."
+          </p>
+          <p class="text-sm text-gray-500">Office Cleanout • Jan 2026</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">MJ</div>
+            <div>
+              <h4 class="font-bold text-gray-900">Mike J.</h4>
+              <div class="flex items-center gap-1">
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.21 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600 mb-4">
+            "They removed an old hot tub from my backyard safely. Other companies wanted triple the price. These guys are honest, fair, and do great work!"
+          </p>
+          <p class="text-sm text-gray-500">Hot Tub Removal • Feb 2026</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Where Does It Go? -->
+  <section class="py-16 lg:py-20 bg-gradient-to-br from-green-50 to-blue-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Where Does Your Junk Go?</h2>
+        <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+          We're committed to eco-friendly disposal - your junk doesn't end up in landfills
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 mb-12">
+        <!-- Stats -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h3 class="text-2xl font-bold text-gray-900 mb-6">Our Impact</h3>
+          <div class="space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                <span class="text-3xl font-bold text-green-600">70%</span>
+              </div>
+              <div>
+                <p class="text-gray-700 font-semibold">Recycled or Donated</p>
+                <p class="text-sm text-gray-500">Of every haul we process</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                <span class="text-3xl font-bold text-blue-600">500+</span>
+              </div>
+              <div>
+                <p class="text-gray-700 font-semibold">Donation Partners</p>
+                <p class="text-sm text-gray-500">Local charities & shelters</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center">
+                <span class="text-3xl font-bold text-purple-600">100K+</span>
+              </div>
+              <div>
+                <p class="text-gray-700 font-semibold">Items Saved</p>
+                <p class="text-sm text-gray-500">From landfills in 2025</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Eco Commitment -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <h3 class="text-2xl font-bold text-gray-900 mb-6">Our "Donate-First" Policy</h3>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+            Before anything goes to a recycling center or landfill, we sort through your items to find anything that can be donated. We partner with:
+          </p>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              <span class="text-gray-700 font-medium">Goodwill Industries</span>
+            </div>
+            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <svg class="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              <span class="text-gray-700 font-medium">Habitat for Humanity ReStore</span>
+            </div>
+            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              <span class="text-gray-700 font-medium">Local Homeless Shelters</span>
+            </div>
+            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <svg class="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              <span class="text-gray-700 font-medium">Community Thrift Stores</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Logistical FAQs -->
+  <section class="py-16 lg:py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+        <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+          Everything you need to know before booking
+        </p>
+      </div>
+
+      <div class="max-w-3xl mx-auto space-y-4">
+        <!-- FAQ 1 -->
+        <div class="bg-gray-50 rounded-xl overflow-hidden">
+          <button class="faq-btn w-full flex items-center justify-between p-6 text-left" onclick="toggleFaq(this)">
+            <span class="text-lg font-semibold text-gray-900">Do I need to be home?</span>
+            <svg class="w-6 h-6 text-gray-500 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-content hidden px-6 pb-6">
+            <p class="text-gray-600">
+              Not necessarily! If you leave items accessible (e.g., in driveway, garage, or curb), we can handle the pickup while you're away. For indoor removals, we'll need access but you can provide keys or code access if preferred.
+            </p>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="bg-gray-50 rounded-xl overflow-hidden">
+          <button class="faq-btn w-full flex items-center justify-between p-6 text-left" onclick="toggleFaq(this)">
+            <span class="text-lg font-semibold text-gray-900">How do you handle heavy items (stairs)?</span>
+            <svg class="w-6 h-6 text-gray-500 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-content hidden px-6 pb-6">
+            <p class="text-gray-600">
+              Our team is trained and equipped for stairs, elevators, and tight spaces. We carry dollies, straps, and lifting equipment to safely move heavy items. No extra charge for stairs - it's all included in the upfront price!
+            </p>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="bg-gray-50 rounded-xl overflow-hidden">
+          <button class="faq-btn w-full flex items-center justify-between p-6 text-left" onclick="toggleFaq(this)">
+            <span class="text-lg font-semibold text-gray-900">What forms of payment do you take?</span>
+            <svg class="w-6 h-6 text-gray-500 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-content hidden px-6 pb-6">
+            <p class="text-gray-600">
+              We accept all major credit cards (Visa, Mastercard, Amex, Discover), debit cards, and cash. Payment is collected after the job is complete and you're satisfied with the work.
+            </p>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="bg-gray-50 rounded-xl overflow-hidden">
+          <button class="faq-btn w-full flex items-center justify-between p-6 text-left" onclick="toggleFaq(this)">
+            <span class="text-lg font-semibold text-gray-900">How soon can you get here?</span>
+            <svg class="w-6 h-6 text-gray-500 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-content hidden px-6 pb-6">
+            <p class="text-gray-600">
+              Same-day service is available for most locations if you call before 2 PM. Otherwise, we can typically schedule within 24-48 hours. For urgent needs, call our priority line at (800) 555-1234.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
-  <footer class="bg-[#b0b0a8] text-gray-800 mt-16">
-  
-                
-            
-            </div>
+  <footer class="bg-[#b0b0a8] text-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <!-- Company Info -->
+        <div>
+          <h3 class="text-2xl font-bold mb-4">
+            <span class="text-orange-500">U</span><span class="text-gray-800">DO™</span>
+          </h3>
+          <p class="text-gray-700 text-sm leading-relaxed">
+            Full-service junk removal with eco-friendly disposal. Licensed, insured, and ready to help you reclaim your space.
+          </p>
         </div>
-    </section>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-lg font-semibold mb-4 text-gray-800">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="../index.html" class="text-gray-700 hover:text-orange-500 transition">Home</a></li>
+            <li><a href="../profiles-list/" class="text-gray-700 hover:text-orange-500 transition">Our Services</a></li>
+            <li><a href="../join-as-professional/" class="text-gray-700 hover:text-orange-500 transition">Join as Pro</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div>
+          <h4 class="text-lg font-semibold mb-4 text-gray-800">Support</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">Help Center</a></li>
+            <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">Safety</a></li>
+            <li><a href="../contact-us/" class="text-gray-700 hover:text-orange-500 transition">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal -->
+        <div>
+          <h4 class="text-lg font-semibold mb-4 text-gray-800">Legal</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">Terms of Service</a></li>
+            <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">Privacy Policy</a></li>
+            <li><a href="../trademark/" class="text-gray-700 hover:text-orange-500 transition">Trademark</a></li>
+          </ul>
+        </div>
+
+        <!-- Language Selector -->
+        <div>
+          <h4 class="text-lg font-semibold mb-4 text-gray-800">Language</h4>
+          <div class="relative">
+            <select id="languageSelector" class="w-full bg-white text-gray-800 border border-gray-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer appearance-none pr-8">
+              <option value="en" selected>English</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+            </select>
+            <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social Media & Copyright -->
+      <div class="border-t border-gray-400 mt-10 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-700 text-sm mb-4 md:mb-0">
+          © 2026 U Do. All rights reserved.
+        </p>
+        <div class="flex space-x-6">
+          <a href="#" class="text-gray-600 hover:text-orange-500 transition">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+            </svg>
+          </a>
+          <a href="#" class="text-gray-600 hover:text-orange-500 transition">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.072 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919 4.919-1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.98-6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919 4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919 4.919 1.266-.057 1.645-.069 4.849-.069zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4 4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Instant Estimator Logic
+    function updateEstimate() {
+      let total = 0;
+      
+      // Add selected items
+      document.querySelectorAll('#itemSelector input[type="checkbox"]:checked').forEach(checkbox => {
+        total += parseInt(checkbox.dataset.price);
+      });
+      
+      // Add boxes
+      const boxQuantity = parseInt(document.getElementById('boxQuantity').value) || 0;
+      total += boxQuantity * 10;
+      
+      // Add other items
+      const otherQuantity = parseInt(document.getElementById('otherQuantity').value) || 0;
+      total += otherQuantity * 25;
+      
+      // Update display
+      document.getElementById('estimatedPrice').textContent = `$${total}`;
+    }
     
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Ride Cards Grid -->
-
-
-
-        
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-[#b0b0a8] text-gray-800 mt-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-                <!-- Company Info -->
-                <div>
-                    <h3 class="text-2xl font-bold mb-4">
-                        <span class="text-orange-500">U</span><span class="text-gray-800">DO™</span>
-                    </h3>
-                    <p class="text-gray-700 text-sm leading-relaxed">
-                        Connect with drivers and passengers. Find rides or offer rides - safe, affordable, and convenient.
-                    </p>
-                </div>
-
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-gray-800">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="../index.html" class="text-gray-700 hover:text-orange-500 transition">Home</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">Find a Ride</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">Offer a Ride</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">How It Works</a></li>
-                    </ul>
-                </div>
-
-                <!-- Support -->
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-gray-800">Support</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">Help Center</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">Safety</a></li>
-                        <li><a href="../contact-us/" class="text-gray-700 hover:text-orange-500 transition">Contact Us</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">FAQs</a></li>
-                    </ul>
-                </div>
-
-                <!-- Legal -->
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-gray-800">Legal</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">Terms of Service</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-orange-500 transition">Cookie Policy</a></li>
-                        <li><a href="../trademark/" class="text-gray-700 hover:text-orange-500 transition">Trademark</a></li>
-                    </ul>
-                </div>
-
-                <!-- Language Selector -->
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-gray-800">Language</h4>
-                    <div class="relative">
-                        <select id="languageSelector" class="w-full bg-white text-gray-800 border border-gray-400 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer appearance-none pr-8">
-                            <option value="en" selected>English</option>
-                            <option value="es">Español</option>
-                            <option value="fr">Français</option>
-                        </select>
-                        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Social Media & Copyright -->
-            <div class="border-t border-gray-400 mt-10 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-700 text-sm mb-4 md:mb-0">
-                    © 2026 U Do Rideshare. All rights reserved.
-                </p>
-                <div class="flex space-x-6">
-                    <a href="#" class="text-gray-600 hover:text-orange-500 transition">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="text-gray-600 hover:text-orange-500 transition">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.072 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771 4.919 4.919 1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919 4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919 4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919 4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919 4.919 1.266-.057 1.645-.069 4.849-.069zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.163-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4 4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="text-gray-600 hover:text-orange-500 transition">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="text-gray-600 hover:text-orange-500 transition">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667h-3.554v-11.452h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286nm-15.11-13.019c-1.144 0-2.063-.926-2.063 2.065 0-1.138.92-2.063 2.063 2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019h-3.564v-11.452h3.564v11.452zm15.106-20.452h-20.454c-.979 0-1.771.774-1.771 1.729v20.542c0 .956.792 1.729 1.771 1.729h20.451c.978 0 1.778-.773 1.778-1.729v-20.542c0-.955-.8-1.729-1.778-1.729z"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Global state
-        let ridesData = [];
-        let currentTypeFilter = 'all';
-        let currentLocationFilter = 'all';
-        let currentPriceFilter = 'all';
-        let currentFromSearch = '';
-        let currentToSearch = '';
-        let showSimilarDirection = false;
-        let displayedCardsCount = 6;
-        
-        // Region mapping for filters
-        const regionMap = {
-            'washington': ['dc', 'washington', 'dc area', 'arlington', 'rosslyn', 'virginia'],
-            'florida': ['florida', 'fl', 'north florida', 'miami'],
-            'california': ['california', 'ca', 'san francisco', 'los angeles', 'san diego', 'sacramento', 'oakland', 'fresno', 'san jose', 'long beach', 'santa barbara', 'bakersfield'],
-            'texas': ['texas', 'tx', 'houston', 'dallas', 'austin', 'san antonio', 'fort worth', 'el paso', 'corpus christi', 'plano'],
-            'new york': ['new york city', 'new york', 'nyc'],
-            'boston': ['boston', 'massachusetts', 'ma'],
-            'canada': ['canada', 'toronto', 'ontario', 'on'],
-            'maryland': ['maryland', 'md', 'baltimore']
-        };
-
-        // Fetch data from JSON file
-        async function loadRidesData() {
-            try {
-                const response = await fetch('data.json');
-                ridesData = await response.json();
-                renderCards();
-                updateLoadMoreButton();
-            } catch (error) {
-                console.error('Error loading rides data:', error);
-                document.getElementById('rideCardsGrid').innerHTML = `
-                    <div class="col-span-full text-center py-12">
-                        <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M15 13H9v10h.01M12 21l9 2-9-18-9 2 9-2zm0 0v-8"/>
-                        </svg>
-                        <p class="text-gray-500">Unable to load rides. Please refresh page.</p>
-                    </div>
-                `;
-            }
-        }
-
-        // Create card HTML element
-        function createCardHTML(ride) {
-            const bgColor = ride.type === 'need' ? 'bg-red-100' : 'bg-green-100';
-            const borderColor = ride.type === 'need' ? 'border-red-200' : 'border-green-200';
-            const badgeColor = ride.type === 'need' ? 'bg-red-500' : 'bg-green-500';
-            const priceColor = ride.type === 'need' ? 'text-red-600' : 'text-green-600';
-            const buttonText = ride.type === 'need' ? 'Contact Rider' : 'Book This Ride';
-            const buttonBg = ride.type === 'need' ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600';
-            const typeText = ride.type === 'need' ? 'NEED RIDE' : 'OFFERING RIDE';
-            const typeIcon = ride.type === 'need' 
-                ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 2 9-2zm0 0v-8"/>'
-                : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>';
-            const passengerLabel = ride.passengers ? 'Passengers' : 'Seats Available';
-            const passengerValue = ride.passengers || ride.seats || '';
-            
-            return `
-                <div class="ride-card bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-xl transition-shadow duration-300 fade-in" data-type="${ride.type}" data-origin="${ride.origin}" data-destination="${ride.destination}">
-                    <div class="relative">
-                        <div class="${bgColor} px-4 py-3 border-b ${borderColor}">
-                            <div class="flex items-center justify-between">
-                                <span class="${badgeColor} text-white text-xs font-bold px-3 py-1 rounded-full flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        ${typeIcon}
-                                    </svg>
-                                    ${typeText}
-                                </span>
-                                <span class="${priceColor} font-bold text-lg">${ride.priceDisplay}</span>
-                            </div>
-                        </div>
-                        
-                        <div class="p-5">
-                            <!-- Route Summary -->
-                            <div class="mb-4 flex items-center gap-2 text-sm font-medium text-gray-700">
-                                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 00-2.827 0l-4.244-4.243a8.8 0 111.314 0z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l4 4m0-4l4 4"/>
-                                </svg>
-                                <span>${ride.origin}</span>
-                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                                </svg>
-                                <span>${ride.destination}</span>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <div class="flex justify-end mb-4">
-                                    <div class="flex items-center gap-1">
-                                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                        </svg>
-                                        <span class="text-sm font-semibold text-gray-700">${ride.rating}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="border-t border-gray-200 my-4"></div>
-                            
-                            <div class="space-y-2 mb-4">
-                                <p class="text-sm text-gray-700">
-                                    <span class="font-semibold">Date:</span> ${ride.date}
-                                </p>
-                                ${passengerValue ? `<p class="text-sm text-gray-700"><span class="font-semibold">${passengerLabel}:</span> ${passengerValue}</p>` : ''}
-                                <p class="text-sm text-gray-700">
-                                    <span class="font-semibold">Description:</span> ${ride.description}
-                                </p>
-                            </div>
-                            
-                            <button class="w-full ${buttonBg} text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    ${ride.type === 'need' 
-                                        ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>'
-                                        : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 0118.364 18.364M9 9l12 12m0 0L9 21"/>'}
-                                    </svg>
-                                ${buttonText}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Render cards
-        function renderCards() {
-            const rideCardsGrid = document.getElementById('rideCardsGrid');
-            rideCardsGrid.innerHTML = '';
-            
-            let filteredData = ridesData.filter(card => {
-                // Type filter
-                const typeMatch = currentTypeFilter === 'all' || card.type === currentTypeFilter;
-                
-                // Location filter
-                let locationMatch = currentLocationFilter === 'all';
-                if (!locationMatch) {
-                    const locationMap = {
-                        'dc': ['dc', 'washington'],
-                        'va': ['va', 'virginia', 'arlington', 'rosslyn'],
-                        'md': ['md', 'maryland', 'baltimore'],
-                        'fl': ['fl', 'florida', 'miami'],
-                        'ca': ['ca', 'california', 'san francisco', 'los angeles', 'san diego', 'sacramento', 'oakland', 'fresno', 'san jose', 'long beach', 'santa barbara', 'bakersfield'],
-                        'tx': ['tx', 'texas', 'houston', 'dallas', 'austin', 'san antonio', 'fort worth', 'el paso', 'corpus christi', 'plano'],
-                        'canada': ['canada', 'toronto', 'on']
-                    };
-                    
-                    const locations = locationMap[currentLocationFilter] || [];
-                    const combined = card.origin.toLowerCase() + ' ' + card.destination.toLowerCase();
-                    locationMatch = locations.some(loc => combined.includes(loc));
-                }
-                
-                // Price filter
-                let priceMatch = currentPriceFilter === 'all';
-                if (!priceMatch) {
-                    switch(currentPriceFilter) {
-                        case 'under50':
-                            priceMatch = card.price > 0 && card.price < 50;
-                            break;
-                        case '50to100':
-                            priceMatch = card.price >= 50 && card.price <= 100;
-                            break;
-                        case '100to200':
-                            priceMatch = card.price > 100 && card.price <= 200;
-                            break;
-                        case 'over200':
-                            priceMatch = card.price > 200;
-                            break;
-                    }
-                }
-                
-                // From search filter
-                let fromMatch = true;
-                if (currentFromSearch) {
-                    fromMatch = card.origin.toLowerCase().includes(currentFromSearch);
-                }
-                
-                // To search filter
-                let toMatch = true;
-                if (currentToSearch) {
-                    toMatch = card.destination.toLowerCase().includes(currentToSearch);
-                }
-                
-                // Similar direction filter
-                let directionMatch = true;
-                if (showSimilarDirection && (currentFromSearch || currentToSearch)) {
-                    const combined = card.origin.toLowerCase() + ' ' + card.destination.toLowerCase();
-                    let hasSimilarDirection = false;
-                    
-                    Object.keys(regionMap).forEach(region => {
-                        const regionKeywords = regionMap[region];
-                        const searchTerms = [currentFromSearch, currentToSearch].filter(t => t);
-                        
-                        searchTerms.forEach(term => {
-                            regionKeywords.forEach(keyword => {
-                                if (term && combined.includes(keyword)) {
-                                    hasSimilarDirection = true;
-                                }
-                            });
-                        });
-                    });
-                    
-                    directionMatch = hasSimilarDirection;
-                }
-                
-                return typeMatch && locationMatch && priceMatch && fromMatch && toMatch && directionMatch;
-            });
-            
-            // Display only first 6 cards (or less if filtered)
-            const cardsToDisplay = filteredData.slice(0, displayedCardsCount);
-            
-            cardsToDisplay.forEach(ride => {
-                rideCardsGrid.insertAdjacentHTML('beforeend', createCardHTML(ride));
-            });
-        }
-
-        // Update load more button visibility
-        function updateLoadMoreButton() {
-            const loadMoreContainer = document.getElementById('loadMoreContainer');
-            if (ridesData.length > displayedCardsCount) {
-                loadMoreContainer.style.display = 'block';
-            } else {
-                loadMoreContainer.style.display = 'none';
-            }
-        }
-
-        // Load more functionality
-        document.getElementById('loadMoreBtn').addEventListener('click', function() {
-            displayedCardsCount += 6;
-            renderCards();
-            if (displayedCardsCount >= ridesData.length) {
-                this.textContent = 'No More Rides';
-                this.disabled = true;
-                this.classList.add('opacity-50', 'cursor-not-allowed');
-            }
-        });
-
-        // Tab functionality
-        document.getElementById('allTab').addEventListener('click', () => {
-            currentTypeFilter = 'all';
-            renderCards();
-            
-            allTab.classList.add('bg-orange-500', 'text-white');
-            allTab.classList.remove('bg-white', 'text-gray-700');
-            needRideTab.classList.remove('bg-orange-500', 'text-white');
-            needRideTab.classList.add('bg-white', 'text-gray-700');
-            offerRideTab.classList.remove('bg-orange-500', 'text-white');
-            offerRideTab.classList.add('bg-white', 'text-gray-700');
-        });
-
-        document.getElementById('needRideTab').addEventListener('click', () => {
-            currentTypeFilter = 'need';
-            renderCards();
-            
-            needRideTab.classList.add('bg-orange-500', 'text-white');
-            needRideTab.classList.remove('bg-white', 'text-gray-700');
-            allTab.classList.remove('bg-orange-500', 'text-white');
-            allTab.classList.add('bg-white', 'text-gray-700');
-            offerRideTab.classList.remove('bg-orange-500', 'text-white');
-            offerRideTab.classList.add('bg-white', 'text-gray-700');
-        });
-
-        document.getElementById('offerRideTab').addEventListener('click', () => {
-            currentTypeFilter = 'offer';
-            renderCards();
-            
-            offerRideTab.classList.add('bg-orange-500', 'text-white');
-            offerRideTab.classList.remove('bg-white', 'text-gray-700');
-            allTab.classList.remove('bg-orange-500', 'text-white');
-            allTab.classList.add('bg-white', 'text-gray-700');
-            needRideTab.classList.remove('bg-orange-500', 'text-white');
-            needRideTab.classList.add('bg-white', 'text-gray-700');
-        });
-
-        // Filter functionality
-        document.getElementById('locationFilter').addEventListener('change', function(e) {
-            currentLocationFilter = e.target.value;
-            displayedCardsCount = 6;
-            renderCards();
-        });
-
-        document.getElementById('priceFilter').addEventListener('change', function(e) {
-            currentPriceFilter = e.target.value;
-            displayedCardsCount = 6;
-            renderCards();
-        });
-
-        document.getElementById('fromSearch').addEventListener('keyup', function(e) {
-            currentFromSearch = e.target.value.toLowerCase();
-            displayedCardsCount = 6;
-            renderCards();
-            updateClearButtons();
-        });
-
-        document.getElementById('toSearch').addEventListener('keyup', function(e) {
-            currentToSearch = e.target.value.toLowerCase();
-            displayedCardsCount = 6;
-            renderCards();
-            updateClearButtons();
-        });
-
-        document.getElementById('similarDirectionBtn').addEventListener('click', function() {
-            showSimilarDirection = !showSimilarDirection;
-            
-            if (showSimilarDirection) {
-                similarDirectionBtn.classList.add('bg-orange-500', 'text-white');
-                similarDirectionBtn.classList.remove('bg-white', 'text-orange-500');
-            } else {
-                similarDirectionBtn.classList.remove('bg-orange-500', 'text-white');
-                similarDirectionBtn.classList.add('bg-white', 'text-orange-500');
-            }
-            
-            displayedCardsCount = 6;
-            renderCards();
-        });
-
-        // Update clear buttons visibility
-        function updateClearButtons() {
-            const fromValue = document.getElementById('fromSearch').value;
-            const toValue = document.getElementById('toSearch').value;
-            
-            const clearFromBtn = document.getElementById('clearFromBtn');
-            const clearToBtn = document.getElementById('clearToBtn');
-            
-            if (fromValue.length > 0) {
-                clearFromBtn.classList.remove('hidden');
-            } else {
-                clearFromBtn.classList.add('hidden');
-            }
-            
-            if (toValue.length > 0) {
-                clearToBtn.classList.remove('hidden');
-            } else {
-                clearToBtn.classList.add('hidden');
-            }
-        }
-
-        // Clear from button
-        document.getElementById('clearFromBtn').addEventListener('click', function() {
-            document.getElementById('fromSearch').value = '';
-            currentFromSearch = '';
-            displayedCardsCount = 6;
-            renderCards();
-            updateClearButtons();
-        });
-
-        // Clear to button
-        document.getElementById('clearToBtn').addEventListener('click', function() {
-            document.getElementById('toSearch').value = '';
-            currentToSearch = '';
-            displayedCardsCount = 6;
-            renderCards();
-            updateClearButtons();
-        });
-
-        // Initialize - load data and render cards
-        loadRidesData();
-    </script>
+    // Add event listeners
+    document.querySelectorAll('#itemSelector input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', updateEstimate);
+    });
+    
+    document.getElementById('boxQuantity').addEventListener('input', updateEstimate);
+    document.getElementById('otherQuantity').addEventListener('input', updateEstimate);
+    
+    // FAQ Toggle
+    function toggleFaq(button) {
+      const content = button.nextElementSibling;
+      const icon = button.querySelector('.faq-icon');
+      
+      if (content.classList.contains('hidden')) {
+        // Open
+        content.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+      } else {
+        // Close
+        content.classList.add('hidden');
+        icon.classList.remove('rotate-180');
+      }
+    }
+  </script>
 
 </body>
 </html>
