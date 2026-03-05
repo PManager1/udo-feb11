@@ -8,6 +8,17 @@ https://www.warbyparker.com/
 
 
 
+WHY PAGE :
+
+https://youtu.be/u4ZoJKF_VuA?t=885
+                        14:40 - If you are the kind of person who likes ot have  total control over every aspect of your life, 
+                        boy do we have a product for you , it bla bla bla. 
+                        if you believe in human connection.  
+
+https://youtu.be/4VdO7LuoBzM?t=54
+surround us by people who belive what we belive , trust happens. 
+
+
 
 
 ========
