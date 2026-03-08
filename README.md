@@ -20,6 +20,10 @@ surround us by people who belive what we belive , trust happens.
 
 
 
+update home page  cut shot this :
+Sign Up to UDo, Get Clients and Get Paid
+Join our network of skilled professionals and connect with customers who need your services. Set your own rates, choose the jobs you want, and get paid directly. No middleman taking a cut - you keep what you earn.
+
 
 ========
 
