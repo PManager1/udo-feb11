@@ -15,58 +15,124 @@
   <style>
     body {
       background-color: #f9f7f5;
+      font-family: 'Nunito', sans-serif;
     } 
     .card-hover:hover img {
       transform: scale(1.06);
     }
-    .search-overlay {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      opacity: 0;
-      pointer-events: none;
+    
+    /* Prevent background scrolling */
+    .no-scroll {
+      overflow: hidden;
     }
-    .search-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
+
+    /* Professional Mobile Menu - Slide Transition */
+    #mobileMenu {
+      transition: transform 0.3s ease-in-out;
+      transform: translateX(100%);
+    }
+    #mobileMenu.active {
+      transform: translateX(0);
+    }
+
+    /* Glassmorphism Effect */
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
   </style>
 </head>
-  <body class="min-h-screen antialiased text-gray-900" style="font-family: 'Nunito', sans-serif;">
+<body class="min-h-screen antialiased text-gray-900 bg-gray-50" style="font-family: 'Nunito', sans-serif;">
 
-  <!-- Top Search Bar -->
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
-    <div class="absolute left-12 top-1/2 -translate-y-1/2 z-[60] hover:opacity-90 transition">
-      <a href="../index.html" class="text-4xl font-bold">
-        <span class="text-orange-500">U</span><span class="text-gray-800">DO</span>
+    <div class="absolute left-6 sm:left-12 top-1/2 -translate-y-1/2 z-[60] hover:opacity-90 transition">
+      <a href="../index.html" class="flex flex-col">
+        <div class="text-3xl sm:text-4xl font-bold leading-none">
+          <span class="text-orange-500">U</span><span class="text-gray-800">DO</span>
+        </div>
+        <p class="text-[10px] sm:text-xs text-gray-600 font-medium tracking-tight">let someone do it for you</p>
       </a>
-      <p class="text-sm text-gray-600 font-medium -mt-1">let someone do it for you</p>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
-      <div class="w-48 hidden lg:block"></div>
-      <div class="flex-1 max-w-3xl">
-        <div class="relative">
-          <input
-            id="searchInput"
-            type="text"
-            placeholder="Search"
-            class="w-full pl-5 pr-12 py-3.5 bg-[#DADAD3] border border-gray-300 rounded-full text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition shadow-sm cursor-pointer"
-            readonly
-          />
-          <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </button>
-        </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-end gap-4">
+        <div class="w-48 hidden lg:block"></div>
+    
+    <div class="flex-1 max-w-3xl hidden lg:block">
+      <div class="relative">
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Search"
+          class="w-full pl-5 pr-12 py-3.5 bg-[#DADAD3] border border-gray-300 rounded-full text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition shadow-sm cursor-pointer"
+          readonly
+        />
+        <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
       </div>
-      <div class="flex items-center gap-6">
+    </div>
+    
+      <div class="hidden lg:flex items-center gap-6">
         <a href="../login/" class="text-gray-700 hover:text-orange-500 font-medium text-base transition">Sign in</a>
         <a href="../signup/" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-full text-base transition duration-300 shadow-sm hover:shadow-md">Join</a>
       </div>
+
+      <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+        <svg class="w-7 h-7 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
     </div>
   </header>
 
-<body class="bg-gray-50 min-h-screen">
+  <div id="mobileMenu" class="fixed inset-0 z-[100] glass-effect flex flex-col lg:hidden">
+    <div class="flex items-center justify-between p-6 border-b border-gray-100">
+      <div class="text-3xl font-bold"><span class="text-orange-500">U</span>DO</div>
+      <button id="closeMobileMenu" class="p-2 rounded-full hover:bg-gray-100 transition">
+        <svg class="w-8 h-8 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <nav class="flex flex-col gap-6 p-8">
+      <a href="../login/" class="text-3xl font-bold text-gray-800 hover:text-orange-500 transition">Sign in</a>
+      <hr class="border-gray-200">
+      <a href="../signup/" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-2xl text-2xl transition shadow-lg text-center">
+        Join UDO
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const closeMobileMenu = document.getElementById('closeMobileMenu');
+
+      // --- Mobile Menu ---
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
+        document.body.classList.add('no-scroll');
+      });
+
+      closeMobileMenu.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+      });
+
+      // Close on ESC key
+      document.addEventListener('keydown', (e) => {
+        if(e.key === "Escape") {
+          mobileMenu.classList.remove('active');
+          document.body.classList.remove('no-scroll');
+        }
+      });
+    });
+  </script>
 
      <!-- App Download Banner -->
  <section class="bg-[#fed7aa] py-12 lg:py-16">
