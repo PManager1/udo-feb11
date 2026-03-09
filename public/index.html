@@ -54,11 +54,7 @@
         <span class="text-orange-500">U</span><span class="text-gray-800">DO</span>
         <!-- <p class="text-sm text-gray-600 font-medium -mt-1">let someone do it for you</p> -->
       </div>
-      <!-- <button id="closeMobileBtn" class="p-2 text-gray-800">
-        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button> -->
+      
 
       
     <button id="closeMobileBtn" class="p-2 text-gray-800 -mt-1 -mr-4">
@@ -111,6 +107,76 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </button>
+      
+      <!-- Mobile User Profile Dropdown -->
+      <div class="relative" id="mobileUserProfileContainer">
+        <button 
+          id="mobileUserProfileBtn"
+          class="flex items-center gap-2 px-2 py-1.5 rounded-full hover:bg-gray-100 transition-colors border border-gray-200"
+        >
+          <div class="w-7 h-7 bg-orange-500 rounded-full flex items-center justify-center text-white font-semibold text-xs">
+            JD
+          </div>
+          <svg class="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        
+        <!-- Mobile Dropdown Menu -->
+        <div 
+          id="mobileUserProfileDropdown"
+          class="hidden absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-gray-200 z-[100] overflow-hidden"
+        >
+          <!-- User Info -->
+          <div class="px-5 py-4 border-b border-gray-100">
+            <p class="text-sm font-semibold text-gray-900">John Doe</p>
+            <p class="text-xs text-gray-500">john.doe@email.com</p>
+          </div>
+          
+          <!-- Menu Items -->
+          <div class="py-2">
+            <a href="profile/" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span class="text-sm font-medium text-gray-900">My Profile</span>
+            </a>
+            
+            <a href="settings/" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="text-sm font-medium text-gray-900">Settings</span>
+            </a>
+            
+            <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              <span class="text-sm font-medium text-gray-900">My Orders</span>
+            </a>
+            
+            <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span class="text-sm font-medium text-gray-900">Help & Support</span>
+            </a>
+          </div>
+          
+          <!-- Sign Out -->
+          <div class="border-t border-gray-100 pt-2">
+            <a href="login/" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition text-red-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span class="text-sm font-medium">Sign Out</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
       <button id="openMobileBtn" class="p-2 rounded-lg hover:bg-gray-100 transition">
         <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -120,8 +186,76 @@
 
     <div class="hidden lg:flex items-center gap-6">
       <a href="Why-Udo/" class="text-gray-700 hover:text-orange-500 font-medium text-base transition">Why UDO?</a>
-      <a href="login/" class="text-gray-700 hover:text-orange-500 font-medium text-base transition">Sign in</a>
-      <a href="signup/" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-full text-base transition shadow-sm">Join</a>
+      
+      <!-- User Profile Dropdown -->
+      <div class="relative" id="userProfileContainer">
+        <button 
+          id="userProfileBtn"
+          class="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-gray-100 transition-colors border border-gray-200"
+        >
+          <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+            JD
+          </div>
+          <span class="text-sm font-medium text-gray-700">John Doe</span>
+          <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        
+        <!-- Dropdown Menu -->
+        <div 
+          id="userProfileDropdown"
+          class="hidden absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden"
+        >
+          <!-- User Info -->
+          <div class="px-5 py-4 border-b border-gray-100">
+            <p class="text-sm font-semibold text-gray-900">John Doe</p>
+            <p class="text-xs text-gray-500">john.doe@email.com</p>
+          </div>
+          
+          <!-- Menu Items -->
+          <div class="py-2">
+            <a href="profile/" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span class="text-sm font-medium text-gray-900">My Profile</span>
+            </a>
+            
+            <a href="settings/" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="text-sm font-medium text-gray-900">Settings</span>
+            </a>
+            
+            <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              <span class="text-sm font-medium text-gray-900">My Orders</span>
+            </a>
+            
+            <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span class="text-sm font-medium text-gray-900">Help & Support</span>
+            </a>
+          </div>
+          
+          <!-- Sign Out -->
+          <div class="border-t border-gray-100 pt-2">
+            <a href="login/" class="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition text-red-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span class="text-sm font-medium">Sign Out</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -400,7 +534,7 @@
   const mobileSearchBtn = document.getElementById('mobileSearchBtn');
   
   mobileSearchBtn.addEventListener('click', () => {
-    // Triggers the same click effect as the desktop search bar
+    // Triggers same click effect as desktop search bar
     desktopSearch.click();
   });
 
@@ -417,6 +551,56 @@
   closeBtn.addEventListener('click', () => {
     overlay.style.display = 'none';
     document.body.classList.remove('overflow-hidden');
+  });
+
+  // User Profile Dropdown Logic (Desktop)
+  const userProfileBtn = document.getElementById('userProfileBtn');
+  const userProfileDropdown = document.getElementById('userProfileDropdown');
+  const userProfileContainer = document.getElementById('userProfileContainer');
+
+  // Toggle dropdown on button click
+  userProfileBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    userProfileDropdown.classList.toggle('hidden');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!userProfileContainer?.contains(e.target)) {
+      userProfileDropdown?.classList.add('hidden');
+    }
+  });
+
+  // Close dropdown on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      userProfileDropdown?.classList.add('hidden');
+    }
+  });
+
+  // Mobile User Profile Dropdown Logic
+  const mobileUserProfileBtn = document.getElementById('mobileUserProfileBtn');
+  const mobileUserProfileDropdown = document.getElementById('mobileUserProfileDropdown');
+  const mobileUserProfileContainer = document.getElementById('mobileUserProfileContainer');
+
+  // Toggle mobile dropdown on button click
+  mobileUserProfileBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    mobileUserProfileDropdown.classList.toggle('hidden');
+  });
+
+  // Close mobile dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!mobileUserProfileContainer?.contains(e.target)) {
+      mobileUserProfileDropdown?.classList.add('hidden');
+    }
+  });
+
+  // Close mobile dropdown on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      mobileUserProfileDropdown?.classList.add('hidden');
+    }
   });
 </script>
 
