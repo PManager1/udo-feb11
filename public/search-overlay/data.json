@@ -23,6 +23,11 @@
   ],
   "popularOnUDO": [
     {
+      "href": "food-delivery/",
+      "label": "Food Delivery",
+      "image": "img/food/salmon.jpg"
+    },
+    {
       "href": "foods/",
       "label": "Food",
       "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&h=600&fit=crop&w=100&q=80"
@@ -39,6 +44,11 @@
     }
   ],
   "trendingNow": [
+    {
+      "href": "food-delivery/",
+      "label": "Food Delivery",
+      "image": "img/food/salmon.jpg"
+    },
     {
       "href": "profiles-list/",
       "label": "Furniture assembly",

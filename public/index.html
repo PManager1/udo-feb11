@@ -66,7 +66,7 @@
 
     </div>
     <nav class="flex flex-col gap-6 w-full">
-      <a href="Why-Udo/" class="text-2xl font-bold text-gray-800 border-b border-gray-100 pb-4 w-full">Why UDO?</a>
+      <!-- <a href="Why-Udo/" class="text-2xl font-bold text-gray-800 border-b border-gray-100 pb-4 w-full">Why UDO?</a> -->
       <a href="login/" class="text-2xl font-bold text-gray-800 border-b border-gray-100 pb-4 w-full">Sign in</a>
       <a href="signup/" class="bg-orange-500 text-white text-xl font-bold py-4 px-8 rounded-full shadow-md text-center mt-4">Join</a>
     </nav>
@@ -189,7 +189,7 @@
     </div>
 
     <div class="hidden lg:flex items-center gap-6">
-      <a href="Why-Udo/" class="text-gray-700 hover:text-orange-500 font-medium text-base transition">Why UDO?</a>
+      <!-- <a href="Why-Udo/" class="text-gray-700 hover:text-orange-500 font-medium text-base transition">Why UDO?</a> -->
       
       <!-- User Profile Dropdown -->
       <div class="relative" id="userProfileContainer">
@@ -268,9 +268,11 @@
   <main class="w-full px-16 sm:px-24 lg:px-32 py-10 bg-white">
     <!-- Big Title + Subtitle -->
     <div class="text-center mb-10">
-      <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-3 flex items-center justify-center gap-4">
-        <span class="text-orange-500">👉</span>
-        <span><span class="text-orange-500">U</span><span class="text-black">DO</span></span>
+      <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-3">
+        <div class="flex items-center justify-center gap-2 sm:gap-4">
+          <span class="text-orange-500 sm:order-1">👉</span>
+          <span class="order-2"><span class="text-orange-500">U</span><span class="text-black">DO</span></span>
+        </div>
       </h1>
       <p class="text-xl sm:text-2xl text-gray-700 font-light">
          Select the best. Skip the (middleman) commission.
@@ -297,7 +299,21 @@
 
     <!-- Grid of image cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-5 md:gap-x-12 md:gap-y-6">
-      <!-- Card 1 -->
+      <!-- Card 1 - Food Delivery -->
+      <a href="/food-delivery" class="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-white h-[351px] w-[96%] mx-auto cursor-pointer">
+        <img
+          src="img/food/salmon.jpg"
+          alt="Food delivery"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+        <div class="absolute bottom-5 left-5 text-white">
+          <p class="text-xs uppercase tracking-wider opacity-90">Order now</p>
+          <p class="text-4xl font-semibold">Food delivery</p>
+        </div>
+      </a>
+
+      <!-- Card 2 -->
       <a href="profiles-list/?category=furniture-assembly" class="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-white h-[351px] w-[96%] mx-auto cursor-pointer">
         <img
           src="https://cdn.squareone.ca/wp-content/uploads/2022/03/31153420/what-is-a-couch.jpg?auto=format&fit=crop&w=800&q=80"
