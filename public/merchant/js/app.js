@@ -184,10 +184,20 @@ function setupEventListeners() {
     });
   }
   
-  // Back button
+  // Back button (thumb zone)
   const backBtn = document.getElementById('backBtn');
   if (backBtn) {
     backBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to leave? Unsaved changes will be lost.')) {
+        window.location.href = '../index.html';
+      }
+    });
+  }
+  
+  // Back button (mobile header)
+  const backBtnHeader = document.getElementById('backBtnHeader');
+  if (backBtnHeader) {
+    backBtnHeader.addEventListener('click', () => {
       if (confirm('Are you sure you want to leave? Unsaved changes will be lost.')) {
         window.location.href = '../index.html';
       }
