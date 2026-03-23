@@ -252,7 +252,7 @@
     
     <!-- Editor Panel (60%) -->
     <div class="w-3/5 overflow-y-auto p-6">
-      <div class="max-w-2xl mx-auto space-y-6">
+      <div class="max-w-3xl mx-auto space-y-6">
         
         <!-- Store Info Card -->
         <div class="bg-white card-rounded shadow-sm hover:shadow-lg transition-shadow p-6">
@@ -291,28 +291,32 @@
             </div>
             
             <!-- Custom Standard Hours -->
-            <div class="flex items-center gap-3 mb-3 p-3 bg-gray-50 rounded-lg">
-              <div class="flex-1">
-                <label class="block text-xs font-medium text-gray-600 mb-1">Open Time</label>
-                <input type="time" id="standardOpenTime" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500" value="09:00">
-              </div>
-              <div class="flex items-center pb-5 text-gray-400">to</div>
-              <div class="flex-1">
-                <label class="block text-xs font-medium text-gray-600 mb-1">Close Time</label>
-                <input type="time" id="standardCloseTime" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500" value="21:00">
-              </div>
-              <div class="mt-4 flex gap-2">
-                <button id="applyStandardHours" class="flex-1 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm hover:shadow-md whitespace-nowrap">
-                  Fill with these standard hours
+            <div class="mb-4">
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <div class="flex-1">
+                  <label class="block text-xs font-medium text-gray-600 mb-1">Open Time</label>
+                  <input type="time" id="standardOpenTime" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500" value="09:00">
+                </div>
+                <div class="flex items-center pb-5 text-gray-400">to</div>
+                <div class="flex-1">
+                  <label class="block text-xs font-medium text-gray-600 mb-1">Close Time</label>
+                  <input type="time" id="standardCloseTime" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500" value="21:00">
+                </div>
+                <button id="applyStandardHours" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm hover:shadow-md whitespace-nowrap">
+                  Fill
                 </button>
                 <button id="clearAllHours" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition whitespace-nowrap">
-                  Clear All
+                  Clear
                 </button>
               </div>
-            </div>
-            
-            <div id="hoursGrid" class="grid grid-cols-7 gap-2 text-xs">
-              <!-- Hours will be populated by JS -->
+              
+              <div id="hoursGrid" class="grid grid-cols-7 gap-2 text-xs mt-4">
+                <!-- Hours will be populated by JS -->
+              </div>
+              
+              <button id="saveHoursBtn" class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg text-sm font-medium transition shadow-sm hover:shadow-md">
+                Save Hours
+              </button>
             </div>
           </div>
           

@@ -122,6 +122,12 @@ function setupEventListeners() {
     clearAllHoursBtn.addEventListener('click', clearAllHours);
   }
   
+  // Save Hours button
+  const saveHoursBtn = document.getElementById('saveHoursBtn');
+  if (saveHoursBtn) {
+    saveHoursBtn.addEventListener('click', saveHoursManually);
+  }
+  
   // Emergency Pause toggle
   const emergencyPause = document.getElementById('emergencyPause');
   const emergencyPauseMobile = document.getElementById('emergencyPauseMobile');
@@ -463,6 +469,20 @@ function clearAllHours() {
   updateHoursInputs(storeData.hours);
   showToast('All hours cleared');
   triggerAutosave();
+}
+
+/**
+ * Save hours manually
+ */
+function saveHoursManually() {
+  storeData.hours = getHoursFromInputs();
+  const saved = saveStoreData(storeData);
+  
+  if (saved) {
+    showToast('Hours saved successfully!');
+  } else {
+    showToast('Failed to save hours', 'error');
+  }
 }
 
 /**

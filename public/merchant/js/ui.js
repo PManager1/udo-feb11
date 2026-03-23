@@ -71,13 +71,14 @@ function renderHoursGrid() {
   const hoursGrid = document.getElementById('hoursGrid');
   if (!hoursGrid) return;
   
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const dayNames = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   
-  hoursGrid.innerHTML = days.map(day => `
+  hoursGrid.innerHTML = dayLabels.map((label, index) => `
     <div class="hours-day">
-      <div class="hours-day-label">${day}</div>
-      <input type="time" class="hours-input" data-day="${day.toLowerCase()}" data-type="open">
-      <input type="time" class="hours-input" data-day="${day.toLowerCase()}" data-type="close">
+      <div class="hours-day-label">${label}</div>
+      <input type="time" class="hours-input" data-day="${dayNames[index]}" data-type="open">
+      <input type="time" class="hours-input" data-day="${dayNames[index]}" data-type="close">
     </div>
   `).join('');
 }
