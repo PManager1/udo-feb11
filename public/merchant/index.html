@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="UDO Merchant Portal - Store Builder"/>
   <title>UDO Merchant - Store Builder</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2270%22 font-family=%22Arial, sans-serif%22 font-weight=%22900%22 letter-spacing=%22-2%22><tspan fill=%22%23f97316%22>U</tspan><tspan fill=%23000000%22>DO</tspan></text></svg>">
+  
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2270%22 font-family=%22Arial, sans-serif%22 font-weight=%22900%22 letter-spacing=%22-2%22><tspan fill=%22%23f97316%22>U</tspan><tspan fill=%22%23000000%22>DO</tspan></text></svg>">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -179,6 +181,19 @@
       transform: rotate(-90deg);
       transform-origin: 50% 50%;
     }
+    
+    /* Hours Grid Text Size */
+    #hoursGrid {
+      font-size: 16px;
+    }
+    #hoursGrid .day-label {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    #hoursGrid input[type="time"] {
+      font-size: 16px;
+      padding: 8px 10px;
+    }
   </style>
 </head>
 
@@ -257,7 +272,7 @@
   <main class="hidden lg:flex h-[calc(100vh-64px)]">
     
     <!-- Editor Panel (70%) -->
-    <div class="w-[70%] overflow-y-auto p-3 ml-6">
+    <div class="w-[70%] overflow-y-auto p-3">
       <div class="space-y-6">
         
         <!-- Store Info Card -->
@@ -404,6 +419,47 @@
               <option value="flowers">Flower Shop/Boutique</option>
             </select>
           </div>
+          <div>
+            <label class="block text-xs font-medium text-gray-700 mb-1">Store Address</label>
+            <input type="text" id="storeAddressMobile" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500" placeholder="123 Main St, City, State">
+          </div>
+          
+          <!-- Mobile Store Hours -->
+          <div class="mb-3">
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-xs font-medium text-gray-700">Store Hours</label>
+            </div>
+            
+            <div class="mb-3">
+              <div class="flex flex-col gap-2 p-3 bg-gray-50 rounded-lg">
+                <div>
+                  <label class="block text-xs font-medium text-gray-600 mb-1">Open Time</label>
+                  <input type="time" id="standardOpenTimeMobile" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500" value="09:00">
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-gray-600 mb-1">Close Time</label>
+                  <input type="time" id="standardCloseTimeMobile" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500" value="21:00">
+                </div>
+                <div class="flex gap-2">
+                  <button id="applyStandardHoursMobile" class="flex-1 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm hover:shadow-md">
+                    Apply to All Days
+                  </button>
+                  <button id="clearAllHoursMobile" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
+                    Clear All
+                  </button>
+                </div>
+              </div>
+              
+              <div id="hoursGridMobile" class="grid grid-cols-7 gap-1 text-xs mt-3 overflow-x-auto">
+                <!-- Hours will be populated by JS -->
+              </div>
+              
+              <button id="saveHoursBtnMobile" class="mt-3 w-full bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg text-sm font-medium transition shadow-sm hover:shadow-md">
+                Save Hours
+              </button>
+            </div>
+          </div>
+          
           <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
             <div>
               <h3 class="font-semibold text-red-800 text-sm">Emergency Pause</h3>

@@ -97,10 +97,18 @@ function setupEventListeners() {
     storeTypeMobile.addEventListener('change', (e) => handleStoreTypeChange(e.target.value));
   }
   
-  // Store address input
+  // Store address inputs (desktop and mobile)
   const storeAddressInput = document.getElementById('storeAddress');
+  const storeAddressMobile = document.getElementById('storeAddressMobile');
+  
   if (storeAddressInput) {
     storeAddressInput.addEventListener('input', (e) => handleStoreAddressChange(e.target.value));
+    storeAddressInput.addEventListener('input', (e) => syncStoreAddressMobile(e.target.value));
+  }
+  
+  if (storeAddressMobile) {
+    storeAddressMobile.addEventListener('input', (e) => handleStoreAddressChange(e.target.value));
+    storeAddressMobile.addEventListener('input', (e) => syncStoreAddressDesktop(e.target.value));
   }
   
   // Hours inputs
@@ -126,6 +134,49 @@ function setupEventListeners() {
   const saveHoursBtn = document.getElementById('saveHoursBtn');
   if (saveHoursBtn) {
     saveHoursBtn.addEventListener('click', saveHoursManually);
+  }
+  
+  // Mobile Hours buttons
+  const applyStandardHoursBtnMobile = document.getElementById('applyStandardHoursMobile');
+  const clearAllHoursBtnMobile = document.getElementById('clearAllHoursMobile');
+  const saveHoursBtnMobile = document.getElementById('saveHoursBtnMobile');
+  
+  if (applyStandardHoursBtnMobile) {
+    applyStandardHoursBtnMobile.addEventListener('click', () => {
+      const openTimeInput = document.getElementById('standardOpenTimeMobile');
+      const closeTimeInput = document.getElementById('standardCloseTimeMobile');
+      
+      if (!openTimeInput || !closeTimeInput) return;
+      
+      const openTime = openTimeInput.value;
+      const closeTime = closeTimeInput.value;
+      
+      if (!openTime || !closeTime) {
+        showToast('Please enter both open and close times', 'error');
+        return;
+      }
+      
+      const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+      
+      days.forEach(day => {
+        storeData.hours[day] = {
+          open: openTime,
+          close: closeTime
+        };
+      });
+      
+      updateHoursInputs(storeData.hours);
+      showToast(`Hours applied: ${formatTime(openTime)} - ${formatTime(closeTime)}`);
+      triggerAutosave();
+    });
+  }
+  
+  if (clearAllHoursBtnMobile) {
+    clearAllHoursBtnMobile.addEventListener('click', clearAllHours);
+  }
+  
+  if (saveHoursBtnMobile) {
+    saveHoursBtnMobile.addEventListener('click', saveHoursManually);
   }
   
   // Emergency Pause toggle
@@ -376,6 +427,28 @@ function syncStoreNameDesktop(value) {
   }
   if (storeNameHeader) {
     storeNameHeader.value = value;
+  }
+}
+
+/**
+ * Sync store address to mobile
+ * @param {string} value - Store address
+ */
+function syncStoreAddressMobile(value) {
+  const storeAddressMobile = document.getElementById('storeAddressMobile');
+  if (storeAddressMobile) {
+    storeAddressMobile.value = value;
+  }
+}
+
+/**
+ * Sync store address to desktop
+ * @param {string} value - Store address
+ */
+function syncStoreAddressDesktop(value) {
+  const storeAddressInput = document.getElementById('storeAddress');
+  if (storeAddressInput) {
+    storeAddressInput.value = value;
   }
 }
 
@@ -855,8 +928,12 @@ function handlePublish() {
   }
   
   if (confirm('Are you ready to publish your store? Customers will be able to see your products.')) {
-    showToast('🎉 Store published successfully!');
-    // Here you would typically send data to a backend
+    // Save store data
+    saveStoreData(storeData);
+    
+    // Navigate to success page with store name
+    const storeName = encodeURIComponent(storeData.storeName);
+    window.location.href = `merchant_success_page_creation.html?storeName=${storeName}`;
   }
 }
 

@@ -7,6 +7,7 @@ let currentStoreData = null;
  */
 function initializeUI() {
   renderHoursGrid();
+  renderMobileHoursGrid();
   updateProgressRing(0);
 }
 
@@ -22,6 +23,7 @@ function updateUI(storeData) {
   
   // Update categories
   renderCategories(storeData.categories);
+  renderCategories(storeData.categories, true); // Mobile version
   
   // Update preview
   updatePreview(storeData);
@@ -42,6 +44,7 @@ function updateStoreInfoInputs(storeData) {
   const storeTypeInput = document.getElementById('storeType');
   const storeTypeMobile = document.getElementById('storeTypeMobile');
   const storeAddressInput = document.getElementById('storeAddress');
+  const storeAddressMobile = document.getElementById('storeAddressMobile');
   const emergencyPause = document.getElementById('emergencyPause');
   const emergencyPauseMobile = document.getElementById('emergencyPauseMobile');
   
@@ -51,6 +54,7 @@ function updateStoreInfoInputs(storeData) {
   if (storeTypeInput) storeTypeInput.value = storeData.storeType || '';
   if (storeTypeMobile) storeTypeMobile.value = storeData.storeType || '';
   if (storeAddressInput) storeAddressInput.value = storeData.storeAddress || '';
+  if (storeAddressMobile) storeAddressMobile.value = storeData.storeAddress || '';
   
   if (storeData.emergencyPause) {
     emergencyPause?.classList.add('active');
@@ -79,6 +83,25 @@ function renderHoursGrid() {
       <div class="hours-day-label">${label}</div>
       <input type="time" class="hours-input" data-day="${dayNames[index]}" data-type="open">
       <input type="time" class="hours-input" data-day="${dayNames[index]}" data-type="close">
+    </div>
+  `).join('');
+}
+
+/**
+ * Render mobile hours grid
+ */
+function renderMobileHoursGrid() {
+  const hoursGridMobile = document.getElementById('hoursGridMobile');
+  if (!hoursGridMobile) return;
+  
+  const dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const dayNames = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  
+  hoursGridMobile.innerHTML = dayLabels.map((label, index) => `
+    <div class="text-center p-1 bg-gray-50 rounded">
+      <div class="font-semibold text-gray-600 mb-1 day-label">${label}</div>
+      <input type="time" class="hours-input w-full text-xs px-1 py-1 border border-gray-300 rounded" data-day="${dayNames[index]}" data-type="open">
+      <input type="time" class="hours-input w-full text-xs px-1 py-1 border border-gray-300 rounded mt-1" data-day="${dayNames[index]}" data-type="close">
     </div>
   `).join('');
 }
