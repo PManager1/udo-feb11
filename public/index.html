@@ -443,64 +443,66 @@
     </div>
   </section>
 
-  <!-- Why UDo? Section -->
-  <section class="bg-white-50 py-20">
-     <div class="max-w-5xl mx-auto px-6 lg:px-8 text-center">
-    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
-      Why <span class="text-orange-500">U</span>Do?
-    </h2>
-    
+  <!-- Why UDo? Section - Expandable -->
+  <section class="py-16 md:py-20 bg-gradient-to-b from-white to-orange-50/30">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
+        Why <span class="text-orange-500">U</span>Do?
+      </h2>
 
-
-    <!-- <p class="text-xl md:text-2xl text-gray-700 font-light mb-10 max-w-4xl mx-auto">
-      Why does everything have to be about corporate greed?
-    </p> -->
-
-    <p class="text-xl md:text-2xl text-gray-700 font-light mb-10 max-w-full md:max-w-4xl mx-auto">
-  Why does everything have to be about corporate greed?
-</p>
-
-
-    <div class="prose prose-lg text-left md:text-center mx-auto max-w-4xl">
-      <p class="mb-8">
-        A huge part of today's workforce is navigating the gig economy — relying on app-based tasks and freelance gigs instead of traditional jobs — often facing unpredictable income and a constant struggle.
-      </p>
-      
-      <p class="mb-8">
-        We believe everyone deserves financial stability and the dignity of putting food on the table. That's why we built UDo: to level the playing field, empower gig workers to build sustainable livelihoods, and free them (and you) from corporate pressures.
+      <!-- Short teaser visible by default -->
+      <p class="text-xl md:text-2xl text-gray-700 font-light mb-8 max-w-3xl mx-auto">
+        No commissions. Pros keep 100% of what they earn. You get fair prices without middleman fees or big tech cuts.
       </p>
 
-      <div class="my-12 p-8 bg-orange-50 rounded-2xl border border-orange-100">
-        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-          📱 Why use the UDo App?
-        </h3>
-        <p class="text-lg leading-relaxed">
-          When you find a pro through Google, big tech takes a cut.  
-          <strong>With UDo, that money stays with you and the worker.</strong><br><br>
-          We bypass expensive search ads and middleman fees — so pros keep <span class="font-bold text-orange-600">100%</span> of what they earn, and you skip the hidden premium just to find help.
-        </p>
-      </div>
+      <!-- Always visible question -->
+      <p class="text-2xl md:text-3xl font-semibold text-gray-800 mb-8 max-w-4xl mx-auto">
+        Why does everything have to be about corporate greed?
+      </p>
 
-      <div class="mt-10">
-        <p class="text-3xl font-bold text-gray-800 mb-4">
-          Don't stress it. <span class="text-orange-500">UDo</span> it.
-        </p>
-        <p class="text-xl text-gray-600">
-          Too busy? 👉 UDo it. Need help? 👉 UDo it.
-        </p>
+      <!-- Expandable part -->
+      <div class="text-left md:text-center">
+        <input type="checkbox" id="why-read-more" class="peer hidden" />
+        
+        <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out peer-checked:max-h-[800px] md:peer-checked:max-h-[600px]">
+          <div class="prose prose-lg mx-auto mt-8">
+            <p class="mb-6 text-gray-700">
+              A huge part of today's workforce is navigating the gig economy — relying on app-based tasks and freelance gigs instead of traditional jobs — often facing unpredictable income and a constant struggle.
+            </p>
+            <p class="mb-6 text-gray-700">
+              We believe everyone deserves financial stability and dignity of putting food on the table. That's why we built UDo: to level the playing field, empower gig workers to build sustainable livelihoods, and free them (and you) from corporate pressures.
+            </p>
+
+            <div class="my-10 p-6 md:p-8 bg-orange-50 rounded-2xl border border-orange-100">
+              <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                📱 Why use the UDo App?
+              </h3>
+              <p class="text-lg leading-relaxed text-gray-700">
+                When you find a pro through Google, big tech takes a cut.  
+                <strong>With UDo, that money stays with you and the worker.</strong><br><br>
+                We bypass expensive search ads and middleman fees — so pros keep <span class="font-bold text-orange-600">100%</span> of what they earn, and you skip the hidden premium just to find help.
+              </p>
+            </div>
+
+            <p class="text-xl md:text-2xl font-semibold text-gray-800 mt-8">
+              Don't stress it. <span class="text-orange-500">UDo</span> it.
+            </p>
+            <p class="text-lg text-gray-600">
+              Too busy? 👉 UDo it. Need help? 👉 UDo it.
+            </p>
+          </div>
+        </div>
+
+        <!-- Toggle button -->
+        <label for="why-read-more" class="inline-block mt-6 cursor-pointer text-orange-500 hover:text-orange-600 font-medium text-lg transition flex items-center justify-center gap-2 group">
+          <span class="peer-checked:hidden">Read more about our mission</span>
+          <span class="hidden peer-checked:inline">Show less</span>
+          <svg class="w-5 h-5 transition-transform peer-checked:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </label>
       </div>
     </div>
-
-    <div class="mt-12">
-
-      <a href="/exploreServices" class="inline-block bg-white border-2 border-orange-500 text-orange-500 hover:bg-orange-50 font-semibold py-3 px-8 rounded-full text-lg transition mt-8">
-      Explore Services →
-    </a>
-
-    </div>
-
-    
-  </div>
   </section>
 
   <!-- Two-Column Split Layout - Swapped - White Background -->
