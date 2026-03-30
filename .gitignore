@@ -1,9 +1,7 @@
-  node_modules/
-  .env
-  *.log
-  public/assets/js/config.js
-
+node_modules/
+.env
+*.log
+public/assets/js/config.js
 public/birdy/map.html
 public/birdy/places.html
-
 **/.DS_Store
