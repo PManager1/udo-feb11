@@ -1,6 +1,7 @@
-node_modules/
-.env
-*.log
+  node_modules/
+  .env
+  *.log
+  public/assets/js/config.js
 
 public/birdy/map.html
 public/birdy/places.html
