@@ -1,11 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>DC McDonald's Map with NW Zone</title>
+    <title>UDO Marketplace Map</title>
     <style>
-      #map { height: 900px; width: 100%; border-radius: 8px; }
-      body { font-family: sans-serif; padding: 20px; }
+      /* Full screen map as requested earlier */
+      html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
       
+            #map { height: 800px; width: 100%; border-radius: 8px; }
+
+      /* Floating Menu Styles */
+      #menu-container {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 5;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        width: 180px;
+      }
+      
+      .filter-option { margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; }
+      .filter-option input { margin-right: 10px; }
+      h4 { margin: 0 0 10px 0; font-size: 14px; }
+
       .map-label {
         background-color: rgba(255, 255, 255, 0.95);
         color: #000;
@@ -15,27 +34,52 @@
         font-weight: bold;
         font-size: 11px;
         white-space: nowrap;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.0.2);
       }
     </style>
   </head>
   <body>
-    <h3>McDonald's Locations & NW District Zone</h3>
+
+     <h3>McDonald's Locations & NW District Zone _______  use the map buttton at bottom right to change the position of map </h3>
+    <!-- THE MENU -->
+    <div id="menu-container">
+      <h4>Filter Restaurants</h4>
+      <div class="filter-option"><input type="checkbox" checked value="mcdonalds"> McDonald's</div>
+      <div class="filter-option"><input type="checkbox" checked value="chipotle"> Chipotle</div>
+      <div class="filter-option"><input type="checkbox" checked value="popeyes"> Popeyes</div>
+      <div class="filter-option"><input type="checkbox" checked value="canes"> Raising Cane's</div>
+      <div class="filter-option"><input type="checkbox" checked value="university"> University</div>
+      
+    </div>
+
     <div id="map"></div>
 
     <script src="/assets/js/config.js"></script>
     <script>
+      let map;
+      let allMarkers = []; // Array to hold markers so we can toggle them
+
       function initMap() {
-        // Center of DC
         const dcCenter = { lat: 38.8997, lng: -77.0365 };
-        
-        const map = new google.maps.Map(document.getElementById("map"), {
+        map = new google.maps.Map(document.getElementById("map"), {
           zoom: 14,
           center: dcCenter,
+          // disableDefaultUI: true, // Cleaner UI for UDO
+          disableDefaultUI: false, // This brings back all standard Google buttons
         });
 
-        // 1. ADD THE CIRCLE (NW Area)
-        const nwCircle = new google.maps.Circle({
+        // Your Circle
+        // const nwCircle = new google.maps.Circle({
+        //   strokeColor: "#FF0000",
+        //   strokeOpacity: 0.8,
+        //   strokeWeight: 2,
+        //   fillColor: "#FF0000",
+        //   fillOpacity: 0.15,
+        //   map: map,
+        //   center: { lat: 38.9050, lng: -77.0750 }, // Adjusted as you asked
+        //   radius: 4000, 
+        // });
+
+         const nwCircle = new google.maps.Circle({
           strokeColor: "#FF0000",   // Red border
           strokeOpacity: 0.8,
           strokeWeight: 2,
@@ -43,107 +87,163 @@
           fillOpacity: 0.15,        // Lightly transparent
           map: map,
           center: { lat: 38.9200, lng: -77.0500 }, // Shifted slightly NW
-          radius: 4000,             // Radius in meters (approx 2.5 miles)
+          // center: { lat: 38.9050, lng: -77.0750 },
+          // radius: 4000,             // Radius in meters (approx 2.5 miles)
+          radius: 5000,     // Circle 
         });
 
-  
-        // Create custom McDonald's icon
-        const mcdonaldsIcon = {
-          // url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/McDonald%27s_Golden_Arches.svg/40px-McDonald%27s_Golden_Arches.svg.png",
-          url: "../img/McDonalds3000x3000.png",
-          
-          // scaledSize: new google.maps.Size(40, 40),
-          scaledSize: new google.maps.Size(20, 20),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(20, 20),
-          // Add this line below:
-          // (x=20 is the center, y=55 pushes the text below the 40px icon)
-          labelOrigin: new google.maps.Point(20, 55)
+        const iconConfig = {
+          mcdonalds: "/img/McDonalds3000x3000.png",
+          chipotle: "/img/chipotle-icon.png",
+          popeyes: "/img/popeyes-icon.png",
+          canes: "/img/canes-icon.png",
+          university: "/img/university.png"
         };
 
-      const locations = [
+        const locations = [
+
+
   // --- NORTHWEST (NW) ---
-  { label: "17th St NW (F St)", pos: { lat: 38.8997, lng: -77.0396 } },
-  { label: "New York Ave NW", pos: { lat: 38.9011, lng: -77.0287 } },
-  { label: "13th St NW (Metro Center)", pos: { lat: 38.8971, lng: -77.0297 } },
-  { label: "M St NW (Dupont South)", pos: { lat: 38.9053, lng: -77.0435 } },
-  { label: "14th St NW (U St Corridor)", pos: { lat: 38.9171, lng: -77.0321 } },
-  { label: "18th St NW (Adams Morgan)", pos: { lat: 38.9224, lng: -77.0425 } },
-  { label: "Georgia Ave NW (Howard Univ)", pos: { lat: 38.9213, lng: -77.0221 } },
-  { label: "Connecticut Ave NW (Zoo area)", pos: { lat: 38.9250, lng: -77.0528 } },
-  { label: "Wisconsin Ave NW (Glover Park)", pos: { lat: 38.9201, lng: -77.0722 } },
-  { label: "Riggs Rd NW", pos: { lat: 38.9555, lng: -77.0115 } },
+  { label: "17th St NW (F St)", pos: { lat: 38.8997, lng: -77.0396 }, type: "mcdonalds" },
+  { label: "New York Ave NW", pos: { lat: 38.9011, lng: -77.0287 }, type: "mcdonalds" },
+  { label: "13th St NW (Metro Center)", pos: { lat: 38.8971, lng: -77.0297 }, type: "mcdonalds" },
+  { label: "M St NW (Dupont South)", pos: { lat: 38.9053, lng: -77.0435 }, type: "mcdonalds" },
+  { label: "14th St NW (U St Corridor)", pos: { lat: 38.9171, lng: -77.0321 }, type: "mcdonalds" },
+  { label: "18th St NW (Adams Morgan)", pos: { lat: 38.9224, lng: -77.0425 }, type: "mcdonalds" },
+  { label: "Georgia Ave NW (Howard Univ)", pos: { lat: 38.9213, lng: -77.0221 }, type: "mcdonalds" },
+  { label: "Connecticut Ave NW (Zoo area)", pos: { lat: 38.9250, lng: -77.0528 }, type: "mcdonalds" },
+  { label: "Wisconsin Ave NW (Glover Park)", pos: { lat: 38.9201, lng: -77.0722 }, type: "mcdonalds" },
+  { label: "Riggs Rd NW", pos: { lat: 38.9555, lng: -77.0115 }, type: "mcdonalds" },
 
   // --- NORTHEAST (NE) ---
-  { label: "Union Station (Mass Ave)", pos: { lat: 38.8976, lng: -77.0065 } },
-  { label: "75 New York Ave NE", pos: { lat: 38.9069, lng: -77.0063 } },
-  { label: "Rhode Island Ave NE", pos: { lat: 38.9211, lng: -76.9928 } },
-  { label: "9th St NE (Brentwood)", pos: { lat: 38.9161, lng: -76.9945 } },
-  { label: "Benning Rd NE", pos: { lat: 38.8988, lng: -76.9792 } },
-  { label: "Bladensburg Rd NE", pos: { lat: 38.9115, lng: -76.9752 } },
-  { label: "Minnesota Ave NE", pos: { lat: 38.8972, lng: -76.9472 } },
-  { label: "2228 New York Ave NE", pos: { lat: 38.9166, lng: -76.9698 } },
+  { label: "Union Station (Mass Ave)", pos: { lat: 38.8976, lng: -77.0065 }, type: "mcdonalds" },
+  { label: "75 New York Ave NE", pos: { lat: 38.9069, lng: -77.0063 }, type: "mcdonalds" },
+  { label: "Rhode Island Ave NE", pos: { lat: 38.9211, lng: -76.9928 }, type: "mcdonalds" },
+  { label: "9th St NE (Brentwood)", pos: { lat: 38.9161, lng: -76.9945 }, type: "mcdonalds" },
+  { label: "Benning Rd NE", pos: { lat: 38.8988, lng: -76.9792 }, type: "mcdonalds" },
+  { label: "Bladensburg Rd NE", pos: { lat: 38.9115, lng: -76.9752 }, type: "mcdonalds" },
+  { label: "Minnesota Ave NE", pos: { lat: 38.8972, lng: -76.9472 }, type: "mcdonalds" },
+  { label: "2228 New York Ave NE", pos: { lat: 38.9166, lng: -76.9698 }, type: "mcdonalds" },
   
   // --- SOUTHWEST/SOUTHEAST (Nearby 3-mile Buffer) ---
-  { label: "400 C St SW", pos: { lat: 38.8861, lng: -77.0182 } },
-  { label: "Pennsylvania Ave SE", pos: { lat: 38.8795, lng: -76.9855 }},
+  { label: "400 C St SW", pos: { lat: 38.8861, lng: -77.0182 }, type: "mcdonalds" },
+  { label: "Pennsylvania Ave SE", pos: { lat: 38.8795, lng: -76.9855 }, type: "mcdonalds"},
 
 
   // --- WEST OF THE CIRCLE (Chevy Chase / Bethesda) ---
-  { label: "River Rd (Bethesda)", pos: { lat: 38.9585, lng: -77.1005 } },
-  { label: "Wisconsin Ave (Tenleytown)", pos: { lat: 38.9431, lng: -77.0768 } },
-  { label: "Western Ave (Chevy Chase)", pos: { lat: 38.9615, lng: -77.0862 } },
-  { label: "Democracy Blvd (Bethesda)", pos: { lat: 39.0253, lng: -77.1461 } },
+  { label: "River Rd (Bethesda)", pos: { lat: 38.9585, lng: -77.1005 }, type: "mcdonalds" },
+  { label: "Wisconsin Ave (Tenleytown)", pos: { lat: 38.9431, lng: -77.0768 }, type: "mcdonalds" },
+  { label: "Western Ave (Chevy Chase)", pos: { lat: 38.9615, lng: -77.0862 }, type: "mcdonalds" },
+  { label: "Democracy Blvd (Bethesda)", pos: { lat: 39.0253, lng: -77.1461 }, type: "mcdonalds" },
 
   // --- NORTH OF THE CIRCLE (Silver Spring / Brightwood) ---
-  { label: "Georgia Ave (Brightwood)", pos: { lat: 38.9622, lng: -77.0275 } },
-  { label: "Georgia Ave (Silver Spring)", pos: { lat: 38.9912, lng: -77.0264 } },
-  { label: "Colesville Rd (Silver Spring)", pos: { lat: 39.0095, lng: -77.0232 } },
-  { label: "New Hampshire Ave (Takoma Park)", pos: { lat: 38.9958, lng: -76.9892 } },
-  { label: "East-West Hwy", pos: { lat: 38.9905, lng: -77.0375 } },
-  { label: "University Blvd (Wheaton)", pos: { lat: 39.0392, lng: -77.0515 } },
+  { label: "Georgia Ave (Brightwood)", pos: { lat: 38.9622, lng: -77.0275 }, type: "mcdonalds" },
+  { label: "Georgia Ave (Silver Spring)", pos: { lat: 38.9912, lng: -77.0264 }, type: "mcdonalds" },
+  { label: "Colesville Rd (Silver Spring)", pos: { lat: 39.0095, lng: -77.0232 }, type: "mcdonalds" },
+  { label: "New Hampshire Ave (Takoma Park)", pos: { lat: 38.9958, lng: -76.9892 }, type: "mcdonalds" },
+  { label: "East-West Hwy", pos: { lat: 38.9905, lng: -77.0375 }, type: "mcdonalds" },
+  { label: "University Blvd (Wheaton)", pos: { lat: 39.0392, lng: -77.0515 }, type: "mcdonalds" },
 
   // --- ARLINGTON, VA ---
-  { label: "Rosslyn (N Lynn St)", pos: { lat: 38.8943, lng: -77.0712 } },
-  { label: "Ballston (Wilson Blvd)", pos: { lat: 38.8814, lng: -77.1235 } },
-  { label: "Crystal City (Richmond Hwy)", pos: { lat: 38.8519, lng: -77.0514 } },
-  { label: "Pentagon City (Fashion Centre)", pos: { lat: 38.8624, lng: -77.0594 } },
-  { label: "Columbia Pike", pos: { lat: 38.8628, lng: -77.0857 } },
-  { label: "Lee Hwy (Cherrydale)", pos: { lat: 38.8974, lng: -77.1089 } },
-  { label: "Glebe Rd (Ballston South)", pos: { lat: 38.8741, lng: -77.1072 } },
-  { label: "Wilson Blvd (Bluemont)", pos: { lat: 38.8797, lng: -77.1256 } },
-  { label: "Shirlington (S Quincy St)", pos: { lat: 38.8398, lng: -77.0872 } }
+  { label: "Rosslyn (N Lynn St)", pos: { lat: 38.8943, lng: -77.0712 } , type: "mcdonalds"},
+  { label: "Ballston (Wilson Blvd)", pos: { lat: 38.8814, lng: -77.1235 }, type: "mcdonalds" },
+  { label: "Crystal City (Richmond Hwy)", pos: { lat: 38.8519, lng: -77.0514 }, type: "mcdonalds" },
+  { label: "Pentagon City (Fashion Centre)", pos: { lat: 38.8624, lng: -77.0594 }, type: "mcdonalds" },
+  { label: "Columbia Pike", pos: { lat: 38.8628, lng: -77.0857 }, type: "mcdonalds" },
+  { label: "Lee Hwy (Cherrydale)", pos: { lat: 38.8974, lng: -77.1089 }, type: "mcdonalds" },
+  { label: "Glebe Rd (Ballston South)", pos: { lat: 38.8741, lng: -77.1072 }, type: "mcdonalds" },
+  { label: "Wilson Blvd (Bluemont)", pos: { lat: 38.8797, lng: -77.1256 }, type: "mcdonalds" },
+  { label: "Shirlington (S Quincy St)", pos: { lat: 38.8398, lng: -77.0872 }, type: "mcdonalds" },
 
 
-];
+  // --- POPEYES LOUISIANA KITCHEN ---
+  // --- POPEYES (NW Quadrant Density) ---
+  { label: "Popeyes - 14th St NW", pos: { lat: 38.9080, lng: -77.0322 }, type: "popeyes" },
+  { label: "Popeyes - Columbia Rd (Adams Morgan)", pos: { lat: 38.9225, lng: -77.0423 }, type: "popeyes" },
+  { label: "Popeyes - Wisconsin Ave (Tenleytown)", pos: { lat: 38.9430, lng: -77.0770 }, type: "popeyes" },
+  { label: "Popeyes - Georgia Ave (Petworth)", pos: { lat: 38.9405, lng: -77.0255 }, type: "popeyes" },
+  { label: "Popeyes - Mt Vernon Sq", pos: { lat: 38.9050, lng: -77.0220 }, type: "popeyes" },
 
+  // --- POPEYES (NE Quadrant Density) ---
+  { label: "Popeyes - H St NE", pos: { lat: 38.9004, lng: -76.9898 }, type: "popeyes" },
+  { label: "Popeyes - Brentwood Rd NE", pos: { lat: 38.9200, lng: -76.9932 }, type: "popeyes" },
+  { label: "Popeyes - Bladensburg Rd NE", pos: { lat: 38.9305, lng: -76.9750 }, type: "popeyes" },
+  { label: "Popeyes - Minnesota Ave NE", pos: { lat: 38.8970, lng: -76.9475 }, type: "popeyes" },
+  { label: "Popeyes - Rhode Island Ave NE", pos: { lat: 38.9215, lng: -76.9850 }, type: "popeyes" },
+
+  // --- RAISING CANE'S ---
+  { label: "Raising Cane's - 7th & G", pos: { lat: 38.8993, lng: -77.0222 }  , type: "canes"},
+  { label: "Raising Cane's - Union Station", pos: { lat: 38.8979, lng: -77.0057 }  , type: "canes"},
+
+  
+          { label: "Chipotle - 14th St NW", pos: { lat: 38.9100, lng: -77.0322 }, type: "chipotle" },
+          { label: "Chipotle - Chinatown", pos: { lat: 38.8985, lng: -77.0215 }, type: "chipotle" },
+          { label: "Popeyes - 14th St NW", pos: { lat: 38.9080, lng: -77.0322 }, type: "popeyes" },
+          { label: "Popeyes - H St NE", pos: { lat: 38.9004, lng: -76.9898 }, type: "popeyes" },
+          { label: "Raising Cane's - 7th & G", pos: { lat: 38.8993, lng: -77.0222 }, type: "canes"},
+          { label: "Raising Cane's - Union Station", pos: { lat: 38.8979, lng: -77.0057 }, type: "canes"},
+
+
+          // --- UNIVERSITIES (DC MAIN CAMPUSES) ---
+  { label: "Georgetown University", pos: { lat: 38.9076, lng: -77.0723 }, type: "university" },
+  { label: "George Washington Univ (Foggy Bottom)", pos: { lat: 38.8997, lng: -77.0486 }, type: "university" },
+  { label: "American University", pos: { lat: 38.9365, lng: -77.0861 }, type: "university" },
+  { label: "Howard University", pos: { lat: 38.9227, lng: -77.0194 }, type: "university" },
+  { label: "Catholic University of America", pos: { lat: 38.9339, lng: -76.9984 }, type: "university" },
+  { label: "Gallaudet University", pos: { lat: 38.9068, lng: -76.9923 }, type: "university" },
+  { label: "Univ. of the District of Columbia (UDC)", pos: { lat: 38.9439, lng: -77.0639 }, type: "university" },
+  { label: "Trinity Washington University", pos: { lat: 38.9271, lng: -77.0049 }, type: "university" }
+
+        ];
+
+        // Create Markers and save them to the array
         locations.forEach(location => {
-          new google.maps.Marker({
+          const marker = new google.maps.Marker({
             position: location.pos,
             map: map,
-            icon: mcdonaldsIcon,
-            title: location.label,
+            type: location.type, // Custom property to help filtering
+            icon: {
+              url: iconConfig[location.type],
+              scaledSize: new google.maps.Size(30, 30),
+              anchor: new google.maps.Point(15, 15),
+              labelOrigin: new google.maps.Point(15, 40)
+            },
             // label: {
             //   text: location.label,
-            //   color: "#000",
-            //   fontSize: "12px",
-            //   fontWeight: "bold",
             //   className: "map-label"
             // }
           });
+          allMarkers.push(marker);
+        });
+
+        // Add Event Listeners to Checkboxes
+        document.querySelectorAll('.filter-option input').forEach(checkbox => {
+          checkbox.addEventListener('change', filterMarkers);
         });
       }
 
-      // Load Google Maps API with the key from config.js
+      function filterMarkers() {
+        // Find which boxes are checked
+        const activeTypes = Array.from(document.querySelectorAll('.filter-option input:checked'))
+                                 .map(cb => cb.value);
+
+        // Loop through markers and show/hide
+        allMarkers.forEach(marker => {
+          if (activeTypes.includes(marker.type)) {
+            marker.setMap(map); // Show
+          } else {
+            marker.setMap(null); // Hide
+          }
+        });
+      }
+
       function loadGoogleMaps() {
         const script = document.createElement('script');
         script.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_MAPS_API_KEY + '&callback=initMap';
         script.async = true;
-        script.defer = true;
         document.head.appendChild(script);
       }
 
-      // Load the script when page loads
       window.addEventListener('DOMContentLoaded', loadGoogleMaps);
     </script>
   </body>
