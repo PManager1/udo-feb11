@@ -41,17 +41,7 @@
 
      <h3>McDonald's Locations & NW District Zone _______  use the map buttton at bottom right to change the position of map </h3>
     <!-- THE MENU -->
-    <!-- <div id="menu-container">
-      <h4>Filter Restaurants</h4>
-      <div class="filter-option"><input type="checkbox" checked value="mcdonalds"> McDonald's</div>
-      <div class="filter-option"><input type="checkbox" checked value="chipotle"> Chipotle</div>
-      <div class="filter-option"><input type="checkbox" checked value="popeyes"> Popeyes</div>
-      <div class="filter-option"><input type="checkbox" checked value="canes"> Raising Cane's</div>
-      <div class="filter-option"><input type="checkbox" checked value="university"> University</div>
-      
-    </div> -->
-
-
+  
     <div id="menu-container">
   <h4>Filter Restaurants</h4>
   <!-- Add these two buttons -->
@@ -60,11 +50,12 @@
     <button onclick="toggleAll(false)" style="font-size: 10px; cursor: pointer;">Clear All</button>
   </div>
 
+  <div class="filter-option"><input type="checkbox" checked value="university"> University</div>
   <div class="filter-option"><input type="checkbox" checked value="mcdonalds"> McDonald's</div>
   <div class="filter-option"><input type="checkbox" checked value="chipotle"> Chipotle</div>
   <div class="filter-option"><input type="checkbox" checked value="popeyes"> Popeyes</div>
   <div class="filter-option"><input type="checkbox" checked value="canes"> Raising Cane's</div>
-  <div class="filter-option"><input type="checkbox" checked value="university"> University</div>
+  
 </div>
 
 
@@ -74,6 +65,7 @@
     <script>
       let map;
       let allMarkers = []; // Array to hold markers so we can toggle them
+      let infoWindow; // 1. ADD THIS VARIABLE
 
       function initMap() {
         const dcCenter = { lat: 38.922630158789616, lng: -77.04640442851016 };
@@ -85,18 +77,9 @@
           disableDefaultUI: false, // This brings back all standard Google buttons
         });
 
-        // Your Circle
-        // const nwCircle = new google.maps.Circle({
-        //   strokeColor: "#FF0000",
-        //   strokeOpacity: 0.8,
-        //   strokeWeight: 2,
-        //   fillColor: "#FF0000",
-        //   fillOpacity: 0.15,
-        //   map: map,
-        //   center: { lat: 38.9050, lng: -77.0750 }, // Adjusted as you asked
-        //   radius: 4000, 
-        // });
+        infoWindow = new google.maps.InfoWindow(); 
 
+       
          const nwCircle = new google.maps.Circle({
           strokeColor: "#FF0000",   // Red border
           strokeOpacity: 0.8,
@@ -216,6 +199,7 @@
         ];
 
         // Create Markers and save them to the array
+        /*
         locations.forEach(location => {
           const marker = new google.maps.Marker({
             position: location.pos,
@@ -234,6 +218,38 @@
           });
           allMarkers.push(marker);
         });
+*/
+
+
+  locations.forEach(location => {
+    const marker = new google.maps.Marker({
+      position: location.pos,
+      map: map,
+      type: location.type,
+      icon: {
+        url: iconConfig[location.type],
+        scaledSize: new google.maps.Size(30, 30),
+        anchor: new google.maps.Point(15, 15),
+      }
+      // REMOVE the 'label' property here so it's not always visible
+    });
+
+    // 3. ADD THE HOVER LISTENERS
+    
+    // When mouse enters icon
+    marker.addListener("mouseover", () => {
+      infoWindow.setContent(`<strong>${location.label}</strong>`);
+      infoWindow.open(map, marker);
+    });
+
+    // When mouse leaves icon
+    marker.addListener("mouseout", () => {
+      infoWindow.close();
+    });
+
+    allMarkers.push(marker);
+  });
+
 
         // Add Event Listeners to Checkboxes
         document.querySelectorAll('.filter-option input').forEach(checkbox => {
