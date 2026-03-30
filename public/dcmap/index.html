@@ -51,38 +51,71 @@
         const mcdonaldsIcon = {
           // url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/McDonald%27s_Golden_Arches.svg/40px-McDonald%27s_Golden_Arches.svg.png",
           url: "../img/McDonalds3000x3000.png",
+          
           // scaledSize: new google.maps.Size(40, 40),
-          // origin: new google.maps.Point(0, 0),
-          // anchor: new google.maps.Point(20, 20)
-
-          scaledSize: new google.maps.Size(40, 40),
-  origin: new google.maps.Point(0, 0),
-  anchor: new google.maps.Point(20, 20),
-  // Add this line below:
-  // (x=20 is the center, y=55 pushes the text below the 40px icon)
-  labelOrigin: new google.maps.Point(20, 55)
+          scaledSize: new google.maps.Size(20, 20),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(20, 20),
+          // Add this line below:
+          // (x=20 is the center, y=55 pushes the text below the 40px icon)
+          labelOrigin: new google.maps.Point(20, 55)
         };
 
-        const locations = [
+      const locations = [
   // --- NORTHWEST (NW) ---
-                    { label: "17th St NW", pos: { lat: 38.8997, lng: -77.0396 } },
-                    { label: "New York Ave NW", pos: { lat: 38.9011, lng: -77.0287 } },
-                    { label: "14th St NW (U St)", pos: { lat: 38.9171, lng: -77.0321 } },
-                    { label: "18th St NW (Adams Morgan)", pos: { lat: 38.9224, lng: -77.0425 } },
-                    { label: "Wisconsin Ave NW", pos: { lat: 38.9431, lng: -77.0768 } },
-                    { label: "Georgia Ave NW (Brightwood)", pos: { lat: 38.9622, lng: -77.0275 } },
-                    { label: "Connecticut Ave NW", pos: { lat: 38.9250, lng: -77.0528 } },
-                    { label: "M St NW", pos: { lat: 38.9053, lng: -77.0435 } },
-                    
-                    // --- NORTHEAST (NE) ---
-                    { label: "Rhode Island Ave NE", pos: { lat: 38.9211, lng: -76.9928 } },
-                    { label: "9th St NE (Brentwood)", pos: { lat: 38.9161, lng: -76.9945 } },
-                    { label: "New York Ave NE", pos: { lat: 38.9166, lng: -76.9698 } },
-                    { label: "Benning Rd NE", pos: { lat: 38.8988, lng: -76.9792 } },
-                    { label: "Minnesota Ave NE", pos: { lat: 38.8972, lng: -76.9472 } },
-                    { label: "Union Station (Mass Ave NE)", pos: { lat: 38.8976, lng: -77.0065 } },
-                    { label: "Nannie Helen Burroughs Ave NE", pos: { lat: 38.9001, lng: -76.9388 } }
-                    ];
+  { label: "17th St NW (F St)", pos: { lat: 38.8997, lng: -77.0396 } },
+  { label: "New York Ave NW", pos: { lat: 38.9011, lng: -77.0287 } },
+  { label: "13th St NW (Metro Center)", pos: { lat: 38.8971, lng: -77.0297 } },
+  { label: "M St NW (Dupont South)", pos: { lat: 38.9053, lng: -77.0435 } },
+  { label: "14th St NW (U St Corridor)", pos: { lat: 38.9171, lng: -77.0321 } },
+  { label: "18th St NW (Adams Morgan)", pos: { lat: 38.9224, lng: -77.0425 } },
+  { label: "Georgia Ave NW (Howard Univ)", pos: { lat: 38.9213, lng: -77.0221 } },
+  { label: "Connecticut Ave NW (Zoo area)", pos: { lat: 38.9250, lng: -77.0528 } },
+  { label: "Wisconsin Ave NW (Glover Park)", pos: { lat: 38.9201, lng: -77.0722 } },
+  { label: "Riggs Rd NW", pos: { lat: 38.9555, lng: -77.0115 } },
+
+  // --- NORTHEAST (NE) ---
+  { label: "Union Station (Mass Ave)", pos: { lat: 38.8976, lng: -77.0065 } },
+  { label: "75 New York Ave NE", pos: { lat: 38.9069, lng: -77.0063 } },
+  { label: "Rhode Island Ave NE", pos: { lat: 38.9211, lng: -76.9928 } },
+  { label: "9th St NE (Brentwood)", pos: { lat: 38.9161, lng: -76.9945 } },
+  { label: "Benning Rd NE", pos: { lat: 38.8988, lng: -76.9792 } },
+  { label: "Bladensburg Rd NE", pos: { lat: 38.9115, lng: -76.9752 } },
+  { label: "Minnesota Ave NE", pos: { lat: 38.8972, lng: -76.9472 } },
+  { label: "2228 New York Ave NE", pos: { lat: 38.9166, lng: -76.9698 } },
+  
+  // --- SOUTHWEST/SOUTHEAST (Nearby 3-mile Buffer) ---
+  { label: "400 C St SW", pos: { lat: 38.8861, lng: -77.0182 } },
+  { label: "Pennsylvania Ave SE", pos: { lat: 38.8795, lng: -76.9855 }},
+
+
+  // --- WEST OF THE CIRCLE (Chevy Chase / Bethesda) ---
+  { label: "River Rd (Bethesda)", pos: { lat: 38.9585, lng: -77.1005 } },
+  { label: "Wisconsin Ave (Tenleytown)", pos: { lat: 38.9431, lng: -77.0768 } },
+  { label: "Western Ave (Chevy Chase)", pos: { lat: 38.9615, lng: -77.0862 } },
+  { label: "Democracy Blvd (Bethesda)", pos: { lat: 39.0253, lng: -77.1461 } },
+
+  // --- NORTH OF THE CIRCLE (Silver Spring / Brightwood) ---
+  { label: "Georgia Ave (Brightwood)", pos: { lat: 38.9622, lng: -77.0275 } },
+  { label: "Georgia Ave (Silver Spring)", pos: { lat: 38.9912, lng: -77.0264 } },
+  { label: "Colesville Rd (Silver Spring)", pos: { lat: 39.0095, lng: -77.0232 } },
+  { label: "New Hampshire Ave (Takoma Park)", pos: { lat: 38.9958, lng: -76.9892 } },
+  { label: "East-West Hwy", pos: { lat: 38.9905, lng: -77.0375 } },
+  { label: "University Blvd (Wheaton)", pos: { lat: 39.0392, lng: -77.0515 } },
+
+  // --- ARLINGTON, VA ---
+  { label: "Rosslyn (N Lynn St)", pos: { lat: 38.8943, lng: -77.0712 } },
+  { label: "Ballston (Wilson Blvd)", pos: { lat: 38.8814, lng: -77.1235 } },
+  { label: "Crystal City (Richmond Hwy)", pos: { lat: 38.8519, lng: -77.0514 } },
+  { label: "Pentagon City (Fashion Centre)", pos: { lat: 38.8624, lng: -77.0594 } },
+  { label: "Columbia Pike", pos: { lat: 38.8628, lng: -77.0857 } },
+  { label: "Lee Hwy (Cherrydale)", pos: { lat: 38.8974, lng: -77.1089 } },
+  { label: "Glebe Rd (Ballston South)", pos: { lat: 38.8741, lng: -77.1072 } },
+  { label: "Wilson Blvd (Bluemont)", pos: { lat: 38.8797, lng: -77.1256 } },
+  { label: "Shirlington (S Quincy St)", pos: { lat: 38.8398, lng: -77.0872 } }
+
+
+];
 
         locations.forEach(location => {
           new google.maps.Marker({
@@ -90,13 +123,13 @@
             map: map,
             icon: mcdonaldsIcon,
             title: location.label,
-            label: {
-              text: location.label,
-              color: "#000",
-              fontSize: "12px",
-              fontWeight: "bold",
-              className: "map-label"
-            }
+            // label: {
+            //   text: location.label,
+            //   color: "#000",
+            //   fontSize: "12px",
+            //   fontWeight: "bold",
+            //   className: "map-label"
+            // }
           });
         });
       }
