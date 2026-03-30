@@ -51,6 +51,10 @@
   </div>
 
   <div class="filter-option"><input type="checkbox" checked value="university"> University</div>
+  
+  <div class="filter-option"><input type="checkbox" checked value="youngerLive"> 22–35-year-olds live</div>
+  
+  <hr>
   <div class="filter-option"><input type="checkbox" checked value="mcdonalds"> McDonald's</div>
   <div class="filter-option"><input type="checkbox" checked value="chipotle"> Chipotle</div>
   <div class="filter-option"><input type="checkbox" checked value="popeyes"> Popeyes</div>
@@ -87,9 +91,10 @@
           fillColor: "#FF0000",     // Red fill
           fillOpacity: 0.15,        // Lightly transparent
           map: map,
-          center: { lat: 38.91, lng: -77.01  }, // Shifted slightly NW
+          // center: { lat: 38.912936, lng: -77.017052  }, // Shifted slightly NW
 
-          // center: { lat: 38.9050, lng: -77.0750 },
+          center: { lat: 38.912669250614776, lng: -77.02906819900949  }, // Shifted slightly NW
+
           // radius: 4000,             // Radius in meters (approx 2.5 miles)
           radius: 5500,     // Circle 
         });
@@ -99,10 +104,20 @@
           chipotle: "/img/chipotle-icon.png",
           popeyes: "/img/popeyes-icon.png",
           canes: "/img/canes-icon.png",
-          university: "/img/university.png"
+          university: "/img/university.png", 
+          youngerLive: "/img/youngerLive.png"
         };
 
         const locations = [
+
+
+       { label: "Shaw ", pos: { lat: 38.9141, lng: -77.0219 }, type: "youngerLive" },
+        { label: "H Street ", pos: { lat: 38.8997, lng: -76.9939 }, type: "youngerLive" },
+       { label: "Columbia Heights", pos: { lat: 38.9287, lng: -77.0331 }, type: "youngerLive" },
+       { label: "Navy yard", pos: { lat: 38.87, lng: -77.0045 }, type: "youngerLive" },
+        { label: "U street corridor ", pos: { lat: 38.91, lng: -77.021 }, type: "youngerLive" },
+       { label: "Noma", pos: { lat: 38.9057, lng: -77.0057 }, type: "youngerLive" },
+        { label: "union market ", pos: { lat: 38.9085, lng: -76.9982 }, type: "youngerLive" },
 
 
   // --- NORTHWEST (NW) ---
