@@ -30,7 +30,7 @@
         const dcCenter = { lat: 38.8997, lng: -77.0365 };
         
         const map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 12,
+          zoom: 14,
           center: dcCenter,
         });
 
@@ -51,9 +51,16 @@
         const mcdonaldsIcon = {
           // url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/McDonald%27s_Golden_Arches.svg/40px-McDonald%27s_Golden_Arches.svg.png",
           url: "../img/McDonalds3000x3000.png",
+          // scaledSize: new google.maps.Size(40, 40),
+          // origin: new google.maps.Point(0, 0),
+          // anchor: new google.maps.Point(20, 20)
+
           scaledSize: new google.maps.Size(40, 40),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(20, 20)
+  origin: new google.maps.Point(0, 0),
+  anchor: new google.maps.Point(20, 20),
+  // Add this line below:
+  // (x=20 is the center, y=55 pushes the text below the 40px icon)
+  labelOrigin: new google.maps.Point(20, 55)
         };
 
         const locations = [
