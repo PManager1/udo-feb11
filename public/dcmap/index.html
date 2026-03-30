@@ -37,7 +37,7 @@
       }
     </style>
   </head>
-  <body>
+  <body style="overflow-y: auto;">
 
      <h3>McDonald's Locations & NW District Zone _______  use the map buttton at bottom right to change the position of map </h3>
     <!-- THE MENU -->
@@ -49,13 +49,13 @@
     <button onclick="toggleAll(true)" style="font-size: 10px; cursor: pointer;">Select All</button>
     <button onclick="toggleAll(false)" style="font-size: 10px; cursor: pointer;">Clear All</button>
   </div>
-
   <div class="filter-option"><input type="checkbox" checked value="university"> University</div>
-  
   <div class="filter-option"><input type="checkbox" checked value="youngerLive"> 22–35-year-olds live</div>
-  
   <hr>
   <div class="filter-option"><input type="checkbox" checked value="mcdonalds"> McDonald's</div>
+  <div class="filter-option"><input type="checkbox" checked value="favTakeout"> Fav takeout places (mom pop) </div>
+
+
   <div class="filter-option"><input type="checkbox" checked value="chipotle"> Chipotle</div>
   <div class="filter-option"><input type="checkbox" checked value="popeyes"> Popeyes</div>
   <div class="filter-option"><input type="checkbox" checked value="canes"> Raising Cane's</div>
@@ -64,6 +64,17 @@
 
 
     <div id="map"></div>
+
+    <section style="padding: 0 20px;">
+      <h2>Inportant points </h2>
+      <p>
+        Looking at the screenshots of ridehsare offers, it will tell us  that typically the Uber rideshare pays around $10 per three miles, which equtes to : $ 3.33  per mile. 
+        <br><br>
+        Question is how much do we pay per mile to the delivery driver that he moves to us ?
+        <br><br><br><br>
+        <br><br><br><br>
+      </p>
+    </section>
 
     <script src="/assets/js/config.js"></script>
     <script>
@@ -75,7 +86,7 @@
         const dcCenter = { lat: 38.922630158789616, lng: -77.04640442851016 };
 
         map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 14,
+          zoom: 13,
           center: dcCenter,
           // disableDefaultUI: true, // Cleaner UI for UDO
           disableDefaultUI: false, // This brings back all standard Google buttons
@@ -105,12 +116,60 @@
           popeyes: "/img/popeyes-icon.png",
           canes: "/img/canes-icon.png",
           university: "/img/university.png", 
-          youngerLive: "/img/youngerLive.png"
+          youngerLive: "/img/youngerLive.png",
+          favTakeout: "/img/Takeoutplace.png"
         };
 
         const locations = [
 
+        // fav takeouts 
 
+        // --- MOM & POP / LOCAL FAVORITES (NW) ---
+  { label: "Oohh's & Aahh's (Soul Food)", pos: { lat: 38.9178, lng: -77.0261 }, type: "favTakeout" },
+  { label: "Ben’s Chili Bowl (DC Icon)", pos: { lat: 38.9171, lng: -77.0289 }, type: "favTakeout" },
+  { label: "Capo Deli (Italian Subs)", pos: { lat: 38.9140, lng: -77.0282 }, type: "favTakeout" },
+  { label: "Chicken + Whiskey (Peruvian)", pos: { lat: 38.9142, lng: -77.0318 }, type: "favTakeout" },
+  { label: "Taqueria Habanero (Tacos)", pos: { lat: 38.9329, lng: -77.0331 }, type: "favTakeout" },
+  { label: "Makan (Malaysian)", pos: { lat: 38.9298, lng: -77.0331 }, type: "favTakeout" },
+  { label: "Purple Patch (Filipino)", pos: { lat: 38.9312, lng: -77.0378 }, type: "favTakeout" },
+  { label: "Beau Thai (Thai)", pos: { lat: 38.9119, lng: -77.0220 }, type: "favTakeout" },
+
+  // --- ADDITIONAL FAVORITE TAKEOUT (NW) ---
+  { label: "FedPigs (BBQ/Sandwiches)", pos: { lat: 38.9221, lng: -77.0423 }, type: "favTakeout" }, // Federalist Pig - Adams Morgan
+  { label: "Lapis (Afghan)", pos: { lat: 38.9222, lng: -77.0421 }, type: "favTakeout" }, // Lapis - Adams Morgan
+  { label: "CHIKO (Chinese-Korean)", pos: { lat: 38.9103, lng: -77.0425 }, type: "favTakeout" }, // CHIKO - Dupont/Shaw area
+  { label: "Cracked Eggery (Breakfast)", pos: { lat: 38.9213, lng: -77.0422 }, type: "favTakeout" }, // Popular "hangover" food hub
+  { label: "Sonny's Pizza (Retro Pizza)", pos: { lat: 38.9320, lng: -77.0280 }, type: "favTakeout" }, // Park View/Col. Heights
+  { label: "El Chucho (Tacos)", pos: { lat: 38.9317, lng: -77.0326 }, type: "favTakeout" }, // Columbia Heights
+  { label: "Chercher (Ethiopian)", pos: { lat: 38.9088, lng: -77.0245 }, type: "favTakeout" }, // Logan Circle
+  { label: "George's (Falafel/Steak)", pos: { lat: 38.9061, lng: -77.0620 }, type: "favTakeout" }, // Georgetown staple
+
+  // --- ADDITIONAL FAVORITE TAKEOUT (NE) ---
+  { label: "Shilling Canning (Modern American)", pos: { lat: 38.8745, lng: -77.0012 }, type: "favTakeout" }, // Navy Yard / Near NE
+  { label: "Cane (Caribbean)", pos: { lat: 38.8998, lng: -76.9928 }, type: "favTakeout" }, // H Street Corridor
+  { label: "Sticky Rice (Sushi/Fusion)", pos: { lat: 38.9002, lng: -76.9904 }, type: "favTakeout" }, // H Street classic
+  { label: "Lucky Danger (Chinese Takeout)", pos: { lat: 38.9082, lng: -76.9984 }, type: "favTakeout" }, // Union Market
+  { label: "Sicilian Pizza (Late Night)", pos: { lat: 38.9038, lng: -76.9930 }, type: "favTakeout" }, // Florida Ave / Near NE
+  { label: "Andy's Pizza (NoMa)", pos: { lat: 38.9056, lng: -77.0048 }, type: "favTakeout" }, // Award-winning pizza
+  { label: "Manna Dosirak (Korean)", pos: { lat: 38.8962, lng: -76.9858 }, type: "favTakeout" }, // Kingman Park/Near NE
+
+  // --- ADDITIONAL FAVORITE TAKEOUT (SE/Navy Yard Border) ---
+  { label: "Yellow (Levantine Cafe)", pos: { lat: 38.8752, lng: -77.0021 }, type: "favTakeout" }, // Very high under-40 lunch volume
+  { label: "Grazie Grazie (Sandwiches)", pos: { lat: 38.8785, lng: -77.0035 }, type: "favTakeout" }, // High-end deli favorites
+  { label: "Albi (Palestinian)", pos: { lat: 38.8752, lng: -77.0021 }, type: "favTakeout" },
+
+
+
+  // --- MOM & POP / LOCAL FAVORITES (NE) ---
+  { label: "Indigo (Indian)", pos: { lat: 38.9023, lng: -77.0003 }, type: "favTakeout" },
+  { label: "A. Litteri (Italian Deli)", pos: { lat: 38.9079, lng: -76.9982 }, type: "favTakeout" },
+  { label: "Maketto (Asian Fusion)", pos: { lat: 38.8998, lng: -76.9893 }, type: "favTakeout" },
+  { label: "H & Chicken (Late Night)", pos: { lat: 38.8996, lng: -76.9926 }, type: "favTakeout" },
+  { label: "Call Your Mother (Bagels/Deli)", pos: { lat: 38.9126, lng: -77.0423 }, type: "favTakeout" },
+  { label: "Wiseguy Pizza (NY Style)", pos: { lat: 38.9002, lng: -77.0175 }, type: "favTakeout" },
+
+
+// young ppl live 
        { label: "Shaw ", pos: { lat: 38.9141, lng: -77.0219 }, type: "youngerLive" },
         { label: "H Street ", pos: { lat: 38.8997, lng: -76.9939 }, type: "youngerLive" },
        { label: "Columbia Heights", pos: { lat: 38.9287, lng: -77.0331 }, type: "youngerLive" },
@@ -193,8 +252,34 @@
   { label: "Raising Cane's - Union Station", pos: { lat: 38.8979, lng: -77.0057 }  , type: "canes"},
 
   
-          { label: "Chipotle - 14th St NW", pos: { lat: 38.9100, lng: -77.0322 }, type: "chipotle" },
-          { label: "Chipotle - Chinatown", pos: { lat: 38.8985, lng: -77.0215 }, type: "chipotle" },
+  { label: "Chipotle - Chinatown", pos: { lat: 38.8985, lng: -77.0215 }, type: "chipotle" },
+
+          // --- CHIPOTLE LOCATIONS (NW) ---
+  { label: "Chipotle - 14th St (Logan Circle)", pos: { lat: 38.9105, lng: -77.0319 }, type: "chipotle" }, // 1508 14th St NW
+  { label: "Chipotle - Columbia Heights", pos: { lat: 38.9286, lng: -77.0331 }, type: "chipotle" },    // 3113 14th St NW
+  { label: "Chipotle - Chinatown", pos: { lat: 38.8986, lng: -77.0215 }, type: "chipotle" },           // 710 7th St NW
+  { label: "Chipotle - CityVista (Mt Vernon)", pos: { lat: 38.9038, lng: -77.0191 }, type: "chipotle" }, // 1045 5th St NW
+  { label: "Chipotle - Dupont South", pos: { lat: 38.9073, lng: -77.0416 }, type: "chipotle" },        // 1300 Connecticut Ave NW
+  { label: "Chipotle - McPherson Square", pos: { lat: 38.9035, lng: -77.0338 }, type: "chipotle" },    // 1010 Vermont Ave NW
+  { label: "Chipotle - Woodley Park", pos: { lat: 38.9234, lng: -77.0519 }, type: "chipotle" },       // 2600 Connecticut Ave NW
+  { label: "Chipotle - GW / Foggy Bottom", pos: { lat: 38.9004, lng: -77.0454 }, type: "chipotle" },  // 2000 Pennsylvania Ave NW
+  { label: "Chipotle - Tenleytown", pos: { lat: 38.9431, lng: -77.0772 }, type: "chipotle" },         // 4301 Wisconsin Ave NW
+  { label: "Chipotle - Glover Park", pos: { lat: 38.9212, lng: -77.0718 }, type: "chipotle" },        // 2338 Wisconsin Ave NW
+
+  // --- CHIPOTLE LOCATIONS (NE) ---
+  { label: "Chipotle - NoMa", pos: { lat: 38.9051, lng: -77.0061 }, type: "chipotle" },               // 1150 1st St NE
+  { label: "Chipotle - Union Station", pos: { lat: 38.8974, lng: -77.0062 }, type: "chipotle" },       // 40 Massachusetts Ave NE
+  { label: "Chipotle - Catholic University", pos: { lat: 38.9332, lng: -76.9951 }, type: "chipotle" }, // 625 Monroe St NE (Brookland)
+  { label: "Chipotle - Rhode Island Row", pos: { lat: 38.9213, lng: -76.9961 }, type: "chipotle" },    // 2300 Washington Place NE
+  { label: "Chipotle - Dakota Crossing", pos: { lat: 38.9197, lng: -76.9502 }, type: "chipotle" },     // 2430 Market St NE
+
+  // --- CHIPOTLE LOCATIONS (Navy Yard / SE Border) ---
+  { label: "Chipotle - Navy Yard", pos: { lat: 38.8761, lng: -77.0062 }, type: "chipotle" },
+
+
+
+
+
           { label: "Popeyes - 14th St NW", pos: { lat: 38.9080, lng: -77.0322 }, type: "popeyes" },
           { label: "Popeyes - H St NE", pos: { lat: 38.9004, lng: -76.9898 }, type: "popeyes" },
           { label: "Raising Cane's - 7th & G", pos: { lat: 38.8993, lng: -77.0222 }, type: "canes"},
