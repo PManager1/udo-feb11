@@ -41,7 +41,7 @@
 
      <h3>McDonald's Locations & NW District Zone _______  use the map buttton at bottom right to change the position of map </h3>
     <!-- THE MENU -->
-    <div id="menu-container">
+    <!-- <div id="menu-container">
       <h4>Filter Restaurants</h4>
       <div class="filter-option"><input type="checkbox" checked value="mcdonalds"> McDonald's</div>
       <div class="filter-option"><input type="checkbox" checked value="chipotle"> Chipotle</div>
@@ -49,7 +49,24 @@
       <div class="filter-option"><input type="checkbox" checked value="canes"> Raising Cane's</div>
       <div class="filter-option"><input type="checkbox" checked value="university"> University</div>
       
-    </div>
+    </div> -->
+
+
+    <div id="menu-container">
+  <h4>Filter Restaurants</h4>
+  <!-- Add these two buttons -->
+  <div style="margin-bottom: 10px;">
+    <button onclick="toggleAll(true)" style="font-size: 10px; cursor: pointer;">Select All</button>
+    <button onclick="toggleAll(false)" style="font-size: 10px; cursor: pointer;">Clear All</button>
+  </div>
+
+  <div class="filter-option"><input type="checkbox" checked value="mcdonalds"> McDonald's</div>
+  <div class="filter-option"><input type="checkbox" checked value="chipotle"> Chipotle</div>
+  <div class="filter-option"><input type="checkbox" checked value="popeyes"> Popeyes</div>
+  <div class="filter-option"><input type="checkbox" checked value="canes"> Raising Cane's</div>
+  <div class="filter-option"><input type="checkbox" checked value="university"> University</div>
+</div>
+
 
     <div id="map"></div>
 
@@ -59,7 +76,8 @@
       let allMarkers = []; // Array to hold markers so we can toggle them
 
       function initMap() {
-        const dcCenter = { lat: 38.8997, lng: -77.0365 };
+        const dcCenter = { lat: 38.922630158789616, lng: -77.04640442851016 };
+
         map = new google.maps.Map(document.getElementById("map"), {
           zoom: 14,
           center: dcCenter,
@@ -86,10 +104,11 @@
           fillColor: "#FF0000",     // Red fill
           fillOpacity: 0.15,        // Lightly transparent
           map: map,
-          center: { lat: 38.9200, lng: -77.0500 }, // Shifted slightly NW
+          center: { lat: 38.91, lng: -77.01  }, // Shifted slightly NW
+
           // center: { lat: 38.9050, lng: -77.0750 },
           // radius: 4000,             // Radius in meters (approx 2.5 miles)
-          radius: 5000,     // Circle 
+          radius: 5500,     // Circle 
         });
 
         const iconConfig = {
@@ -236,6 +255,19 @@
           }
         });
       }
+
+
+      function toggleAll(source) {
+  const checkboxes = document.querySelectorAll('.filter-option input');
+  checkboxes.forEach(cb => {
+    cb.checked = source; // Sets every box to true or false
+  });
+  
+  // Update the map markers immediately
+  filterMarkers(); 
+}
+
+
 
       function loadGoogleMaps() {
         const script = document.createElement('script');
