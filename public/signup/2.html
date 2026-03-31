@@ -165,10 +165,23 @@
           <p id="codeError" class="text-red-500 text-sm mt-2 text-center hidden">Please enter a valid 6-digit code</p>
         </div>
 
-        <!-- Info Text -->
-        <div class="space-y-2 text-gray-500 text-center">
-          <p class="text-sm font-medium">Code sent to phone</p>
-          <p class="text-sm">You should get a text within 20 seconds.</p>
+        <!-- Info Text - Green Note -->
+        <div class="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 rounded-xl p-3 text-center relative overflow-hidden">
+          <!-- Background decoration -->
+          <div class="absolute top-0 right-0 w-20 h-20 bg-green-200 rounded-full opacity-20 -translate-y-8 translate-x-8"></div>
+          <div class="absolute bottom-0 left-0 w-16 h-16 bg-green-200 rounded-full opacity-20 translate-y-6 -translate-x-6"></div>
+          
+          <div class="flex items-start justify-center gap-2 relative z-10">
+            <!-- Success Icon - smaller and inline, aligned with first line -->
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0 -mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+            </svg>
+            
+            <div class="text-left">
+              <p class="text-base font-bold text-green-800">Code sent to phone</p>
+              <p class="text-sm text-green-700">You should get a text within 20 seconds.</p>
+            </div>
+          </div>
         </div>
 
         <!-- Spacer for gap - explicit height -->
