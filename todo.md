@@ -1,4 +1,10 @@
+
 Todo : 
+On sign in flow make the phone code work and also make the emial verification code work 
+
+
+
+
 Allow user to post on rideshare page. 
 
 Rideshare: 
