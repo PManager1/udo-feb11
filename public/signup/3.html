@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="UDO - Let somebody else do it for you."/>
-  <title>UDo: Sign Up - Step 1</title>
+  <title>UDo: Sign Up - Step 3</title>
   
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2270%22 font-family=%22Arial, sans-serif%22 font-weight=%22900%22 letter-spacing=%22-2%22><tspan fill=%22%23f97316%22>U</tspan><tspan fill=%22%23000000%22>DO</tspan></text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,19 +26,6 @@
     .search-overlay.active {
       opacity: 1;
       pointer-events: auto;
-    }
-    /* Progress bar animation */
-    .progress-step {
-      transition: all 0.3s ease;
-    }
-    .progress-step.active {
-      background-color: #f97316;
-      color: white;
-      transform: scale(1.1);
-    }
-    .progress-step.completed {
-      background-color: #22c55e;
-      color: white;
     }
   </style>
 </head>
@@ -77,49 +64,56 @@
     </div>
   </header>
 
-  <!-- Main Content - Sign Up Form Step 1 -->
-  <main class="flex-1 flex items-center justify-center px-4 py-12">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 md:p-10">
+  <!-- Main Content - Email Input Form -->
+  <main class="flex-1 flex items-center justify-center px-4 py-12 relative">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 md:p-10 relative">
+      
+      <!-- Back Button - Top Left -->
+      <button
+        onclick="window.location.href='2.html'"
+        class="absolute top-4 left-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
+      >
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      
+      <!-- Close Button - Top Right -->
+      <button
+        onclick="window.location.href='../login/'"
+        class="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
+      >
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
 
-      <div class="text-center mb-8">
+      <div class="text-center mb-8 mt-4">
         <h1 class="text-4xl font-bold mb-2">
           <span class="text-orange-500">U</span><span class="text-black">Do</span>
         </h1>
-        <h2 class="text-xl font-semibold text-gray-900">You're just a few steps away from you getting started</h2>
-        <p class="text-gray-600 mt-2">Verify your number to continue with UDO</p>
+        <h2 class="text-2xl font-semibold text-gray-900">What's your email</h2>
+        <p class="text-gray-600 mt-2">We'll send you a verification code</p>
       </div>
 
-      <form class="space-y-4">
-        <!-- Phone Number Field -->
+      <form>
+        <!-- Email Field -->
         <div>
-          <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
           <input
-            type="tel"
-            id="phone"
-            name="phone"
+            type="email"
+            id="email"
+            name="email"
             required
             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
-            placeholder="+1 (555) 123-4567"
+            placeholder="you@example.com"
           />
-          <p id="phoneError" class="text-red-500 text-sm mt-1 hidden">Please enter a valid phone number</p>
-        </div>
-
-        <!-- Info Text Below Phone Field -->
-        <div class="space-y-3 text-gray-500">
-          <p class="text-xs">Message and data rates may apply</p>
-          <p class="text-sm">You can unsubscribe at any time</p>
-          <p class="flex items-center gap-1 text-sm">
-            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-            </svg>
-            <span>You information is Secure & protected</span>
-          </p>
-          <p class="text-sm mb-6">Trusted by over 100s of delivery drivers</p>
+          <p id="emailError" class="text-red-500 text-sm mt-1 hidden">Please enter a valid email address</p>
         </div>
 
         <!-- Spacer for gap - explicit height -->
-        <div style="height: 6rem;" class="hidden md:block"></div>
-        <div style="height: 2rem;" class="md:hidden"></div>
+        <div style="height: 8rem;" class="hidden md:block"></div>
+        <div style="height: 3rem;" class="md:hidden"></div>
 
         <!-- Continue Button -->
         <button
@@ -131,108 +125,78 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
-
-        <!-- Stay Signed In Text -->
-        <p class="text-center text-sm text-gray-600">
-          You'll stay signed in for faster access
-        </p>
-
-        <!-- Terms and Authorization Text -->
-        <p class="text-xs text-gray-500 text-center leading-relaxed">
-          By continuing, I agree to the <a href="../terms/" class="text-orange-500 hover:underline">User Terms</a>, <a href="../privacy/" class="text-orange-500 hover:underline">Privacy Policy</a> and I authorize UDO and its partner technology companies to send me text notifications, use and share consumer reports about me.
-        </p>
       </form>
-
-      <!-- Back to Sign In -->
-      <p class="text-center text-gray-600 mt-6">
-        Already have an account? 
-        <a href="../login/" class="text-orange-500 font-semibold hover:underline">Sign in</a>
-      </p>
     </div>
   </main>
 
   <script src="/search-overlay/search-overlay.js"></script>
   <script>
-    // Phone number formatting and validation
-    const phoneInput = document.getElementById('phone');
-    const phoneError = document.getElementById('phoneError');
+    // Check if previous step data exists
+    const savedStep2Data = localStorage.getItem('signupStep2');
+    if (!savedStep2Data) {
+      // If no data from step 2, redirect to step 1
+      window.location.href = '1.html';
+    }
 
-    // Format phone number as user types
-    phoneInput.addEventListener('input', (e) => {
-      let value = e.target.value.replace(/\D/g, ''); // Remove all non-digits
-      
-      // Format: +1 (555) 123-4567
-      if (value.length > 0) {
-        // Add +1 at the beginning
-        if (!value.startsWith('1')) {
-          value = '1' + value;
-        }
-        
-        // Format the number
-        let formatted = '+1';
-        if (value.length > 1) {
-          formatted += ' (' + value.substring(1, 4);
-        }
-        if (value.length > 4) {
-          formatted += ') ' + value.substring(4, 7);
-        }
-        if (value.length > 7) {
-          formatted += '-' + value.substring(7, 11);
-        }
-        
-        e.target.value = formatted;
-      }
-      
-      // Validate and update UI
-      validatePhone();
+    // Email validation
+    const emailInput = document.getElementById('email');
+    const emailError = document.getElementById('emailError');
+
+    // Email regex pattern
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Validate email as user types
+    emailInput.addEventListener('input', (e) => {
+      validateEmail();
     });
 
-    // Validate phone number
-    function validatePhone() {
-      const value = phoneInput.value.replace(/\D/g, '');
-      const isValid = value.length === 11; // Should be 11 digits (1 + 10 digit number)
+    // Validate email
+    function validateEmail() {
+      const value = emailInput.value.trim();
+      const isValid = emailPattern.test(value);
       
       if (value.length > 0 && !isValid) {
-        phoneInput.classList.add('border-red-500');
-        phoneInput.classList.remove('border-gray-300');
-        phoneError.classList.remove('hidden');
+        emailInput.classList.add('border-red-500');
+        emailInput.classList.remove('border-gray-300');
+        emailError.classList.remove('hidden');
       } else {
-        phoneInput.classList.remove('border-red-500');
-        phoneInput.classList.add('border-gray-300');
-        phoneError.classList.add('hidden');
+        emailInput.classList.remove('border-red-500');
+        emailInput.classList.add('border-gray-300');
+        emailError.classList.add('hidden');
       }
       
       return isValid;
     }
 
-    // Form submission - Save data and redirect to next step
+    // Form submission
     const form = document.querySelector('form');
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       
-      // Validate phone before proceeding
-      if (!validatePhone()) {
-        phoneInput.focus();
+      // Validate email before proceeding
+      if (!validateEmail()) {
+        emailInput.focus();
         return;
       }
       
       // Collect form data
       const formData = {
-        phone: phoneInput.value
+        ...JSON.parse(savedStep2Data),
+        email: emailInput.value
       };
       
       // Save to localStorage for next step
-      localStorage.setItem('signupStep1', JSON.stringify(formData));
+      localStorage.setItem('signupStep3', JSON.stringify(formData));
       
-      // Redirect to next step (you'll create 2.html)
-      window.location.href = '2.html';
+      // Redirect to next step (you'll create 4.html or redirect to final page)
+      window.location.href = '4.html';
     });
 
     // Load saved data if returning from next step
-    const savedData = localStorage.getItem('signupStep1');
-    if (savedData) {
-      const data = JSON.parse(savedData);
-      phoneInput.value = data.phone || '';
+    const savedStep3Data = localStorage.getItem('signupStep3');
+    if (savedStep3Data) {
+      const data = JSON.parse(savedStep3Data);
+      emailInput.value = data.email || '';
     }
   </script>
 
