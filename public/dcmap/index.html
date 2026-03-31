@@ -2,6 +2,9 @@
 <html>
   <head>
     <title>UDO Marketplace Map</title>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2270%22 font-family=%22Arial, sans-serif%22 font-weight=%22900%22 letter-spacing=%22-2%22><tspan fill=%22%23f97316%22>U</tspan><tspan fill=%22%23000000%22>DO</tspan></text></svg>">
+
     <style>
       /* Full screen map as requested earlier */
       html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
@@ -39,7 +42,7 @@
   </head>
   <body style="overflow-y: auto;">
 
-     <h3>McDonald's Locations & NW District Zone _______  use the map buttton at bottom right to change the position of map </h3>
+     <h3>______________________________ Locations in  NW, NE District Zone _______  use the map buttton at bottom right to change the position of map </h3>
     <!-- THE MENU -->
   
     <div id="menu-container">
@@ -102,12 +105,11 @@
           fillColor: "#FF0000",     // Red fill
           fillOpacity: 0.15,        // Lightly transparent
           map: map,
-          // center: { lat: 38.912936, lng: -77.017052  }, // Shifted slightly NW
 
           center: { lat: 38.912669250614776, lng: -77.02906819900949  }, // Shifted slightly NW
 
-          // radius: 4000,             // Radius in meters (approx 2.5 miles)
-          radius: 5500,     // Circle 
+         
+          radius: 5500,     // Circle    // radius: 4000,             // Radius in meters (approx 2.5 miles)
         });
 
         const iconConfig = {
@@ -122,8 +124,18 @@
 
         const locations = [
 
-        // fav takeouts 
 
+
+// young ppl live 
+       { label: "Shaw ", pos: { lat: 38.9141, lng: -77.0219 }, type: "youngerLive" },
+        { label: "H Street ", pos: { lat: 38.8997, lng: -76.9939 }, type: "youngerLive" },
+       { label: "Columbia Heights", pos: { lat: 38.9287, lng: -77.0331 }, type: "youngerLive" },
+       { label: "Navy yard", pos: { lat: 38.87, lng: -77.0045 }, type: "youngerLive" },
+        { label: "U street corridor ", pos: { lat: 38.91, lng: -77.021 }, type: "youngerLive" },
+       { label: "Noma", pos: { lat: 38.9057, lng: -77.0057 }, type: "youngerLive" },
+        { label: "union market ", pos: { lat: 38.9085, lng: -76.9982 }, type: "youngerLive" },
+
+        // fav takeouts 
         // --- MOM & POP / LOCAL FAVORITES (NW) ---
   { label: "Oohh's & Aahh's (Soul Food)", pos: { lat: 38.9178, lng: -77.0261 }, type: "favTakeout" },
   { label: "Ben’s Chili Bowl (DC Icon)", pos: { lat: 38.9171, lng: -77.0289 }, type: "favTakeout" },
@@ -169,17 +181,9 @@
   { label: "Wiseguy Pizza (NY Style)", pos: { lat: 38.9002, lng: -77.0175 }, type: "favTakeout" },
 
 
-// young ppl live 
-       { label: "Shaw ", pos: { lat: 38.9141, lng: -77.0219 }, type: "youngerLive" },
-        { label: "H Street ", pos: { lat: 38.8997, lng: -76.9939 }, type: "youngerLive" },
-       { label: "Columbia Heights", pos: { lat: 38.9287, lng: -77.0331 }, type: "youngerLive" },
-       { label: "Navy yard", pos: { lat: 38.87, lng: -77.0045 }, type: "youngerLive" },
-        { label: "U street corridor ", pos: { lat: 38.91, lng: -77.021 }, type: "youngerLive" },
-       { label: "Noma", pos: { lat: 38.9057, lng: -77.0057 }, type: "youngerLive" },
-        { label: "union market ", pos: { lat: 38.9085, lng: -76.9982 }, type: "youngerLive" },
 
 
-  // --- NORTHWEST (NW) ---
+  // --- mcdonands NORTHWEST (NW) ---
   { label: "17th St NW (F St)", pos: { lat: 38.8997, lng: -77.0396 }, type: "mcdonalds" },
   { label: "New York Ave NW", pos: { lat: 38.9011, lng: -77.0287 }, type: "mcdonalds" },
   { label: "13th St NW (Metro Center)", pos: { lat: 38.8971, lng: -77.0297 }, type: "mcdonalds" },
