@@ -5,30 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UDO vs DoorDash Model Calculator</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; padding: 20px; color: #333; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #2c3e50; }
-        .input-section { background: #e8f4f8; padding: 20px; border-radius: 8px; margin-bottom: 25px; display: flex; gap: 20px; align-items: center; justify-content: center; }
-        input { padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100px; font-size: 16px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background-color: #f8f9fa; color: #7f8c8d; text-transform: uppercase; font-size: 12px; }
-        .udo-col { font-weight: bold; color: #27ae60; background-color: #f0fff4; }
-        .dd-col { color: #e74c3c; background-color: #fff5f5; }
-        .advantage-row { background-color: #fff9db; font-weight: bold; }
-        .footer-note { font-size: 12px; color: #95a5a6; margin-top: 20px; text-align: center; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; color: #1c1e21; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 30px; }
+        
+        /* Input Section */
+        .input-section { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: center; border: 1px solid #dee2e6; }
+        input[type="number"] { padding: 10px; border: 2px solid #3498db; border-radius: 6px; width: 120px; font-size: 18px; text-align: center; }
+        
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 16px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background-color: #f1f3f5; color: #495057; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; }
+        .udo-col { font-weight: bold; color: #2ecc71; background-color: #fafffa; }
+        .dd-col { color: #e74c3c; background-color: #fff9f9; }
+        .advantage-row { background-color: #fff9db; font-weight: bold; text-align: center; color: #856404; }
+
+        /* Monthly Pitch Section */
+        .pitch-box { background: #2c3e50; color: white; padding: 25px; border-radius: 10px; margin-top: 30px; text-align: center; }
+        .pitch-box h3 { margin: 0 0 15px 0; color: #f1c40f; }
+        .slider-container { margin: 20px 0; }
+        input[type="range"] { width: 80%; cursor: pointer; }
+        .pitch-text { font-size: 18px; font-style: italic; line-height: 1.6; }
+        .highlight-cash { color: #2ecc71; font-weight: bold; font-size: 22px; }
+
+        /* Profit Reality Section */
+        .reality-box { margin-top: 30px; padding: 25px; border: 2px dashed #3498db; border-radius: 10px; background-color: #f0f7ff; }
+        .reality-box h3 { color: #2980b9; margin-top: 0; }
+        .comparison-grid { display: flex; gap: 20px; margin-top: 15px; }
+        .card { flex: 1; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .card.dd { background: #ffebeb; border: 1px solid #ffcaca; }
+        .card.udo { background: #ebffef; border: 1px solid #caffd2; }
+        .hook-text { text-align: center; font-weight: bold; margin-top: 20px; font-size: 18px; color: #2c3e50; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>UDO vs. DoorDash Comparison</h2>
+    <h2>The UDO Competitive Edge</h2>
     
     <div class="input-section">
-        <label><strong>Food Subtotal ($):</strong></label>
-        <input type="number" id="foodInput" value="35.00" step="0.01" oninput="calculate()">
+        <div>
+            <label><strong>Food Subtotal ($):</strong></label><br>
+            <input type="number" id="foodInput" value="35.00" step="1.00" oninput="calculate()">
+        </div>
+        <div>
+            <label><strong>Orders per Day:</strong></label><br>
+            <input type="number" id="volInput" value="10" min="1" oninput="calculate()">
+        </div>
     </div>
 
+    <!-- Main Comparison Table -->
     <table>
         <thead>
             <tr>
@@ -57,48 +84,64 @@
                 <td id="ddDriver" class="dd-col"></td>
                 <td id="driverAdv" class="advantage-row"></td>
             </tr>
-            <tr>
-                <td>Platform Profit (Gross)</td>
-                <td id="udoProfit" class="udo-col"></td>
-                <td id="ddProfit" class="dd-col"></td>
-                <td>--</td>
-            </tr>
-            <tr>
-                <td>Stripe/Processing Fee</td>
-                <td id="udoStripe" class="udo-col"></td>
-                <td id="ddStripe" class="dd-col"></td>
-                <td>--</td>
-            </tr>
         </tbody>
     </table>
 
-    <p class="footer-note">Calculations based on 12.5% UDO Fee vs 30% DoorDash Commission.</p>
+    <!-- Monthly Pitch Section -->
+    <div class="pitch-box">
+        <h3>The Scale Advantage</h3>
+        <p class="pitch-text">
+            "If you do just <span id="displayVol">10</span> orders a day on UDO instead of DoorDash, <br>
+            you keep an extra <span class="highlight-cash" id="monthlyExtra">$0</span> per month."
+        </p>
+    </div>
+
+    <!-- Profit Reality Example -->
+    <div class="reality-box">
+        <h3>The Profit Reality (Example)</h3>
+        <p>If it costs you <strong>$25.00</strong> to make a $35.00 meal (Labor + Ingredients):</p>
+        
+        <div class="comparison-grid">
+            <div class="card dd">
+                <h4 style="color: #e74c3c; margin: 0;">DoorDash</h4>
+                <p style="font-size: 14px;">Pays you: $24.50</p>
+                <p style="font-weight: bold; color: #c0392b;">YOU LOSE $0.50</p>
+            </div>
+            <div class="card udo">
+                <h4 style="color: #27ae60; margin: 0;">UDO</h4>
+                <p style="font-size: 14px;">Pays you: $30.63</p>
+                <p style="font-weight: bold; color: #1e8449;">YOU MAKE $5.63 PROFIT</p>
+            </div>
+        </div>
+        
+        <p class="hook-text">
+            "With DoorDash, you’re working for free. With UDO, you’re actually running a business."
+        </p>
+    </div>
+
 </div>
 
 <script>
 function calculate() {
-    // Inputs
     const food = parseFloat(document.getElementById('foodInput').value) || 0;
+    const vol = parseInt(document.getElementById('volInput').value) || 0;
     const deliveryFee = 3.50;
     
-    // UDO Logic
+    // UDO Logic (12.5% Platform Fee)
     const udoPlatformFee = food * 0.125;
     const udoStripe = (food + deliveryFee) * 0.029 + 0.30;
     const udoTotal = food + deliveryFee + udoStripe;
     const udoRest = food - udoPlatformFee;
     const udoDriver = deliveryFee + (udoPlatformFee * 0.75);
-    const udoProfit = (udoPlatformFee * 0.25) + 1.00; // Flat $1 + 25% share
 
-    // DoorDash Logic (Approximate market standard)
+    // DoorDash Logic (30% Commission + 15% Service Fee)
     const ddCommission = food * 0.30;
-    const ddServiceFee = food * 0.15; // DD average service fee
+    const ddServiceFee = food * 0.15; 
     const ddTotal = food + deliveryFee + ddServiceFee;
     const ddRest = food - ddCommission;
-    const ddDriver = 2.50; // DD Base pay average
-    const ddProfit = ddCommission + ddServiceFee - ddDriver; 
-    const ddStripe = ddTotal * 0.029 + 0.30;
+    const ddDriver = 2.50; 
 
-    // Update HTML
+    // Update Table
     document.getElementById('udoTotal').innerText = '$' + udoTotal.toFixed(2);
     document.getElementById('ddTotal').innerText = '$' + ddTotal.toFixed(2);
     document.getElementById('customerAdv').innerText = '-$' + (ddTotal - udoTotal).toFixed(2);
@@ -111,14 +154,14 @@ function calculate() {
     document.getElementById('ddDriver').innerText = '$' + ddDriver.toFixed(2);
     document.getElementById('driverAdv').innerText = '+$' + (udoDriver - ddDriver).toFixed(2);
 
-    document.getElementById('udoProfit').innerText = '$' + udoProfit.toFixed(2);
-    document.getElementById('ddProfit').innerText = '$' + ddProfit.toFixed(2);
-
-    document.getElementById('udoStripe').innerText = '$' + udoStripe.toFixed(2);
-    document.getElementById('ddStripe').innerText = '$' + ddStripe.toFixed(2);
+    // Update Pitch
+    const extraPerOrder = udoRest - ddRest;
+    const monthlyExtra = extraPerOrder * vol * 30.5;
+    document.getElementById('displayVol').innerText = vol;
+    document.getElementById('monthlyExtra').innerText = '$' + monthlyExtra.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
 }
 
-// Run once on load
+// Initial calculation
 calculate();
 </script>
 
