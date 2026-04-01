@@ -25,7 +25,6 @@
 // console.log('✅ Google Maps API key injected into config.js successfully!');
 
 
-
 const fs = require('fs');
 const path = require('path');
 
@@ -37,14 +36,21 @@ if (!googleApiKey) {
   googleApiKey = 'YOUR_API_KEY_PLACEHOLDER';
 }
 
-// 2. Define the Template and the Final destination
+// 2. Define Paths
 const templatePath = path.join(__dirname, 'config.template.js');
-const finalConfigPath = path.join(__dirname, '../public/assets/js/config.js');
+const finalConfigDir = path.join(__dirname, '../public/assets/js');
+const finalConfigPath = path.join(finalConfigDir, 'config.js');
 
 try {
-  // Check if the template exists (it should, because you pushed it to Git)
+  // Check if template exists
   if (!fs.existsSync(templatePath)) {
     throw new Error(`Template missing at ${templatePath}`);
+  }
+
+  // --- NEW STEP: Ensure the directory exists ---
+  if (!fs.existsSync(finalConfigDir)) {
+    console.log(`Creating missing directory: ${finalConfigDir}`);
+    fs.mkdirSync(finalConfigDir, { recursive: true });
   }
 
   // Read the "Blank" template
@@ -53,10 +59,10 @@ try {
   // Fill in the "Blank" with the real key
   content = content.replace('REPLACE_ME', googleApiKey);
 
-  // Create the "Real" config.js file on the Netlify server
+  // Create the "Real" config.js file
   fs.writeFileSync(finalConfigPath, content, 'utf8');
   
-  console.log('✅ Created config.js from template successfully!');
+  console.log('✅ Success! Created config.js at ' + finalConfigPath);
 } catch (err) {
   console.error('❌ Build failed:', err.message);
   process.exit(1); 

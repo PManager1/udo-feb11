@@ -65,14 +65,14 @@
   <main class="flex-1 px-4 py-12">
     <div class="max-w-4xl mx-auto">
       <div class="bg-white rounded-2xl shadow-xl p-8 md:p-10">
-        <h2 class="text-4xl font-bold text-center mb-2 text-gray-900">The UDO Competitive Edge</h2>
+        <h2 class="text-4xl font-bold text-center mb-2 text-gray-900">Stop Working for Free. Get the Full Value of Your work.</h2>
         <p class="text-center text-gray-600 mb-8">Compare your earnings with UDO vs DoorDash</p>
         
         <!-- Input Section -->
         <div class="bg-gray-50 rounded-xl p-6 mb-8 border border-gray-200">
           <div class="flex flex-wrap gap-8 items-center justify-center">
             <div class="flex-1 min-w-[200px]">
-              <label for="foodInput" class="block text-sm font-semibold text-gray-700 mb-2">Food Subtotal ($)</label>
+              <label for="foodInput" class="block text-sm font-semibold text-gray-700 mb-2"> Menu Price ($)</label>
               <input 
                 type="number" 
                 id="foodInput" 
@@ -115,6 +115,11 @@
                 <td id="customerAdv" class="px-6 py-4 text-center font-bold text-orange-600 bg-orange-50"></td>
               </tr>
               <tr class="border-b border-gray-200">
+                <td colspan="4" class="px-6 py-3 text-center text-orange-700 font-bold text-sm bg-orange-50">
+                  Lower Prices for Customers = More Repeat Orders
+                </td>
+              </tr>
+              <tr class="border-b border-gray-200">
                 <td class="px-6 py-4 text-gray-900 font-medium">Restaurant Payout</td>
                 <td id="udoRest" class="px-6 py-4 text-green-600 font-bold bg-green-50"></td>
                 <td id="ddRest" class="px-6 py-4 text-red-500 bg-red-50"></td>
@@ -131,17 +136,20 @@
         </div>
 
         <!-- Monthly Pitch Section -->
-        <div class="bg-gray-800 text-white rounded-xl p-8 mb-8 text-center">
-          <h3 class="text-2xl font-bold mb-4 text-orange-400">The Scale Advantage</h3>
-          <p class="text-lg italic leading-relaxed">
-            "If you do just <span id="displayVol" class="font-bold text-orange-400">10</span> orders a day on UDO instead of DoorDash,<br>
-            you keep an extra <span class="text-green-400 font-bold text-2xl" id="monthlyExtra">$0</span> per month."
+        <div class="bg-blue-50 text-gray-900 rounded-xl p-8 mb-8 text-center border-2 border-blue-200">
+          <h3 class="text-2xl font-bold mb-4 text-blue-700">The Scale Advantage</h3>
+          <p class="text-lg italic leading-relaxed text-gray-700">
+            "If you do just <span id="displayVol" class="font-bold text-blue-700">10</span> orders a day on UDO instead of DoorDash,<br>
+            you keep an extra <span class="text-green-600 font-bold text-2xl" id="monthlyExtra">$0</span> per month."
+          </p>
+          <p class="text-lg italic leading-relaxed text-gray-700 mt-4">
+            That's <span class="text-green-600 font-bold text-2xl" id="yearlyExtra">$0</span> a year.
           </p>
         </div>
 
         <!-- Profit Reality Example -->
         <div class="border-2 border-dashed border-blue-500 rounded-xl p-8 bg-blue-50">
-          <h3 class="text-xl font-bold text-blue-700 mb-4">The Profit Reality (Example)</h3>
+          <h3 class="text-xl font-bold text-blue-700 mb-4">The Invisible Loss: Is DoorDash Costing You Money to Cook?</h3>
           <p class="text-gray-700 mb-6">If it costs you <strong>$25.00</strong> to make a $35.00 meal (Labor + Ingredients):</p>
           
           <div class="flex gap-6 mb-6">
@@ -153,7 +161,7 @@
             <div class="flex-1 bg-green-50 border border-green-200 rounded-lg p-6 text-center">
               <h4 class="text-lg font-bold text-green-600 mb-2">UDO</h4>
               <p class="text-gray-700 mb-2">Pays you: $30.63</p>
-              <p class="font-bold text-green-700">YOU MAKE $5.63 PROFIT</p>
+              <p class="font-bold text-green-700">NET PROFIT: $5.63 (A healthy 16% margin)</p>
             </div>
           </div>
           
@@ -202,8 +210,10 @@ function calculate() {
     // Update Pitch
     const extraPerOrder = udoRest - ddRest;
     const monthlyExtra = extraPerOrder * vol * 30.5;
+    const yearlyExtra = monthlyExtra * 12;
     document.getElementById('displayVol').innerText = vol;
     document.getElementById('monthlyExtra').innerText = '$' + monthlyExtra.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
+    document.getElementById('yearlyExtra').innerText = '$' + yearlyExtra.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
 }
 
 // Initial calculation
