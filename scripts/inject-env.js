@@ -38,7 +38,7 @@ if (!googleApiKey) {
 }
 
 // 2. Define the Template and the Final destination
-const templatePath = path.join(__dirname, '../public/assets/js/config.template.js');
+const templatePath = path.join(__dirname, 'config.template.js');
 const finalConfigPath = path.join(__dirname, '../public/assets/js/config.js');
 
 try {
