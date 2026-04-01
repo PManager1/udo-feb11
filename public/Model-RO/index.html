@@ -82,16 +82,63 @@
                 class="w-full px-4 py-3 border-2 border-orange-500 rounded-lg text-lg font-bold text-center focus:outline-none focus:ring-2 focus:ring-orange-500/50"
               />
             </div>
-            <div class="flex-1 min-w-[200px]">
+            <div class="flex-1 min-w-[280px]">
               <label for="volInput" class="block text-sm font-semibold text-gray-700 mb-2">Orders per Day</label>
-              <input 
-                type="number" 
-                id="volInput" 
-                value="10" 
-                min="1" 
-                oninput="calculate()"
-                class="w-full px-4 py-3 border-2 border-orange-500 rounded-lg text-lg font-bold text-center focus:outline-none focus:ring-2 focus:ring-orange-500/50"
-              />
+              <div class="flex items-center gap-4">
+                <input 
+                  type="number" 
+                  id="volInput" 
+                  value="10" 
+                  min="5" 
+                  max="50"
+                  oninput="calculate()"
+                  class="w-24 px-3 py-3 border-2 border-orange-500 rounded-lg text-lg font-bold text-center focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+                />
+                <div class="flex-1">
+                  <input 
+                    type="range" 
+                    id="volSlider" 
+                    value="10" 
+                    min="5" 
+                    max="50" 
+                    step="1"
+                    oninput="updateVolFromSlider()"
+                    class="w-full h-3 bg-gradient-to-r from-orange-200 to-orange-400 rounded-full appearance-none cursor-pointer focus:outline-none focus:ring-4 focus:ring-orange-300/50 slider-thumb"
+                  />
+                  <style>
+                    .slider-thumb::-webkit-slider-thumb {
+                      -webkit-appearance: none;
+                      appearance: none;
+                      width: 28px;
+                      height: 28px;
+                      border-radius: 50%;
+                      background: linear-gradient(135deg, #f97316, #ea580c);
+                      cursor: pointer;
+                      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.4);
+                      border: 3px solid white;
+                      transition: all 0.2s ease;
+                    }
+                    .slider-thumb::-webkit-slider-thumb:hover {
+                      transform: scale(1.15);
+                      box-shadow: 0 6px 15px rgba(249, 115, 22, 0.5);
+                    }
+                    .slider-thumb::-moz-range-thumb {
+                      width: 28px;
+                      height: 28px;
+                      border-radius: 50%;
+                      background: linear-gradient(135deg, #f97316, #ea580c);
+                      cursor: pointer;
+                      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.4);
+                      border: 3px solid white;
+                      transition: all 0.2s ease;
+                    }
+                    .slider-thumb::-moz-range-thumb:hover {
+                      transform: scale(1.15);
+                      box-shadow: 0 6px 15px rgba(249, 115, 22, 0.5);
+                    }
+                  </style>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -185,10 +232,19 @@
 
   <script src="/search-overlay/search-overlay.js"></script>
   <script>
+function updateVolFromSlider() {
+    const sliderValue = document.getElementById('volSlider').value;
+    document.getElementById('volInput').value = sliderValue;
+    calculate();
+}
+
 function calculate() {
     const food = parseFloat(document.getElementById('foodInput').value) || 0;
     const vol = parseInt(document.getElementById('volInput').value) || 0;
     const deliveryFee = 3.50;
+    
+    // Also sync slider if volInput changed directly
+    document.getElementById('volSlider').value = vol;
     
     // UDO Logic (12.5% Platform Fee)
     const udoPlatformFee = food * 0.125;
@@ -224,6 +280,9 @@ function calculate() {
     document.getElementById('displayVol').innerText = vol;
     document.getElementById('monthlyExtra').innerText = '$' + monthlyExtra.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
     document.getElementById('yearlyExtra').innerText = '$' + yearlyExtra.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
+    
+    // Update slider value display
+    document.getElementById('volValue').innerText = vol;
 }
 
 // Initial calculation
