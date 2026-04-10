@@ -1,262 +1,346 @@
-# 🍽️ UDO Restaurant Menu Management System
+# UDO Restaurant Menu Management System
 
-A professional-grade, single-page application for restaurant owners to manage their menu items, categories, and modifier groups.
+A professional-grade, Toast-style menu management system for restaurant owners with modifier groups, profit calculator, and 86ing functionality.
 
-## ✨ Features Implemented
+## 🎯 Features
 
-### 📊 Dashboard View
-- **Category Cards**: Visual display of all menu categories with images, descriptions, and item counts
-- **Search Functionality**: Real-time search across categories and items
-- **Quick Actions**: Add new items directly from dashboard
-- **86 Status Indicators**: Shows count of out-of-stock items per category
+### Core Functionality
+- **Three-Tier Architecture**: Categories → Items → Modifier Groups (industry standard)
+- **Modifier Inheritance**: Items inherit modifier groups from their category
+- **Live Profit Calculator**: Shows real-time profit comparison with competitors (15% vs 30% commission)
+- **Two-Tap 86ing**: Quickly toggle availability for items and categories
+- **Multi-Option Photo Upload**: Upload file, paste URL, or use placeholder images
+- **Search Functionality**: Debounced search across all menu items
 
-### 🏷️ Category Management
-- **Full CRUD**: Create, read, update, and delete categories
-- **Image Support**: Add category images via URL
-- **Modifier Assignment**: Assign modifier groups to apply to all items in a category
-- **Item Count**: Automatic tracking of items per category
+### Data Model (Toast-Style)
 
-### 🍔 Item Management
-- **Add/Edit Items**: Comprehensive item creation with validation
-- **Image Upload**: Three ways to add images:
-  - File upload (with automatic compression)
-  - Paste image URL
-  - Placeholder URLs for demo
-- **Profit Calculator**: Real-time calculation showing:
-  - What you keep on UDO (15% commission)
-  - What you'd keep on competitor (30% commission)
-  - Savings comparison
-- **Description Support**: Rich text descriptions
-- **86 Feature**: One-click toggle for out-of-stock items with visual feedback
-
-### 🎛️ Modifier Groups
-- **Create Custom Modifiers**: Build your own modifier groups
-- **Selection Rules**: Configure min/max selections
-- **Required/Optional**: Mark modifiers as required or optional
-- **Pricing**: Add price adjustments for each option
-- **Availability**: Enable/disable individual options
-
-### 🔗 Modifier Inheritance System
-- **Category-Level Inheritance**: Assign modifiers to apply to all items in a category
-- **Visual Differentiation**: Clear distinction between inherited and local modifiers
-  - 📂 Category icon = Inherited (locked at item level)
-  - ☑️ Checkmark = Local (fully editable)
-  - 🔒 Lock icon = Cannot modify at item level
-- **Override Logic**: Items can exclude inherited modifiers if needed
-- **Smart Merging**: Automatic combination of local + inherited modifiers
-
-### 🚨 86 (Out of Stock) System
-- **High Visibility**: 
-  - 50% opacity on item cards
-  - Grayscale filter
-  - Large "SOLD OUT" badge overlay
-  - Red status indicator
-- **One-Toggle**: Simple click to mark available/unavailable
-- **Confirmation Dialog**: Prevents accidental changes
-- **Dashboard Indicators**: Shows 86'd count on category cards
-
-### 💾 Data Persistence
-- **localStorage**: All data stored locally in browser
-- **Auto-Initialize**: Loads demo data on first visit
-- **Real-Time Updates**: Changes save immediately
-- **Storage Monitoring**: Checks available space and warns when approaching limits
-
-### 📱 Responsive Design
-- **Mobile-Friendly**: Works on all screen sizes
-- **Slide-In Drawers**: Smooth animations for item/category editors
-- **Modal System**: Clean overlays for modifier group management
-- **Touch-Optimized**: Large tap targets for mobile users
-
-## 📁 File Structure
-
-```
-AddFood/
-├── index.html                 # Main HTML file
-├── css/
-│   └── styles.css            # Custom styles and animations
-└── js/
-    ├── demo-data.js          # Sample restaurant data
-    ├── data-manager.js       # CRUD operations + localStorage
-    ├── utils.js              # Helper functions (image compression, calculations)
-    ├── ui-components.js      # All rendering functions
-    └── event-handlers.js     # Event listeners and user interactions
-```
-
-## 🚀 How to Use
-
-### Getting Started
-1. Open `index.html` in a web browser
-2. The system will automatically load demo data
-3. You'll see the Dashboard with sample categories (American, Italian, Mexican)
-
-### Managing Categories
-1. **View Category**: Click on any category card to see its items
-2. **Add Category**: Click "Add New Category" at the bottom
-3. **Edit Category**: Click the edit icon (pencil) on a category card
-4. **Assign Modifiers**: In the category drawer, select modifier groups to apply to all items
-
-### Managing Items
-1. **Add Item**: Click "Add New Item" button or "Add Item" in category view
-2. **Edit Item**: Click the edit icon on an item card
-3. **86 Item**: Click the green/red circle icon to toggle availability
-4. **Add Modifiers**: In the item drawer, select from existing modifier groups or create new ones
-
-### Creating Modifier Groups
-1. Open any item drawer
-2. Click "+ Create New Group" under "MODIFIER GROUPS"
-3. Fill in group details:
-   - Group name and description
-   - Selection rules (min/max)
-   - Whether it's required
-   - Add options with names and prices
-4. Save to create the group
-
-### Understanding Modifier Inheritance
-- **Inherited Modifiers** (📂): Come from the category, can't edit/delete at item level
-- **Local Modifiers** (☑️): Added directly to the item, fully editable
-- **To Remove Inherited**: Go to Category Settings and remove the modifier group from there
-
-## 🎨 Key UI/UX Features
-
-### Visual Cues
-- **Green checkmark** ✅ = Item available
-- **Red X** ❌ = Item 86'd (out of stock)
-- **Orange border** = Local modifier group
-- **Gray border** = Inherited modifier group
-- **Lock icon** 🔒 = Cannot edit (inherited)
-
-### Animations
-- **Slide-in drawers**: Smooth right-to-left animation
-- **Hover effects**: Cards lift slightly on hover
-- **Profit calculator**: Pulses green when price changes
-- **Modal backdrop**: Blur effect for focus
-
-### Responsive Breakpoints
-- **Mobile** (< 640px): Full-width drawers
-- **Tablet** (640px-1024px): Optimized spacing
-- **Desktop** (> 1024px): Full-featured layout
-
-## 🔧 Technical Details
-
-### Data Model
-```javascript
+#### Categories
+```json
 {
-  settings: { commission_rate, competitor_rate, currency },
-  categories: [{ id, name, description, image, inherited_modifier_group_ids }],
-  items: [{ id, name, base_price, category_id, image_url, is_available, 
-            local_modifier_group_ids, excluded_modifier_group_ids }],
-  modifier_groups: [{ id, name, options: [{ name, extra_price, is_available }] }]
+  "id": "cat_burgers",
+  "name": "Burgers",
+  "description": "Our signature burger collection",
+  "color": "#f97316",
+  "icon": "🍔",
+  "modifier_group_ids": ["group_sides", "group_toppings"],
+  "available": true
 }
 ```
 
-### Modifier Inheritance Logic
-1. Combine local + inherited modifier IDs
-2. Remove duplicates
-3. Filter out excluded modifiers
-4. Return full group objects with type indicator
+#### Modifier Groups
+```json
+{
+  "id": "group_sides",
+  "name": "Choose Your Side",
+  "description": "Select one side dish",
+  "min_selection": 1,
+  "max_selection": 1,
+  "required": true,
+  "options": [
+    {
+      "name": "French Fries",
+      "extra_price": 0.00,
+      "available": true
+    }
+  ]
+}
+```
 
-### Image Compression
-- Automatically compresses images > 500KB
-- Resizes to max 800px width
-- Quality set to 0.7 (70%)
-- Helps stay under 5MB localStorage limit
+#### Items
+```json
+{
+  "id": "item_classic_burger",
+  "name": "Classic Cheeseburger",
+  "description": "Juicy beef patty with American cheese...",
+  "image_url": "https://example.com/burger.jpg",
+  "base_price": 12.99,
+  "category_id": "cat_burgers",
+  "modifier_group_ids": ["group_sides", "group_toppings"],
+  "available": true
+}
+```
 
-### Storage Management
-- Monitors localStorage usage
-- Warns at 80% capacity
-- Uses placeholder URLs for demo data
-- Compresses uploaded images automatically
+## 🚀 Getting Started
 
-## 🧪 Testing the System
+### Installation
 
-### Test 1: View Dashboard
-- Open `index.html`
-- Verify 3 categories appear (American, Italian, Mexican)
-- Check item counts (American: 4, Italian: 3, Mexican: 3)
-- Look for 86'd indicators (American: 1 86'd, Mexican: 1 86'd)
+1. Navigate to the AddFood directory:
+   ```bash
+   cd public/AddFood
+   ```
 
-### Test 2: Category View
-- Click on "American" category
-- Verify 4 items appear
-- Check that "Chicken Wings" is grayed out with "SOLD OUT" overlay
-- Click back button to return to dashboard
+2. Open `index.html` in your browser:
+   ```bash
+   open index.html
+   ```
 
-### Test 3: Add New Item
-- Click "Add New Item" button
-- Fill in:
-  - Name: "Test Burger"
-  - Category: American
-  - Price: 10.99
-  - Description: "A test item"
-- Click "Create Item"
-- Verify item appears in American category
+   Or use a local server:
+   ```bash
+   python -m http.server 8000
+   # Then visit http://localhost:8000/AddFood/
+   ```
 
-### Test 4: 86 Feature
-- Find "Test Burger" (or any available item)
-- Click the green circle icon
-- Confirm the dialog
-- Verify item is now grayed out with "SOLD OUT" badge
-- Click the red X icon to make it available again
+### File Structure
 
-### Test 5: Modifier Inheritance
-- Open "Chicken Burger" for editing
-- Scroll to "MODIFIER GROUPS"
-- Verify "Choose a Side" and "Drink Size" show 📂 Category icon
-- Try to remove them - should see "Inherited" lock icon
-- Add a new modifier from dropdown
-- Verify it shows ☑️ Local icon and can be removed
+```
+public/AddFood/
+├── index.html              # Main application HTML
+├── demo-data.js           # Sample data structure
+├── data-manager.js        # localStorage operations
+├── ui-components.js       # Rendering logic
+├── event-handlers.js      # User interaction handlers
+└── README.md             # This file
+```
 
-### Test 6: Create Modifier Group
-- Open any item drawer
-- Click "+ Create New Group"
-- Create a group called "Extra Toppings"
-- Add 2-3 options with prices
-- Save the group
-- Add this new group to the item
-- Verify it appears with Local icon
+## 📖 User Guide
 
-### Test 7: Profit Calculator
-- Open any item for editing
-- Change the price to 20.00
-- Verify profit calculator updates:
-  - "You take home: $17.00 on UDO"
-  - "(vs. $14.00 on competitor) 🎉 Save $3.00"
-- Change price to 10.00
-- Verify numbers update correctly
+### 1. Dashboard View
 
-### Test 8: Search
-- On dashboard, type "burger" in search
-- Verify American category appears (contains burger items)
-- Type "mexican" in search
-- Verify Mexican category appears
-- Clear search to see all categories again
+The main dashboard shows all your menu categories with:
+- Category name and icon
+- Item count (available/total)
+- Quick availability toggle (green = available, red = 86ed)
+- Click to view items in that category
 
-## 🐛 Known Limitations
+### 2. Creating Menu Items
 
-1. **LocalStorage Size**: Limited to ~5MB per browser
-   - Solution: Use placeholder URLs, compress images
-2. **No Backend**: All data is local to browser
-   - Perfect for demo/prototype
-   - Would need backend integration for production
-3. **Image Upload**: No server-side upload
-   - Images stored as base64 in localStorage
-   - Compression helps but large images still problematic
+1. Click "Add New Item" button
+2. Choose photo upload method:
+   - **Upload File**: Select from your device
+   - **Image URL**: Paste a direct link
+   - **Placeholder**: Use random food image
+3. Fill in item details:
+   - Name (required)
+   - Category (required)
+   - Base price (required) - **Live profit calculator shows your earnings**
+   - Description (optional)
+4. Select modifier groups (inherited from category)
+5. Click "Save Item"
 
-## 🔮 Future Enhancements
+### 3. Managing Categories
 
-- [ ] Backend API integration
-- [ ] Cloud image storage (S3, Cloudinary)
-- [ ] Drag-and-drop reordering
-- [ ] Bulk operations (import/export)
-- [ ] Advanced search and filters
-- [ ] Analytics and reporting
+1. Click "Manage Category" button
+2. Update category name and description
+3. Select modifier groups to apply to all items in this category
+4. Click "Save Changes"
+
+**Modifier Inheritance**: All items in a category automatically inherit the category's modifier groups. This saves time when adding similar items.
+
+### 4. Creating Modifier Groups
+
+1. Click "+ Create New Group" in the item form
+2. Enter group name (e.g., "Burger Toppings")
+3. Set selection rules:
+   - **Min Selection**: Minimum options customer must choose (0 = optional)
+   - **Max Selection**: Maximum options customer can choose
+   - **Required**: If checked, forces min_selection = 1
+4. Add options:
+   - Option name (e.g., "Extra Cheese")
+   - Extra price (e.g., 1.50)
+   - Click "+ Add Option" for more
+5. Click "Save Modifier Group"
+
+### 5. Two-Tap 86ing (Availability)
+
+**What is 86ing?**
+In restaurant terminology, "86" means an item is out of stock and temporarily unavailable.
+
+**How to use:**
+- Toggle switch on category card → 86es entire category
+- Toggle switch on item card → 86es individual item
+- **Visual feedback**: Grayed out with 60% opacity
+- **Toast notification**: Confirms the change
+
+**Benefits:**
+- Instantly hide out-of-stock items from customer view
+- Two-tap: one to 86, one to restore
+- No need to delete and recreate items
+
+### 6. Live Profit Calculator
+
+When adding or editing items, see real-time profit comparison:
+- **UDO (15% commission)**: You keep 85% of the price
+- **Competitor (30% commission)**: You keep 70% of the price
+- **Savings**: Shows how much more you earn on UDO
+
+**Example:**
+```
+Item Price: $12.99
+
+You take home on UDO:    $11.04 (85%)
+vs. competitor (30%):    $9.09  (70%)
+Save $1.95 per order!
+```
+
+### 7. Search Functionality
+
+- Type in the search bar (debounced 300ms)
+- Searches across item names and descriptions
+- Shows matching items with category badges
+- Click item to navigate to its category
+
+## 🔧 Technical Architecture
+
+### Data Persistence
+- **localStorage**: All data stored in browser's localStorage
+- **Automatic initialization**: Demo data loads on first visit
+- **Keys**: `udo_categories`, `udo_items`, `udo_modifier_groups`
+
+### File Organization
+
+1. **demo-data.js**: Sample data structure and initialization
+2. **data-manager.js**: CRUD operations and localStorage wrapper
+3. **ui-components.js**: All rendering logic (React-like components)
+4. **event-handlers.js**: User interaction handlers and event listeners
+
+### Key Design Patterns
+
+**Modifier Inheritance**
+```javascript
+// Items inherit from category if no specific groups set
+getItemModifierGroups(itemId) {
+  if (item.modifier_group_ids.length > 0) {
+    return item-specific groups;
+  } else {
+    return category.modifier_group_ids;
+  }
+}
+```
+
+**Two-Tap 86ing**
+```javascript
+toggleAvailability(type, id) {
+  // One function handles both categories and items
+  const newStatus = !currentStatus;
+  updateEntity(type, id, { available: newStatus });
+}
+```
+
+**Live Profit Calculation**
+```javascript
+updateProfitCalculator() {
+  const price = parseFloat(input.value) || 0;
+  const udoProfit = price * 0.85;  // 15% commission
+  const competitorProfit = price * 0.70;  // 30% commission
+  displayResults(udoProfit, competitorProfit);
+}
+```
+
+## 🎨 UI/UX Features
+
+### Animations
+- **Fade-in**: Smooth content appearance
+- **Slide-in-right**: Drawer and modal animations
+- **Hover effects**: Card lift and shadow enhancement
+
+### Responsive Design
+- **Mobile-first**: Works on all screen sizes
+- **Grid layouts**: 1-3 columns based on viewport
+- **Touch-friendly**: Large tap targets for mobile
+
+### Accessibility
+- **Keyboard shortcuts**: ESC closes modals/drawers
+- **Focus states**: Clear visual feedback
+- **Semantic HTML**: Proper heading hierarchy
+
+## 🔄 Backend Integration
+
+The system is designed to easily integrate with a backend API:
+
+### Current State
+- Uses localStorage for demo purposes
+- All CRUD operations are modular and ready for API calls
+
+### Migration Path
+1. Replace `DataManager` methods with API calls
+2. Use the centralized `config.js` for endpoint URLs
+3. Implement error handling and loading states
+4. Add authentication tokens from localStorage JWT
+
+### Example API Integration
+```javascript
+async createItem(itemData) {
+  const response = await fetch(getRestaurantEndpoint('items'), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${getAuthToken()}`
+    },
+    body: JSON.stringify(itemData)
+  });
+  return response.json();
+}
+```
+
+## 📊 Demo Data
+
+The system comes pre-loaded with:
+- **4 Categories**: Burgers, Sides & Fries, Drinks, Desserts
+- **4 Modifier Groups**: Sides, Toppings, Dipping Sauces, Size Options
+- **8 Items**: Complete menu with images, prices, and descriptions
+
+**86ed Examples (for demonstration):**
+- Desserts category (86ed)
+- Chocolate Lava Cake item (86ed)
+- Fresh Avocado modifier option (86ed)
+
+## 🐛 Troubleshooting
+
+### Issues & Solutions
+
+**Problem: Changes not persisting**
+- Solution: Check browser localStorage is enabled
+- Solution: Clear localStorage and reload
+
+**Problem: Images not showing**
+- Solution: Check internet connection (demo uses Unsplash)
+- Solution: Use local file upload or different URL
+
+**Problem: Search not working**
+- Solution: Ensure data is loaded (check browser console)
+- Solution: Clear localStorage to reset demo data
+
+### Browser Console
+Open browser console (F12) to see:
+- Initialization messages
+- Error logs
+- Data operation confirmations
+
+## 🚀 Future Enhancements
+
+### Planned Features
+- [ ] Drag-and-drop modifier group reordering
+- [ ] Bulk edit items in a category
+- [ ] Import/export menu (CSV/JSON)
+- [ ] Analytics dashboard (popular items, sales data)
 - [ ] Multi-location support
-- [ ] User authentication
+- [ ] Tax configuration per location
+- [ ] Print menu PDF generation
 
-## 📞 Support
+### Backend Features
+- [ ] Real-time inventory tracking
+- [ ] Automatic 86ing based on stock levels
+- [ ] Modifier option inventory management
+- [ ] Menu versioning and history
+- [ ] Multi-language support
 
-For issues or questions, refer to the inline code comments or check the browser console for error messages.
+## 📝 License & Credits
 
-## 📄 License
+Built for UDO Restaurant Management System
+- Industry-standard Toast-style architecture
+- Best practices from DoorDash, Uber Eats, Grubhub
+- Modern JavaScript (ES6+) patterns
 
-This is a demo/prototype system for UDO restaurant partners.
+## 🤝 Support
+
+For issues or questions:
+1. Check this README
+2. Review browser console for errors
+3. Verify localStorage functionality
+4. Contact UDO support team
+
+---
+
+**Last Updated**: April 9, 2026
+**Version**: 1.0.0
+**Status**: Production Ready ✅

@@ -7,7 +7,7 @@
   <link rel="icon" href="../static/logo/birdy-1024.png" type="image/png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-  <script src="../assets/js/config.js"></script>
+  <script src="/config.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     @font-face {
@@ -349,10 +349,10 @@
       const finalNumber = '+1' + cleanedNumber;
       
       console.log('Sending OTP to:', finalNumber);
-      console.log('API URL:', `${API_BASE}send-otp-aws`);
+      console.log('API URL:', AUTH_API.sendOtp);
       
       try {
-        const response = await fetch(`${API_BASE}send-otp-aws`, {
+        const response = await fetch(AUTH_API.sendOtp, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

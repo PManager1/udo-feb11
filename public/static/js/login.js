@@ -10,7 +10,7 @@ function handleCredentialResponse(response) {
     messageBox.classList.add('success');
     messageBox.textContent = 'Google Sign-In successful, contacting backend...';
 
-    fetch('https://xmkvtmgtwb.execute-api.us-east-1.amazonaws.com/dev/auth/google/', {
+    fetch(AUTH_API.google, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
