@@ -1,5 +1,5 @@
-// Data Manager - Handles all localStorage operations for the restaurant menu
-// This file provides a clean API for CRUD operations on categories, items, and modifier groups
+// Data Manager - Handles both API and localStorage operations for restaurant menu
+// This file provides a clean API for CRUD operations with automatic API fallback to localStorage
 
 class DataManager {
   constructor() {
@@ -8,6 +8,103 @@ class DataManager {
       items: 'udo_items',
       modifierGroups: 'udo_modifier_groups'
     };
+    
+    // Sync status tracking
+    this.syncStatus = {
+      lastSync: null,
+      isOnline: false,
+      useApiMode: false,
+      lastError: null
+    };
+    
+    // Initialize API mode
+    this.initializeApiMode();
+  }
+  
+  /**
+   * Initialize API mode based on token availability and health check
+   */
+  async initializeApiMode() {
+    // Check if tokenManager and apiManager are available
+    if (typeof tokenManager !== 'undefined' && typeof apiManager !== 'undefined') {
+      // First check if token exists
+      if (tokenManager.hasValidToken()) {
+        // Try a health check to verify backend is reachable
+        console.log('DataManager: Checking backend health...');
+        try {
+          const isHealthy = await apiManager.healthCheck();
+          if (isHealthy) {
+            this.syncStatus.useApiMode = true;
+            this.syncStatus.isOnline = true;
+            console.log('DataManager: API mode initialized as true (backend is reachable)');
+          } else {
+            this.syncStatus.useApiMode = false;
+            this.syncStatus.isOnline = false;
+            console.log('DataManager: Backend health check failed, using localStorage mode');
+          }
+        } catch (error) {
+          this.syncStatus.useApiMode = false;
+          this.syncStatus.isOnline = false;
+          console.log('DataManager: Backend health check error, using localStorage mode');
+        }
+      } else {
+        this.syncStatus.useApiMode = false;
+        this.syncStatus.isOnline = false;
+        console.log('DataManager: No valid token, using localStorage mode');
+      }
+    } else {
+      console.warn('DataManager: tokenManager or apiManager not available, using localStorage only');
+      this.syncStatus.useApiMode = false;
+    }
+  }
+  
+  /**
+   * Update API mode status
+   */
+  updateApiMode() {
+    if (typeof tokenManager !== 'undefined') {
+      const previousMode = this.syncStatus.useApiMode;
+      this.syncStatus.useApiMode = tokenManager.hasValidToken();
+      
+      if (previousMode !== this.syncStatus.useApiMode) {
+        console.log('DataManager: API mode changed from', previousMode, 'to', this.syncStatus.useApiMode);
+      }
+    }
+  }
+  
+  /**
+   * Get current sync status
+   */
+  getSyncStatus() {
+    return { ...this.syncStatus };
+  }
+  
+  /**
+   * Update last sync timestamp
+   */
+  updateSyncTimestamp() {
+    this.syncStatus.lastSync = new Date().toISOString();
+    this.syncStatus.isOnline = true;
+    this.syncStatus.lastError = null;
+  }
+  
+  /**
+   * Handle API errors - quiet logging for expected fallbacks
+   */
+  handleApiError(error) {
+    // Only log errors if it's not an expected network error during initialization
+    if (error.message.includes('Failed to fetch') || error.message.includes('Not Found')) {
+      // Silent fallback - expected when backend is unreachable
+      this.syncStatus.isOnline = false;
+      this.syncStatus.lastError = error.message || 'Unknown error';
+      return false;
+    }
+    
+    // Log unexpected errors
+    console.error('DataManager: API error:', error.message);
+    this.syncStatus.isOnline = false;
+    this.syncStatus.lastError = error.message || 'Unknown error';
+    return false;
   }
 
   // Generic storage methods
@@ -33,7 +130,23 @@ class DataManager {
 
   // ===== CATEGORIES =====
   
-  getAllCategories() {
+  async getAllCategories() {
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Fetching categories from API...');
+        const categories = await apiManager.getCategories();
+        this.setData(this.storageKeys.categories, categories);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Categories fetched from API successfully');
+        return categories;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Return from localStorage
     return this.getData(this.storageKeys.categories);
   }
 
@@ -42,9 +155,32 @@ class DataManager {
     return categories.find(cat => cat.id === id);
   }
 
-  createCategory(categoryData) {
+  async createCategory(categoryData) {
+    let newCategory;
+    
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Creating category via API...');
+        newCategory = await apiManager.createCategory(categoryData);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Category created via API successfully');
+        
+        // Update localStorage cache
+        const categories = this.getData(this.storageKeys.categories);
+        categories.push(newCategory);
+        this.setData(this.storageKeys.categories, categories);
+        
+        return newCategory;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Create in localStorage
     const categories = this.getAllCategories();
-    const newCategory = {
+    newCategory = {
       id: `cat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: categoryData.name,
       description: categoryData.description || '',
@@ -61,23 +197,70 @@ class DataManager {
     return newCategory;
   }
 
-  updateCategory(id, updates) {
+  async updateCategory(id, updates) {
+    let updatedCategory;
+    
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Updating category via API...');
+        updatedCategory = await apiManager.updateCategory(id, updates);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Category updated via API successfully');
+        
+        // Update localStorage cache
+        const categories = this.getData(this.storageKeys.categories);
+        const index = categories.findIndex(cat => cat.id === id);
+        if (index !== -1) {
+          categories[index] = updatedCategory;
+          this.setData(this.storageKeys.categories, categories);
+        }
+        
+        return updatedCategory;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Update in localStorage
     const categories = this.getAllCategories();
     const index = categories.findIndex(cat => cat.id === id);
     
     if (index !== -1) {
-      categories[index] = {
+      updatedCategory = {
         ...categories[index],
         ...updates,
         updated_at: new Date().toISOString()
       };
       this.setData(this.storageKeys.categories, categories);
-      return categories[index];
+      return updatedCategory;
     }
     return null;
   }
 
-  deleteCategory(id) {
+  async deleteCategory(id) {
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Deleting category via API...');
+        await apiManager.deleteCategory(id);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Category deleted via API successfully');
+        
+        // Update localStorage cache
+        const categories = this.getData(this.storageKeys.categories);
+        const filtered = categories.filter(cat => cat.id !== id);
+        this.setData(this.storageKeys.categories, filtered);
+        
+        return true;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Delete from localStorage
     const categories = this.getAllCategories();
     const filtered = categories.filter(cat => cat.id !== id);
     
@@ -90,11 +273,42 @@ class DataManager {
 
   // ===== ITEMS =====
   
-  getAllItems() {
+  async getAllItems() {
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Fetching items from API...');
+        const items = await apiManager.getItems();
+        this.setData(this.storageKeys.items, items);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Items fetched from API successfully');
+        return items;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Return from localStorage
     return this.getData(this.storageKeys.items);
   }
 
-  getItemsByCategory(categoryId) {
+  async getItemsByCategory(categoryId) {
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Fetching items by category from API...');
+        const items = await apiManager.getItemsByCategory(categoryId);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Items by category fetched from API successfully');
+        return items;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Return from localStorage
     const items = this.getAllItems();
     return items.filter(item => item.category_id === categoryId);
   }
@@ -104,9 +318,32 @@ class DataManager {
     return items.find(item => item.id === id);
   }
 
-  createItem(itemData) {
+  async createItem(itemData) {
+    let newItem;
+    
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Creating item via API...');
+        newItem = await apiManager.createItem(itemData);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Item created via API successfully');
+        
+        // Update localStorage cache
+        const items = this.getData(this.storageKeys.items);
+        items.push(newItem);
+        this.setData(this.storageKeys.items, items);
+        
+        return newItem;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Create in localStorage
     const items = this.getAllItems();
-    const newItem = {
+    newItem = {
       id: `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: itemData.name,
       description: itemData.description || '',
@@ -124,24 +361,71 @@ class DataManager {
     return newItem;
   }
 
-  updateItem(id, updates) {
+  async updateItem(id, updates) {
+    let updatedItem;
+    
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Updating item via API...');
+        updatedItem = await apiManager.updateItem(id, updates);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Item updated via API successfully');
+        
+        // Update localStorage cache
+        const items = this.getData(this.storageKeys.items);
+        const index = items.findIndex(item => item.id === id);
+        if (index !== -1) {
+          items[index] = updatedItem;
+          this.setData(this.storageKeys.items, items);
+        }
+        
+        return updatedItem;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Update in localStorage
     const items = this.getAllItems();
     const index = items.findIndex(item => item.id === id);
     
     if (index !== -1) {
-      items[index] = {
+      updatedItem = {
         ...items[index],
         ...updates,
         base_price: updates.base_price !== undefined ? parseFloat(updates.base_price) : items[index].base_price,
         updated_at: new Date().toISOString()
       };
       this.setData(this.storageKeys.items, items);
-      return items[index];
+      return updatedItem;
     }
     return null;
   }
 
-  deleteItem(id) {
+  async deleteItem(id) {
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Deleting item via API...');
+        await apiManager.deleteItem(id);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Item deleted via API successfully');
+        
+        // Update localStorage cache
+        const items = this.getData(this.storageKeys.items);
+        const filtered = items.filter(item => item.id !== id);
+        this.setData(this.storageKeys.items, filtered);
+        
+        return true;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Delete from localStorage
     const items = this.getAllItems();
     const filtered = items.filter(item => item.id !== id);
     
@@ -152,8 +436,8 @@ class DataManager {
     return false;
   }
 
-  toggleItemAvailability(id) {
-    const item = this.getItemById(id);
+  async toggleItemAvailability(id) {
+    const item = await this.getItemById(id);
     if (item) {
       return this.updateItem(id, { available: !item.available });
     }
@@ -162,7 +446,23 @@ class DataManager {
 
   // ===== MODIFIER GROUPS =====
   
-  getAllModifierGroups() {
+  async getAllModifierGroups() {
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Fetching modifier groups from API...');
+        const groups = await apiManager.getModifierGroups();
+        this.setData(this.storageKeys.modifierGroups, groups);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Modifier groups fetched from API successfully');
+        return groups;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Return from localStorage
     return this.getData(this.storageKeys.modifierGroups);
   }
 
@@ -171,9 +471,32 @@ class DataManager {
     return groups.find(group => group.id === id);
   }
 
-  createModifierGroup(groupData) {
+  async createModifierGroup(groupData) {
+    let newGroup;
+    
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Creating modifier group via API...');
+        newGroup = await apiManager.createModifierGroup(groupData);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Modifier group created via API successfully');
+        
+        // Update localStorage cache
+        const groups = this.getData(this.storageKeys.modifierGroups);
+        groups.push(newGroup);
+        this.setData(this.storageKeys.modifierGroups, groups);
+        
+        return newGroup;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Create in localStorage
     const groups = this.getAllModifierGroups();
-    const newGroup = {
+    newGroup = {
       id: `group_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: groupData.name,
       description: groupData.description || '',
@@ -190,12 +513,38 @@ class DataManager {
     return newGroup;
   }
 
-  updateModifierGroup(id, updates) {
+  async updateModifierGroup(id, updates) {
+    let updatedGroup;
+    
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Updating modifier group via API...');
+        updatedGroup = await apiManager.updateModifierGroup(id, updates);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Modifier group updated via API successfully');
+        
+        // Update localStorage cache
+        const groups = this.getData(this.storageKeys.modifierGroups);
+        const index = groups.findIndex(group => group.id === id);
+        if (index !== -1) {
+          groups[index] = updatedGroup;
+          this.setData(this.storageKeys.modifierGroups, groups);
+        }
+        
+        return updatedGroup;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Update in localStorage
     const groups = this.getAllModifierGroups();
     const index = groups.findIndex(group => group.id === id);
     
     if (index !== -1) {
-      groups[index] = {
+      updatedGroup = {
         ...groups[index],
         ...updates,
         min_selection: updates.min_selection !== undefined ? parseInt(updates.min_selection) : groups[index].min_selection,
@@ -203,12 +552,33 @@ class DataManager {
         updated_at: new Date().toISOString()
       };
       this.setData(this.storageKeys.modifierGroups, groups);
-      return groups[index];
+      return updatedGroup;
     }
     return null;
   }
 
-  deleteModifierGroup(id) {
+  async deleteModifierGroup(id) {
+    // Try API first if in API mode
+    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
+      try {
+        console.log('DataManager: Deleting modifier group via API...');
+        await apiManager.deleteModifierGroup(id);
+        this.updateSyncTimestamp();
+        console.log('DataManager: Modifier group deleted via API successfully');
+        
+        // Update localStorage cache
+        const groups = this.getData(this.storageKeys.modifierGroups);
+        const filtered = groups.filter(group => group.id !== id);
+        this.setData(this.storageKeys.modifierGroups, filtered);
+        
+        return true;
+      } catch (error) {
+        this.handleApiError(error);
+        // Fall back to localStorage
+      }
+    }
+    
+    // Delete from localStorage
     const groups = this.getAllModifierGroups();
     const filtered = groups.filter(group => group.id !== id);
     
@@ -221,7 +591,7 @@ class DataManager {
 
   // ===== MODIFIER OPTIONS =====
   
-  addModifierOption(groupId, optionData) {
+  async addModifierOption(groupId, optionData) {
     const group = this.getModifierGroupById(groupId);
     if (group) {
       const newOption = {
@@ -232,13 +602,13 @@ class DataManager {
       };
       
       group.options.push(newOption);
-      this.updateModifierGroup(groupId, { options: group.options });
+      await this.updateModifierGroup(groupId, { options: group.options });
       return newOption;
     }
     return null;
   }
 
-  updateModifierOption(groupId, optionId, updates) {
+  async updateModifierOption(groupId, optionId, updates) {
     const group = this.getModifierGroupById(groupId);
     if (group) {
       const optionIndex = group.options.findIndex(opt => opt.id === optionId);
@@ -248,28 +618,28 @@ class DataManager {
           ...updates,
           extra_price: updates.extra_price !== undefined ? parseFloat(updates.extra_price) : group.options[optionIndex].extra_price
         };
-        this.updateModifierGroup(groupId, { options: group.options });
+        await this.updateModifierGroup(groupId, { options: group.options });
         return group.options[optionIndex];
       }
     }
     return null;
   }
 
-  deleteModifierOption(groupId, optionId) {
+  async deleteModifierOption(groupId, optionId) {
     const group = this.getModifierGroupById(groupId);
     if (group) {
       const originalLength = group.options.length;
       group.options = group.options.filter(opt => opt.id !== optionId);
       
       if (group.options.length < originalLength) {
-        this.updateModifierGroup(groupId, { options: group.options });
+        await this.updateModifierGroup(groupId, { options: group.options });
         return true;
       }
     }
     return false;
   }
 
-  toggleModifierOptionAvailability(groupId, optionId) {
+  async toggleModifierOptionAvailability(groupId, optionId) {
     const group = this.getModifierGroupById(groupId);
     if (group) {
       const option = group.options.find(opt => opt.id === optionId);
@@ -283,19 +653,19 @@ class DataManager {
   // ===== HELPER METHODS =====
   
   // Get all modifier groups for a specific category (inherited)
-  getCategoryModifierGroups(categoryId) {
-    const category = this.getCategoryById(categoryId);
+  async getCategoryModifierGroups(categoryId) {
+    const category = await this.getCategoryById(categoryId);
     if (!category) return [];
     
-    const allGroups = this.getAllModifierGroups();
+    const allGroups = await this.getAllModifierGroups();
     return category.modifier_group_ids
       .map(id => allGroups.find(group => group.id === id))
       .filter(group => group !== undefined);
   }
 
   // Get all modifier groups for a specific item (item-specific + category-inherited)
-  getItemModifierGroups(itemId) {
-    const item = this.getItemById(itemId);
+  async getItemModifierGroups(itemId) {
+    const item = await this.getItemById(itemId);
     if (!item) return [];
     
     // Get item-specific modifier groups
@@ -312,8 +682,8 @@ class DataManager {
   }
 
   // Search items by name or description
-  searchItems(query) {
-    const items = this.getAllItems();
+  async searchItems(query) {
+    const items = await this.getAllItems();
     const searchTerm = query.toLowerCase();
     
     return items.filter(item => 
@@ -323,10 +693,10 @@ class DataManager {
   }
 
   // Get statistics
-  getStatistics() {
-    const categories = this.getAllCategories();
-    const items = this.getAllItems();
-    const modifierGroups = this.getAllModifierGroups();
+  async getStatistics() {
+    const categories = await this.getAllCategories();
+    const items = await this.getAllItems();
+    const modifierGroups = await this.getAllModifierGroups();
     
     return {
       totalCategories: categories.length,

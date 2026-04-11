@@ -12,38 +12,45 @@ class UIComponents {
 
   // ===== VIEW MANAGEMENT =====
 
-  showDashboard() {
+  async showDashboard() {
     document.getElementById('dashboardView').classList.remove('hidden');
     document.getElementById('categoryDetailView').classList.add('hidden');
-    this.renderCategories();
+    await this.renderCategories();
   }
 
-  showCategoryDetail(categoryId) {
+  async showCategoryDetail(categoryId) {
     this.currentCategory = categoryId;
     document.getElementById('dashboardView').classList.add('hidden');
     document.getElementById('categoryDetailView').classList.remove('hidden');
     
-    const category = this.dataManager.getCategoryById(categoryId);
+    const category = await this.dataManager.getCategoryById(categoryId);
     if (category) {
       document.getElementById('categoryTitle').textContent = category.name;
       document.getElementById('categoryDescription').textContent = category.description || '';
     }
     
-    this.renderItems(categoryId);
+    await this.renderItems(categoryId);
   }
 
   // ===== CATEGORY RENDERING =====
 
-  renderCategories() {
-    const categories = this.dataManager.getAllCategories();
+  async renderCategories() {
+    const categories = await this.dataManager.getAllCategories();
     const container = document.getElementById('categoriesGrid');
     
-    container.innerHTML = categories.map(category => this.renderCategoryCard(category)).join('');
+    // Render category cards with item counts
+    const categoryCards = await Promise.all(
+      categories.map(async (category) => {
+        const items = await this.dataManager.getItemsByCategory(category.id);
+        const availableItems = items.filter(item => item.available);
+        return this.renderCategoryCard(category, items, availableItems);
+      })
+    );
+    
+    container.innerHTML = categoryCards.join('');
   }
 
-  renderCategoryCard(category) {
-    const items = this.dataManager.getItemsByCategory(category.id);
-    const availableItems = items.filter(item => item.available);
+  renderCategoryCard(category, items, availableItems) {
     
     return `
       <div class="category-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 cursor-pointer ${!category.available ? 'opacity-60' : ''}"
@@ -77,8 +84,8 @@ class UIComponents {
 
   // ===== ITEM RENDERING =====
 
-  renderItems(categoryId) {
-    const items = this.dataManager.getItemsByCategory(categoryId);
+  async renderItems(categoryId) {
+    const items = await this.dataManager.getItemsByCategory(categoryId);
     const container = document.getElementById('itemsGrid');
     
     container.innerHTML = items.map(item => this.renderItemCard(item)).join('');
@@ -121,8 +128,8 @@ class UIComponents {
 
   // ===== MODIFIER GROUP RENDERING =====
 
-  renderModifierGroupsForItem(categoryId) {
-    const groups = this.dataManager.getCategoryModifierGroups(categoryId);
+  async renderModifierGroupsForItem(categoryId) {
+    const groups = await this.dataManager.getCategoryModifierGroups(categoryId);
     const container = document.getElementById('modifierGroupsList');
     
     if (groups.length === 0) {
@@ -153,9 +160,9 @@ class UIComponents {
     `;
   }
 
-  renderCategoryModifierGroups() {
-    const groups = this.dataManager.getAllModifierGroups();
-    const category = this.currentCategory ? this.dataManager.getCategoryById(this.currentCategory) : null;
+  async renderCategoryModifierGroups() {
+    const groups = await this.dataManager.getAllModifierGroups();
+    const category = this.currentCategory ? await this.dataManager.getCategoryById(this.currentCategory) : null;
     const selectedIds = category ? category.modifier_group_ids : [];
     
     const container = document.getElementById('categoryModifierGroups');
@@ -217,19 +224,19 @@ class UIComponents {
 
   // ===== FORM POPULATION =====
 
-  populateCategoryForm(categoryId) {
-    const category = this.dataManager.getCategoryById(categoryId);
+  async populateCategoryForm(categoryId) {
+    const category = await this.dataManager.getCategoryById(categoryId);
     if (!category) return;
     
     document.getElementById('categoryName').value = category.name;
     document.getElementById('categoryDescription').value = category.description || '';
     this.currentCategory = categoryId;
     
-    this.renderCategoryModifierGroups();
+    await this.renderCategoryModifierGroups();
   }
 
-  populateItemForm(itemId) {
-    const item = this.dataManager.getItemById(itemId);
+  async populateItemForm(itemId) {
+    const item = await this.dataManager.getItemById(itemId);
     if (!item) return;
     
     document.getElementById('itemName').value = item.name;
@@ -250,8 +257,8 @@ class UIComponents {
     this.updateProfitCalculator();
   }
 
-  populateModifierGroupForm(groupId) {
-    const group = this.dataManager.getModifierGroupById(groupId);
+  async populateModifierGroupForm(groupId) {
+    const group = await this.dataManager.getModifierGroupById(groupId);
     if (!group) return;
     
     document.getElementById('modifierGroupName').value = group.name;
@@ -267,8 +274,8 @@ class UIComponents {
 
   // ===== CATEGORY SELECT POPULATION =====
 
-  populateCategorySelect(selectedId = null) {
-    const categories = this.dataManager.getAllCategories();
+  async populateCategorySelect(selectedId = null) {
+    const categories = await this.dataManager.getAllCategories();
     const select = document.getElementById('itemCategory');
     
     select.innerHTML = categories.map(category => 
@@ -319,11 +326,11 @@ class UIComponents {
 
   // ===== SEARCH FUNCTIONALITY =====
 
-  handleSearch(query) {
-    const results = this.dataManager.searchItems(query);
+  async handleSearch(query) {
+    const results = await this.dataManager.searchItems(query);
     
     if (query.length === 0) {
-      this.showDashboard();
+      await this.showDashboard();
       return;
     }
     
@@ -342,12 +349,20 @@ class UIComponents {
       return;
     }
     
+    // Get category names for search results
+    const resultsWithCategories = await Promise.all(
+      results.map(async (item) => {
+        const category = await this.dataManager.getCategoryById(item.category_id);
+        return { ...item, categoryName: category?.name || 'Unknown' };
+      })
+    );
+    
     container.innerHTML = `
       <div class="col-span-full mb-6">
         <h2 class="text-2xl font-bold text-gray-900">Search Results</h2>
         <p class="text-gray-600">${results.length} item(s) found</p>
       </div>
-    ` + results.map(item => `
+    ` + resultsWithCategories.map(item => `
       <div class="item-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 ${!item.available ? 'opacity-60' : ''}"
            onclick="showCategoryDetail('${item.category_id}')">
         <div class="relative h-48 bg-gray-200">
@@ -367,7 +382,7 @@ class UIComponents {
           <p class="text-sm text-gray-600 mb-3 line-clamp-2">${item.description || 'No description'}</p>
           <div class="flex gap-2">
             <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">
-              ${this.dataManager.getCategoryById(item.category_id)?.name || 'Unknown'}
+              ${item.categoryName}
             </span>
           </div>
         </div>
@@ -377,22 +392,22 @@ class UIComponents {
 
   // ===== FORM HELPERS =====
 
-  resetItemForm() {
+  async resetItemForm() {
     document.getElementById('itemForm').reset();
     document.getElementById('drawerTitle').textContent = 'Add New Item';
     document.getElementById('imagePreviewContainer').classList.add('hidden');
     document.getElementById('imagePreview').src = '';
     this.currentItem = null;
     this.tempModifierOptions = [];
-    this.populateCategorySelect();
+    await this.populateCategorySelect();
     this.updateProfitCalculator();
   }
 
-  resetCategoryForm() {
+  async resetCategoryForm() {
     document.getElementById('categoryName').value = '';
     document.getElementById('categoryDescription').value = '';
     this.currentCategory = null;
-    this.renderCategoryModifierGroups();
+    await this.renderCategoryModifierGroups();
   }
 
   resetModifierGroupForm() {

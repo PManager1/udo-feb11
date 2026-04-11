@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Token Manager -->
+  <script src="../shared/token-manager.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -585,10 +587,7 @@
   </footer>
 
   <script>
-    // Token Management Functions
-    const TOKEN_KEY = 'udo_auth_token';
-    
-    // Save token to localStorage
+    // Token Management Functions using TokenManager
     function saveToken() {
       const tokenInput = document.getElementById('tokenInput');
       const token = tokenInput.value.trim();
@@ -598,94 +597,72 @@
         return;
       }
       
-      try {
-        // Save token with timestamp
-        const tokenData = {
-          token: token,
-          updatedAt: new Date().toISOString()
-        };
-        localStorage.setItem(TOKEN_KEY, JSON.stringify(tokenData));
-        
+      // Validate token format
+      if (!tokenManager.validateTokenFormat(token)) {
+        showToast('Invalid token format. Token must be at least 10 characters.', 'error');
+        return;
+      }
+      
+      // Save token using TokenManager
+      if (tokenManager.saveToken(token)) {
         // Update UI
         updateTokenDisplay();
         tokenInput.value = ''; // Clear input
         
         // Show success message
         showToast('Token saved successfully!');
-        console.log('Token saved to localStorage:', token.substring(0, 20) + '...');
-      } catch (error) {
-        console.error('Error saving token:', error);
+      } else {
         showToast('Failed to save token', 'error');
       }
     }
     
-    // Clear token from localStorage
+    // Clear token using TokenManager
     function clearToken() {
       if (confirm('Are you sure you want to clear the saved token? This will disable API functionality.')) {
-        localStorage.removeItem(TOKEN_KEY);
-        updateTokenDisplay();
-        showToast('Token cleared successfully');
-        console.log('Token cleared from localStorage');
-      }
-    }
-    
-    // Get token from localStorage
-    function getToken() {
-      try {
-        const tokenData = localStorage.getItem(TOKEN_KEY);
-        if (tokenData) {
-          const parsed = JSON.parse(tokenData);
-          return parsed.token;
-        }
-        return null;
-      } catch (error) {
-        console.error('Error retrieving token:', error);
-        return null;
-      }
-    }
-    
-    // Update token display in UI
-    function updateTokenDisplay() {
-      try {
-        const tokenData = localStorage.getItem(TOKEN_KEY);
-        const tokenStatus = document.getElementById('tokenStatus');
-        const savedTokenInfo = document.getElementById('savedTokenInfo');
-        const maskedToken = document.getElementById('maskedToken');
-        const tokenUpdatedAt = document.getElementById('tokenUpdatedAt');
-        
-        if (tokenData) {
-          const parsed = JSON.parse(tokenData);
-          const token = parsed.token;
-          const updatedAt = new Date(parsed.updatedAt);
-          
-          // Show token status badge
-          tokenStatus.classList.remove('hidden');
-          
-          // Show saved token info
-          savedTokenInfo.classList.remove('hidden');
-          
-          // Mask token for display (show first 5 and last 5 characters)
-          if (token.length > 10) {
-            maskedToken.textContent = token.substring(0, 5) + '...' + token.substring(token.length - 5);
-          } else {
-            maskedToken.textContent = token;
-          }
-          
-          // Show when token was updated
-          tokenUpdatedAt.textContent = 'Updated: ' + updatedAt.toLocaleString();
-          
-          console.log('Token display updated');
+        if (tokenManager.clearToken()) {
+          updateTokenDisplay();
+          showToast('Token cleared successfully');
         } else {
-          // Hide token status badge
-          tokenStatus.classList.add('hidden');
-          
-          // Hide saved token info
-          savedTokenInfo.classList.add('hidden');
-          
-          console.log('No token found in localStorage');
+          showToast('Failed to clear token', 'error');
         }
-      } catch (error) {
-        console.error('Error updating token display:', error);
+      }
+    }
+    
+    // Update token display in UI using TokenManager
+    function updateTokenDisplay() {
+      const tokenStatus = document.getElementById('tokenStatus');
+      const savedTokenInfo = document.getElementById('savedTokenInfo');
+      const maskedToken = document.getElementById('maskedToken');
+      const tokenUpdatedAt = document.getElementById('tokenUpdatedAt');
+      
+      const hasToken = tokenManager.hasValidToken();
+      
+      if (hasToken) {
+        // Show token status badge
+        tokenStatus.classList.remove('hidden');
+        
+        // Show saved token info
+        savedTokenInfo.classList.remove('hidden');
+        
+        // Get masked token for display
+        maskedToken.textContent = tokenManager.getMaskedToken(5) || 'Token';
+        
+        // Get token metadata
+        const metadata = tokenManager.getTokenMetadata();
+        if (metadata && metadata.updatedAt) {
+          const updatedAt = new Date(metadata.updatedAt);
+          tokenUpdatedAt.textContent = 'Updated: ' + updatedAt.toLocaleString();
+        }
+        
+        console.log('Token display updated');
+      } else {
+        // Hide token status badge
+        tokenStatus.classList.add('hidden');
+        
+        // Hide saved token info
+        savedTokenInfo.classList.add('hidden');
+        
+        console.log('No token found in localStorage');
       }
     }
     

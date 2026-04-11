@@ -3,12 +3,15 @@
 
 // ===== APPLICATION INITIALIZATION =====
 
-function initializeApp() {
+async function initializeApp() {
   // Initialize demo data
   initializeDemoData();
   
+  // Initialize API mode with health check
+  await dataManager.initializeApiMode();
+  
   // Show dashboard
-  uiComponents.showDashboard();
+  await uiComponents.showDashboard();
   
   // Setup search functionality
   setupSearch();
@@ -16,7 +19,64 @@ function initializeApp() {
   // Setup form submissions
   setupForms();
   
+  // Setup sync status updates
+  setupSyncStatusUpdates();
+  
   console.log('AddFood application initialized successfully');
+}
+
+// ===== SYNC STATUS UPDATES =====
+
+function setupSyncStatusUpdates() {
+  // Listen for sync status changes from data manager
+  const checkInterval = setInterval(() => {
+    updateSyncStatus();
+  }, 5000);
+  
+  // Initial check
+  updateSyncStatus();
+}
+
+function updateSyncStatus() {
+  const statusElement = document.getElementById('syncStatus');
+  const textElement = document.getElementById('syncStatusText');
+  const dotElement = statusElement?.querySelector('div');
+  
+  if (!statusElement || !textElement || !dotElement) return;
+  
+  const syncStatus = dataManager.getSyncStatus();
+  
+  // Determine status based on isOnline flag
+  let status;
+  if (syncStatus.isOnline && syncStatus.useApiMode) {
+    status = 'online';
+  } else if (syncStatus.lastError) {
+    status = 'error';
+  } else {
+    status = 'offline';
+  }
+  
+  switch (status) {
+    case 'online':
+      statusElement.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium bg-green-100 text-green-700';
+      dotElement.className = 'w-2 h-2 rounded-full bg-green-500 animate-pulse';
+      textElement.textContent = 'Online';
+      break;
+    case 'offline':
+      statusElement.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-600';
+      dotElement.className = 'w-2 h-2 rounded-full bg-gray-400';
+      textElement.textContent = 'Offline';
+      break;
+    case 'error':
+      statusElement.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium bg-red-100 text-red-700';
+      dotElement.className = 'w-2 h-2 rounded-full bg-red-500';
+      textElement.textContent = 'Error';
+      break;
+    default:
+      statusElement.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-600';
+      dotElement.className = 'w-2 h-2 rounded-full bg-gray-400';
+      textElement.textContent = 'Checking...';
+  }
 }
 
 // ===== SEARCH FUNCTIONALITY =====
@@ -41,7 +101,7 @@ function setupForms() {
   document.getElementById('itemForm').addEventListener('submit', handleItemFormSubmit);
 }
 
-function handleItemFormSubmit(e) {
+async function handleItemFormSubmit(e) {
   e.preventDefault();
   
   const name = document.getElementById('itemName').value;
@@ -65,9 +125,9 @@ function handleItemFormSubmit(e) {
   
   let item;
   if (uiComponents.currentItem) {
-    item = dataManager.updateItem(uiComponents.currentItem, itemData);
+    item = await dataManager.updateItem(uiComponents.currentItem, itemData);
   } else {
-    item = dataManager.createItem(itemData);
+    item = await dataManager.createItem(itemData);
   }
   
   if (item) {
@@ -87,32 +147,33 @@ function handleItemFormSubmit(e) {
 
 // ===== VIEW NAVIGATION =====
 
-function showDashboard() {
-  uiComponents.showDashboard();
+async function showDashboard() {
+  await uiComponents.showDashboard();
 }
 
-function showCategoryDetail(categoryId) {
-  uiComponents.showCategoryDetail(categoryId);
+async function showCategoryDetail(categoryId) {
+  await uiComponents.showCategoryDetail(categoryId);
 }
 
 // ===== ITEM DRAWER =====
 
-function openItemDrawer(itemId = null) {
-  uiComponents.populateCategorySelect();
+async function openItemDrawer(itemId = null) {
+  await uiComponents.populateCategorySelect();
   
   if (itemId) {
-    uiComponents.populateItemForm(itemId);
-    uiComponents.renderModifierGroupsForItem(dataManager.getItemById(itemId).category_id);
+    await uiComponents.populateItemForm(itemId);
+    const item = await dataManager.getItemById(itemId);
+    await uiComponents.renderModifierGroupsForItem(item.category_id);
   } else {
-    uiComponents.resetItemForm();
+    await uiComponents.resetItemForm();
     if (uiComponents.currentCategory) {
       document.getElementById('itemCategory').value = uiComponents.currentCategory;
-      uiComponents.renderModifierGroupsForItem(uiComponents.currentCategory);
+      await uiComponents.renderModifierGroupsForItem(uiComponents.currentCategory);
     } else {
-      const categories = dataManager.getAllCategories();
+      const categories = await dataManager.getAllCategories();
       if (categories.length > 0) {
         document.getElementById('itemCategory').value = categories[0].id;
-        uiComponents.renderModifierGroupsForItem(categories[0].id);
+        await uiComponents.renderModifierGroupsForItem(categories[0].id);
       }
     }
   }
@@ -135,15 +196,15 @@ function editItem(itemId) {
   openItemDrawer(itemId);
 }
 
-function deleteItem(itemId) {
+async function deleteItem(itemId) {
   if (confirm('Are you sure you want to delete this item?')) {
-    if (dataManager.deleteItem(itemId)) {
+    if (await dataManager.deleteItem(itemId)) {
       uiComponents.showToast('Item deleted successfully!');
       
       if (uiComponents.currentCategory) {
-        uiComponents.showCategoryDetail(uiComponents.currentCategory);
+        await uiComponents.showCategoryDetail(uiComponents.currentCategory);
       } else {
-        uiComponents.showDashboard();
+        await uiComponents.showDashboard();
       }
     } else {
       uiComponents.showToast('Failed to delete item. Please try again.', 'error');
@@ -153,11 +214,11 @@ function deleteItem(itemId) {
 
 // ===== CATEGORY MODAL =====
 
-function openCategoryModal(categoryId = null) {
+async function openCategoryModal(categoryId = null) {
   if (categoryId) {
-    uiComponents.populateCategoryForm(categoryId);
+    await uiComponents.populateCategoryForm(categoryId);
   } else {
-    uiComponents.resetCategoryForm();
+    await uiComponents.resetCategoryForm();
   }
   
   document.getElementById('categoryModal').classList.remove('hidden');
@@ -173,7 +234,7 @@ function closeCategoryModal() {
   }, 300);
 }
 
-function saveCategory() {
+async function saveCategory() {
   const name = document.getElementById('categoryName').value;
   const description = document.getElementById('categoryDescription').value;
   
@@ -189,15 +250,15 @@ function saveCategory() {
   
   let category;
   if (uiComponents.currentCategory) {
-    category = dataManager.updateCategory(uiComponents.currentCategory, categoryData);
+    category = await dataManager.updateCategory(uiComponents.currentCategory, categoryData);
   } else {
-    category = dataManager.createCategory(categoryData);
+    category = await dataManager.createCategory(categoryData);
   }
   
   if (category) {
     uiComponents.showToast(uiComponents.currentCategory ? 'Category updated successfully!' : 'Category created successfully!');
     closeCategoryModal();
-    uiComponents.showDashboard();
+    await uiComponents.showDashboard();
   } else {
     uiComponents.showToast('Failed to save category. Please try again.', 'error');
   }
@@ -205,9 +266,9 @@ function saveCategory() {
 
 // ===== MODIFIER GROUP MODAL =====
 
-function openModifierGroupModal(groupId = null) {
+async function openModifierGroupModal(groupId = null) {
   if (groupId) {
-    uiComponents.populateModifierGroupForm(groupId);
+    await uiComponents.populateModifierGroupForm(groupId);
   } else {
     uiComponents.resetModifierGroupForm();
   }
@@ -242,7 +303,7 @@ function updateModifierOptionValue(index, field, value) {
   uiComponents.tempModifierOptions[index][field] = value;
 }
 
-function saveModifierGroup() {
+async function saveModifierGroup() {
   const name = document.getElementById('modifierGroupName').value;
   const minSelection = document.getElementById('modifierMinSelection').value;
   const maxSelection = document.getElementById('modifierMaxSelection').value;
@@ -268,9 +329,9 @@ function saveModifierGroup() {
   
   let group;
   if (uiComponents.currentModifierGroup) {
-    group = dataManager.updateModifierGroup(uiComponents.currentModifierGroup, groupData);
+    group = await dataManager.updateModifierGroup(uiComponents.currentModifierGroup, groupData);
   } else {
-    group = dataManager.createModifierGroup(groupData);
+    group = await dataManager.createModifierGroup(groupData);
   }
   
   if (group) {
@@ -279,7 +340,7 @@ function saveModifierGroup() {
     
     // Refresh current view
     if (uiComponents.currentCategory) {
-      uiComponents.showCategoryDetail(uiComponents.currentCategory);
+      await uiComponents.showCategoryDetail(uiComponents.currentCategory);
     }
   } else {
     uiComponents.showToast('Failed to save modifier group. Please try again.', 'error');
@@ -288,29 +349,29 @@ function saveModifierGroup() {
 
 // ===== AVAILABILITY TOGGLES (86ing) =====
 
-function toggleAvailability(type, id) {
+async function toggleAvailability(type, id) {
   let result;
   
   if (type === 'category') {
-    const category = dataManager.getCategoryById(id);
+    const category = await dataManager.getCategoryById(id);
     if (category) {
       const newStatus = !category.available;
-      result = dataManager.updateCategory(id, { available: newStatus });
+      result = await dataManager.updateCategory(id, { available: newStatus });
       uiComponents.showToast(`${category.name} is now ${newStatus ? 'available' : 'unavailable'}`);
     }
   } else if (type === 'item') {
-    const item = dataManager.getItemById(id);
+    const item = await dataManager.getItemById(id);
     if (item) {
-      result = dataManager.toggleItemAvailability(id);
+      result = await dataManager.toggleItemAvailability(id);
       uiComponents.showToast(`${item.name} is now ${result.available ? 'available' : 'unavailable'}`);
     }
   }
   
   // Refresh the current view
   if (uiComponents.currentCategory) {
-    uiComponents.showCategoryDetail(uiComponents.currentCategory);
+    await uiComponents.showCategoryDetail(uiComponents.currentCategory);
   } else {
-    uiComponents.showDashboard();
+    await uiComponents.showDashboard();
   }
 }
 
