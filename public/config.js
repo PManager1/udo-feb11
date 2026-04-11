@@ -1,6 +1,8 @@
 // Central API Configuration for UDO Application
 // This file should be loaded in all HTML pages that need API access
 
+// const API_BASE = 'https://xmkvtmgtwb.execute-api.us-east-1.amazonaws.com/dev/';
+
 // Base API URL
 const API_BASE = 'http://localhost:3030/';
 

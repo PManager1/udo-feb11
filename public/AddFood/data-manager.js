@@ -150,8 +150,8 @@ class DataManager {
     return this.getData(this.storageKeys.categories);
   }
 
-  getCategoryById(id) {
-    const categories = this.getAllCategories();
+  async getCategoryById(id) {
+    const categories = await this.getAllCategories();
     return categories.find(cat => cat.id === id);
   }
 
@@ -179,7 +179,7 @@ class DataManager {
     }
     
     // Create in localStorage
-    const categories = this.getAllCategories();
+    const categories = await this.getAllCategories();
     newCategory = {
       id: `cat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: categoryData.name,
@@ -224,7 +224,7 @@ class DataManager {
     }
     
     // Update in localStorage
-    const categories = this.getAllCategories();
+    const categories = await this.getAllCategories();
     const index = categories.findIndex(cat => cat.id === id);
     
     if (index !== -1) {
@@ -261,7 +261,7 @@ class DataManager {
     }
     
     // Delete from localStorage
-    const categories = this.getAllCategories();
+    const categories = await this.getAllCategories();
     const filtered = categories.filter(cat => cat.id !== id);
     
     if (filtered.length < categories.length) {
@@ -309,12 +309,12 @@ class DataManager {
     }
     
     // Return from localStorage
-    const items = this.getAllItems();
+    const items = await this.getAllItems();
     return items.filter(item => item.category_id === categoryId);
   }
 
-  getItemById(id) {
-    const items = this.getAllItems();
+  async getItemById(id) {
+    const items = await this.getAllItems();
     return items.find(item => item.id === id);
   }
 
@@ -342,7 +342,7 @@ class DataManager {
     }
     
     // Create in localStorage
-    const items = this.getAllItems();
+    const items = await this.getAllItems();
     newItem = {
       id: `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: itemData.name,
@@ -388,7 +388,7 @@ class DataManager {
     }
     
     // Update in localStorage
-    const items = this.getAllItems();
+    const items = await this.getAllItems();
     const index = items.findIndex(item => item.id === id);
     
     if (index !== -1) {
@@ -426,7 +426,7 @@ class DataManager {
     }
     
     // Delete from localStorage
-    const items = this.getAllItems();
+    const items = await this.getAllItems();
     const filtered = items.filter(item => item.id !== id);
     
     if (filtered.length < items.length) {
@@ -466,8 +466,8 @@ class DataManager {
     return this.getData(this.storageKeys.modifierGroups);
   }
 
-  getModifierGroupById(id) {
-    const groups = this.getAllModifierGroups();
+  async getModifierGroupById(id) {
+    const groups = await this.getAllModifierGroups();
     return groups.find(group => group.id === id);
   }
 
@@ -495,7 +495,7 @@ class DataManager {
     }
     
     // Create in localStorage
-    const groups = this.getAllModifierGroups();
+    const groups = await this.getAllModifierGroups();
     newGroup = {
       id: `group_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: groupData.name,
@@ -540,7 +540,7 @@ class DataManager {
     }
     
     // Update in localStorage
-    const groups = this.getAllModifierGroups();
+    const groups = await this.getAllModifierGroups();
     const index = groups.findIndex(group => group.id === id);
     
     if (index !== -1) {
@@ -579,7 +579,7 @@ class DataManager {
     }
     
     // Delete from localStorage
-    const groups = this.getAllModifierGroups();
+    const groups = await this.getAllModifierGroups();
     const filtered = groups.filter(group => group.id !== id);
     
     if (filtered.length < groups.length) {
@@ -592,7 +592,7 @@ class DataManager {
   // ===== MODIFIER OPTIONS =====
   
   async addModifierOption(groupId, optionData) {
-    const group = this.getModifierGroupById(groupId);
+    const group = await this.getModifierGroupById(groupId);
     if (group) {
       const newOption = {
         id: `opt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -609,7 +609,7 @@ class DataManager {
   }
 
   async updateModifierOption(groupId, optionId, updates) {
-    const group = this.getModifierGroupById(groupId);
+    const group = await this.getModifierGroupById(groupId);
     if (group) {
       const optionIndex = group.options.findIndex(opt => opt.id === optionId);
       if (optionIndex !== -1) {
@@ -626,7 +626,7 @@ class DataManager {
   }
 
   async deleteModifierOption(groupId, optionId) {
-    const group = this.getModifierGroupById(groupId);
+    const group = await this.getModifierGroupById(groupId);
     if (group) {
       const originalLength = group.options.length;
       group.options = group.options.filter(opt => opt.id !== optionId);
@@ -640,7 +640,7 @@ class DataManager {
   }
 
   async toggleModifierOptionAvailability(groupId, optionId) {
-    const group = this.getModifierGroupById(groupId);
+    const group = await this.getModifierGroupById(groupId);
     if (group) {
       const option = group.options.find(opt => opt.id === optionId);
       if (option) {
@@ -658,7 +658,7 @@ class DataManager {
     if (!category) return [];
     
     const allGroups = await this.getAllModifierGroups();
-    return category.modifier_group_ids
+    return (category.modifier_group_ids || [])
       .map(id => allGroups.find(group => group.id === id))
       .filter(group => group !== undefined);
   }
@@ -669,8 +669,9 @@ class DataManager {
     if (!item) return [];
     
     // Get item-specific modifier groups
-    const itemGroups = (item.modifier_group_ids || [])
-      .map(id => this.getModifierGroupById(id))
+    const itemGroupsPromises = (item.modifier_group_ids || [])
+      .map(id => this.getModifierGroupById(id));
+    const itemGroups = (await Promise.all(itemGroupsPromises))
       .filter(group => group !== undefined);
     
     // If item has no specific groups, inherit from category
