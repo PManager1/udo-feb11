@@ -136,9 +136,9 @@ async function handleItemFormSubmit(e) {
     
     // Refresh the current view
     if (uiComponents.currentCategory) {
-      uiComponents.showCategoryDetail(uiComponents.currentCategory);
+      await uiComponents.showCategoryDetail(uiComponents.currentCategory);
     } else {
-      uiComponents.showDashboard();
+      await uiComponents.showDashboard();
     }
   } else {
     uiComponents.showToast('Failed to save item. Please try again.', 'error');

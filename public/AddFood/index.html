@@ -97,40 +97,57 @@
 
   <!-- Main Content -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Dashboard View -->
-    <div id="dashboardView">
-      <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center mb-8 gap-4">
-        <div>
-          <h1 class="text-3xl font-bold text-gray-900">Restaurant Menu</h1>
-          <p class="text-gray-600 mt-1">Manage your menu items and modifiers</p>
+      <!-- Dashboard View -->
+      <div id="dashboardView">
+        <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center mb-8 gap-4">
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">Restaurant Menu</h1>
+            <p class="text-gray-600 mt-1">Manage your menu items and modifiers</p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <button
+              onclick="openCategoryModal()"
+              class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-6 rounded-full text-lg transition duration-300 shadow-sm hover:shadow-md flex items-center gap-2"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Add Category
+            </button>
+            <button
+              onclick="openItemDrawer()"
+              class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full text-lg transition duration-300 shadow-sm hover:shadow-md flex items-center gap-2"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Add New Item
+            </button>
+          </div>
         </div>
-        <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-          <button
-            onclick="openCategoryModal()"
-            class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-6 rounded-full text-lg transition duration-300 shadow-sm hover:shadow-md flex items-center gap-2"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            Add Category
-          </button>
-          <button
-            onclick="openItemDrawer()"
-            class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full text-lg transition duration-300 shadow-sm hover:shadow-md flex items-center gap-2"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            Add New Item
-          </button>
-        </div>
-      </div>
 
-      <!-- Categories Grid -->
-      <div id="categoriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        <!-- Categories will be rendered here -->
+        <!-- All Items Grid -->
+        <div class="mb-12">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">All Menu Items</h2>
+            <span id="totalItemsCount" class="text-sm text-gray-600">0 items</span>
+          </div>
+          <div id="allItemsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- All items will be rendered here -->
+          </div>
+        </div>
+
+        <!-- Categories Grid -->
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">Categories</h2>
+            <span id="totalCategoriesCount" class="text-sm text-gray-600">0 categories</span>
+          </div>
+          <div id="categoriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Categories will be rendered here -->
+          </div>
+        </div>
       </div>
-    </div>
 
     <!-- Category Detail View (Hidden by default) -->
     <div id="categoryDetailView" class="hidden">

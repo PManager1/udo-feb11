@@ -15,6 +15,11 @@ class UIComponents {
   async showDashboard() {
     document.getElementById('dashboardView').classList.remove('hidden');
     document.getElementById('categoryDetailView').classList.add('hidden');
+    
+    // Render all items first
+    await this.renderAllItems();
+    
+    // Then render categories
     await this.renderCategories();
   }
 
@@ -84,6 +89,31 @@ class UIComponents {
 
   // ===== ITEM RENDERING =====
 
+  async renderAllItems() {
+    console.log('UIComponents: Rendering all items...');
+    const items = await this.dataManager.getAllItems();
+    console.log('UIComponents: Items fetched:', items);
+    
+    const container = document.getElementById('allItemsGrid');
+    
+    if (items.length === 0) {
+      container.innerHTML = `
+        <div class="col-span-full text-center py-12 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+          <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+          <p class="text-lg font-medium">No items yet</p>
+          <p class="text-sm mt-1">Click "Add New Item" to create your first item</p>
+        </div>
+      `;
+    } else {
+      container.innerHTML = items.map(item => this.renderItemCard(item)).join('');
+    }
+    
+    // Update item count
+    this.updateCounts();
+  }
+
   async renderItems(categoryId) {
     const items = await this.dataManager.getItemsByCategory(categoryId);
     const container = document.getElementById('itemsGrid');
@@ -106,7 +136,7 @@ class UIComponents {
         <div class="p-5">
           <div class="flex justify-between items-start mb-2">
             <h3 class="text-lg font-bold text-gray-900">${item.name}</h3>
-            <span class="text-xl font-bold text-orange-500">$${item.base_price.toFixed(2)}</span>
+            <span class="text-xl font-bold text-orange-500">$${(item.base_price || 0).toFixed(2)}</span>
           </div>
           <p class="text-sm text-gray-600 mb-3 line-clamp-2">${item.description || 'No description'}</p>
           <div class="flex gap-2">
@@ -377,7 +407,7 @@ class UIComponents {
         <div class="p-5">
           <div class="flex justify-between items-start mb-2">
             <h3 class="text-lg font-bold text-gray-900">${item.name}</h3>
-            <span class="text-xl font-bold text-orange-500">$${item.base_price.toFixed(2)}</span>
+            <span class="text-xl font-bold text-orange-500">$${(item.base_price || 0).toFixed(2)}</span>
           </div>
           <p class="text-sm text-gray-600 mb-3 line-clamp-2">${item.description || 'No description'}</p>
           <div class="flex gap-2">
@@ -388,6 +418,24 @@ class UIComponents {
         </div>
       </div>
     `).join('');
+  }
+
+  // ===== COUNTS =====
+
+  async updateCounts() {
+    const items = await this.dataManager.getAllItems();
+    const categories = await this.dataManager.getAllCategories();
+    
+    const itemsCount = document.getElementById('totalItemsCount');
+    const categoriesCount = document.getElementById('totalCategoriesCount');
+    
+    if (itemsCount) {
+      itemsCount.textContent = `${items.length} item${items.length !== 1 ? 's' : ''}`;
+    }
+    
+    if (categoriesCount) {
+      categoriesCount.textContent = `${categories.length} categor${categories.length !== 1 ? 'ies' : 'y'}`;
+    }
   }
 
   // ===== FORM HELPERS =====
@@ -436,3 +484,10 @@ class UIComponents {
 
 // Create a global instance
 const uiComponents = new UIComponents(dataManager);
+
+// ===== GLOBAL WRAPPER FUNCTIONS =====
+// These functions are needed for HTML event handlers that can't call class methods directly
+
+function updateProfitCalculator() {
+  uiComponents.updateProfitCalculator();
+}

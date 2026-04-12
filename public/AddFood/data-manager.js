@@ -279,18 +279,27 @@ class DataManager {
       try {
         console.log('DataManager: Fetching items from API...');
         const items = await apiManager.getItems();
-        this.setData(this.storageKeys.items, items);
+        // Normalize items - convert backend field names to frontend field names
+        const normalizedItems = items.map(item => ({
+          ...item,
+          available: item.isAvailable !== undefined ? item.isAvailable : (item.available !== undefined ? item.available : true)
+        }));
+        this.setData(this.storageKeys.items, normalizedItems);
         this.updateSyncTimestamp();
         console.log('DataManager: Items fetched from API successfully');
-        return items;
+        return normalizedItems;
       } catch (error) {
         this.handleApiError(error);
         // Fall back to localStorage
       }
     }
     
-    // Return from localStorage
-    return this.getData(this.storageKeys.items);
+    // Return from localStorage and normalize
+    const items = this.getData(this.storageKeys.items);
+    return items.map(item => ({
+      ...item,
+      available: item.available !== undefined ? item.available : true
+    }));
   }
 
   async getItemsByCategory(categoryId) {
@@ -299,16 +308,21 @@ class DataManager {
       try {
         console.log('DataManager: Fetching items by category from API...');
         const items = await apiManager.getItemsByCategory(categoryId);
+        // Normalize items - convert backend field names to frontend field names
+        const normalizedItems = items.map(item => ({
+          ...item,
+          available: item.isAvailable !== undefined ? item.isAvailable : (item.available !== undefined ? item.available : true)
+        }));
         this.updateSyncTimestamp();
         console.log('DataManager: Items by category fetched from API successfully');
-        return items;
+        return normalizedItems;
       } catch (error) {
         this.handleApiError(error);
         // Fall back to localStorage
       }
     }
     
-    // Return from localStorage
+    // Return from localStorage (already normalized by getAllItems)
     const items = await this.getAllItems();
     return items.filter(item => item.category_id === categoryId);
   }
@@ -321,11 +335,16 @@ class DataManager {
   async createItem(itemData) {
     let newItem;
     
+    console.log('DataManager: createItem called with data:', itemData);
+    console.log('DataManager: API mode:', this.syncStatus.useApiMode);
+    
     // Try API first if in API mode
     if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
       try {
         console.log('DataManager: Creating item via API...');
+        console.log('DataManager: API endpoint:', apiManager.endpoints.items);
         newItem = await apiManager.createItem(itemData);
+        console.log('DataManager: Item created via API, response:', newItem);
         this.updateSyncTimestamp();
         console.log('DataManager: Item created via API successfully');
         
@@ -364,27 +383,49 @@ class DataManager {
   async updateItem(id, updates) {
     let updatedItem;
     
+    console.log('DataManager: updateItem called with id:', id, 'updates:', updates);
+    console.log('DataManager: useApiMode:', this.syncStatus.useApiMode);
+    console.log('DataManager: apiManager defined:', typeof apiManager !== 'undefined');
+    
     // Try API first if in API mode
     if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
       try {
         console.log('DataManager: Updating item via API...');
-        updatedItem = await apiManager.updateItem(id, updates);
+        
+        // Map frontend field names to backend field names
+        const apiUpdates = { ...updates };
+        if (updates.available !== undefined) {
+          apiUpdates.isAvailable = updates.available;
+          delete apiUpdates.available;
+        }
+        
+        console.log('DataManager: Sending to API:', apiUpdates);
+        updatedItem = await apiManager.updateItem(id, apiUpdates);
         this.updateSyncTimestamp();
         console.log('DataManager: Item updated via API successfully');
         
-        // Update localStorage cache
+        // Update localStorage cache - convert back to frontend field names
         const items = this.getData(this.storageKeys.items);
         const index = items.findIndex(item => item.id === id);
         if (index !== -1) {
-          items[index] = updatedItem;
+          // Normalize the response - convert isAvailable to available
+          const normalizedItem = {
+            ...updatedItem,
+            available: updatedItem.isAvailable !== undefined ? updatedItem.isAvailable : updatedItem.available
+          };
+          items[index] = normalizedItem;
           this.setData(this.storageKeys.items, items);
+          updatedItem = normalizedItem;
         }
         
         return updatedItem;
       } catch (error) {
+        console.error('DataManager: API update failed, falling back to localStorage:', error);
         this.handleApiError(error);
         // Fall back to localStorage
       }
+    } else {
+      console.warn('DataManager: NOT using API - useApiMode:', this.syncStatus.useApiMode, ', apiManager defined:', typeof apiManager !== 'undefined');
     }
     
     // Update in localStorage
@@ -437,10 +478,23 @@ class DataManager {
   }
 
   async toggleItemAvailability(id) {
+    console.log('DataManager: toggleItemAvailability called with id:', id);
+    console.log('DataManager: API mode:', this.syncStatus.useApiMode);
+    console.log('DataManager: apiManager available:', typeof apiManager !== 'undefined');
+    
     const item = await this.getItemById(id);
+    console.log('DataManager: Current item:', item);
+    
     if (item) {
-      return this.updateItem(id, { available: !item.available });
+      const newAvailableState = !item.available;
+      console.log('DataManager: Toggling from', item.available, 'to', newAvailableState);
+      
+      const result = await this.updateItem(id, { available: newAvailableState });
+      console.log('DataManager: Update result:', result);
+      return result;
     }
+    
+    console.warn('DataManager: Item not found with id:', id);
     return null;
   }
 
