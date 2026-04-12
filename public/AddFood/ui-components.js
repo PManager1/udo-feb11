@@ -38,7 +38,7 @@ class UIComponents {
     const category = await this.dataManager.getCategoryById(categoryId);
     if (category) {
       document.getElementById('categoryTitle').textContent = category.name;
-      document.getElementById('categoryDescription').textContent = category.description || '';
+      document.getElementById('categoryDescription').textContent = this._getCategoryDescription(category);
     }
     await this.renderItems(categoryId);
   }
@@ -59,8 +59,9 @@ class UIComponents {
   }
 
   renderCategoryCard(category, items, availableItems) {
-    const icon = category.icon || '🍽️';
-    const color = category.color || '#f97316';
+    const icon = this._getCategoryIcon(category);
+    const color = this._getCategoryColor(category);
+    const desc = this._getCategoryDescription(category);
     const available = this._getAvailability(category);
     return `
       <div class="category-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 cursor-pointer ${!available ? 'opacity-60' : ''}"
@@ -79,7 +80,7 @@ class UIComponents {
             <h3 class="text-xl font-bold text-gray-900">${category.name}</h3>
             ${this.renderAvailabilityToggle('category', category.id, available)}
           </div>
-          <p class="text-sm text-gray-600 mb-3">${category.description || 'No description'}</p>
+          <p class="text-sm text-gray-600 mb-3">${desc || 'No description'}</p>
           <div class="flex justify-between items-center text-sm">
             <span class="text-gray-500">${availableItems.length} of ${items.length} items available</span>
             <span class="text-orange-500 font-medium">View items →</span>

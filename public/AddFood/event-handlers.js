@@ -305,11 +305,20 @@ async function saveCategory() {
     modifier_group_ids: modifierGroupIds
   };
   
+  // Save icon/color/description locally as backup (backend may not store these)
+  if (uiComponents.currentCategory) {
+    uiComponents._saveLocalMeta(uiComponents.currentCategory, { icon, color, description });
+  }
+  
   let category;
   if (uiComponents.currentCategory) {
     category = await dataManager.updateCategory(uiComponents.currentCategory, categoryData);
   } else {
     category = await dataManager.createCategory(categoryData);
+    // Save metadata for newly created category too
+    if (category && category.id) {
+      uiComponents._saveLocalMeta(category.id, { icon, color, description });
+    }
   }
   
   if (category) {
