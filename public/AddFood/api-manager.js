@@ -269,9 +269,11 @@ class APIManager {
    * @param {boolean} available - New availability status
    * @returns {Promise<object>} - Updated item
    */
-  async toggleItemAvailability(id, available) {
+  async toggleItemAvailability(id) {
     try {
-      return await this.updateItem(id, { available });
+      return await this.fetchAPI(`${this.restaurantBase}/items/${id}/availability`, {
+        method: 'PUT'
+      });
     } catch (error) {
       console.error('APIManager: Failed to toggle item availability:', error);
       throw error;

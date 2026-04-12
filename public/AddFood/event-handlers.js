@@ -4,8 +4,14 @@
 // ===== APPLICATION INITIALIZATION =====
 
 async function initializeApp() {
-  // Initialize demo data
-  initializeDemoData();
+  // Check if user is logged in
+  if (typeof tokenManager === 'undefined' || !tokenManager.hasValidToken()) {
+    console.warn('⚠️  No valid token found, redirecting to login');
+    window.location.href = '/login/index.html';
+    return;
+  }
+  
+  // Production: No demo data - all data from backend
   
   // Initialize API mode with health check
   await dataManager.initializeApiMode();
@@ -48,7 +54,7 @@ function updateSyncStatus() {
   
   // Determine status based on isOnline flag
   let status;
-  if (syncStatus.isOnline && syncStatus.useApiMode) {
+  if (syncStatus.isOnline) {
     status = 'online';
   } else if (syncStatus.lastError) {
     status = 'error';
@@ -104,44 +110,49 @@ function setupForms() {
 async function handleItemFormSubmit(e) {
   e.preventDefault();
   
-  const name = document.getElementById('itemName').value;
-  const categoryId = document.getElementById('itemCategory').value;
-  const price = document.getElementById('itemPrice').value;
-  const description = document.getElementById('itemDescription').value;
-  const preview = document.getElementById('imagePreview');
-  
-  // Get selected modifier groups
-  const modifierCheckboxes = document.querySelectorAll('#modifierGroupsList input[type="checkbox"]:checked');
-  const modifierGroupIds = Array.from(modifierCheckboxes).map(cb => cb.value);
-  
-  const itemData = {
-    name,
-    category_id: categoryId,
-    base_price: price,
-    description,
-    image_url: preview.src || '',
-    modifier_group_ids: modifierGroupIds
-  };
-  
-  let item;
-  if (uiComponents.currentItem) {
-    item = await dataManager.updateItem(uiComponents.currentItem, itemData);
-  } else {
-    item = await dataManager.createItem(itemData);
-  }
-  
-  if (item) {
-    uiComponents.showToast(uiComponents.currentItem ? 'Item updated successfully!' : 'Item created successfully!');
-    closeItemDrawer();
+  try {
+    const name = document.getElementById('itemName').value;
+    const categoryId = document.getElementById('itemCategory').value;
+    const price = document.getElementById('itemPrice').value;
+    const description = document.getElementById('itemDescription').value;
+    const preview = document.getElementById('imagePreview');
     
-    // Refresh the current view
-    if (uiComponents.currentCategory) {
-      await uiComponents.showCategoryDetail(uiComponents.currentCategory);
+    // Get selected modifier groups
+    const modifierCheckboxes = document.querySelectorAll('#modifierGroupsList input[type="checkbox"]:checked');
+    const modifierGroupIds = Array.from(modifierCheckboxes).map(cb => cb.value);
+    
+    const itemData = {
+      name,
+      category_id: categoryId,
+      base_price: price,
+      description,
+      image_url: preview.src || '',
+      modifier_group_ids: modifierGroupIds
+    };
+    
+    let item;
+    if (uiComponents.currentItem) {
+      item = await dataManager.updateItem(uiComponents.currentItem, itemData);
     } else {
-      await uiComponents.showDashboard();
+      item = await dataManager.createItem(itemData);
     }
-  } else {
-    uiComponents.showToast('Failed to save item. Please try again.', 'error');
+    
+    if (item) {
+      uiComponents.showToast(uiComponents.currentItem ? 'Item updated successfully!' : 'Item created successfully!');
+      closeItemDrawer();
+      
+      // Refresh the current view
+      if (uiComponents.currentCategory) {
+        await uiComponents.showCategoryDetail(uiComponents.currentCategory);
+      } else {
+        await uiComponents.showDashboard();
+      }
+    } else {
+      uiComponents.showToast('Failed to save item. Please try again.', 'error');
+    }
+  } catch (error) {
+    console.error('Error saving item:', error);
+    uiComponents.showToast(`Error: ${error.message}. Please check your connection and try again.`, 'error');
   }
 }
 
@@ -163,7 +174,7 @@ async function openItemDrawer(itemId = null) {
   if (itemId) {
     await uiComponents.populateItemForm(itemId);
     const item = await dataManager.getItemById(itemId);
-    await uiComponents.renderModifierGroupsForItem(item.category_id);
+    await uiComponents.renderModifierGroupsForItem(item.categoryId);
   } else {
     await uiComponents.resetItemForm();
     if (uiComponents.currentCategory) {
@@ -355,7 +366,7 @@ async function toggleAvailability(type, id) {
   if (type === 'category') {
     const category = await dataManager.getCategoryById(id);
     if (category) {
-      const newStatus = !category.available;
+      const newStatus = !category.isActive;
       result = await dataManager.updateCategory(id, { available: newStatus });
       uiComponents.showToast(`${category.name} is now ${newStatus ? 'available' : 'unavailable'}`);
     }
@@ -363,7 +374,7 @@ async function toggleAvailability(type, id) {
     const item = await dataManager.getItemById(id);
     if (item) {
       result = await dataManager.toggleItemAvailability(id);
-      uiComponents.showToast(`${item.name} is now ${result.available ? 'available' : 'unavailable'}`);
+      uiComponents.showToast(`${item.name} is now ${result.isAvailable ? 'available' : 'unavailable'}`);
     }
   }
   

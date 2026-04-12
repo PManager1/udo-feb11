@@ -47,7 +47,7 @@ class UIComponents {
     const categoryCards = await Promise.all(
       categories.map(async (category) => {
         const items = await this.dataManager.getItemsByCategory(category.id);
-        const availableItems = items.filter(item => item.available);
+        const availableItems = items.filter(item => item.isAvailable);
         return this.renderCategoryCard(category, items, availableItems);
       })
     );
@@ -58,7 +58,7 @@ class UIComponents {
   renderCategoryCard(category, items, availableItems) {
     
     return `
-      <div class="category-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 cursor-pointer ${!category.available ? 'opacity-60' : ''}"
+      <div class="category-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 cursor-pointer ${!category.isActive ? 'opacity-60' : ''}"
            onclick="showCategoryDetail('${category.id}')">
         <div class="h-32 flex items-center justify-center text-6xl" style="background-color: ${category.color}20">
           ${category.icon}
@@ -66,7 +66,7 @@ class UIComponents {
         <div class="p-5">
           <div class="flex justify-between items-start mb-2">
             <h3 class="text-xl font-bold text-gray-900">${category.name}</h3>
-            ${this.renderAvailabilityToggle('category', category.id, category.available)}
+            ${this.renderAvailabilityToggle('category', category.id, category.isActive)}
           </div>
           <p class="text-sm text-gray-600 mb-3">${category.description || 'No description'}</p>
           <div class="flex justify-between items-center text-sm">
@@ -123,20 +123,20 @@ class UIComponents {
 
   renderItemCard(item) {
     return `
-      <div class="item-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 ${!item.available ? 'opacity-60' : ''}">
+      <div class="item-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 ${!item.isAvailable ? 'opacity-60' : ''}">
         <div class="relative h-48 bg-gray-200">
-          ${item.image_url 
-            ? `<img src="${item.image_url}" alt="${item.name}" class="w-full h-full object-cover">`
+          ${item.imageUrl 
+            ? `<img src="${item.imageUrl}" alt="${item.name}" class="w-full h-full object-cover">`
             : `<div class="w-full h-full flex items-center justify-center text-4xl text-gray-400">🍽️</div>`
           }
           <div class="absolute top-3 right-3">
-            ${this.renderAvailabilityToggle('item', item.id, item.available)}
+            ${this.renderAvailabilityToggle('item', item.id, item.isAvailable)}
           </div>
         </div>
         <div class="p-5">
           <div class="flex justify-between items-start mb-2">
             <h3 class="text-lg font-bold text-gray-900">${item.name}</h3>
-            <span class="text-xl font-bold text-orange-500">$${(item.base_price || 0).toFixed(2)}</span>
+            <span class="text-xl font-bold text-orange-500">$${(item.basePrice || 0).toFixed(2)}</span>
           </div>
           <p class="text-sm text-gray-600 mb-3 line-clamp-2">${item.description || 'No description'}</p>
           <div class="flex gap-2">
@@ -193,7 +193,7 @@ class UIComponents {
   async renderCategoryModifierGroups() {
     const groups = await this.dataManager.getAllModifierGroups();
     const category = this.currentCategory ? await this.dataManager.getCategoryById(this.currentCategory) : null;
-    const selectedIds = category ? category.modifier_group_ids : [];
+    const selectedIds = category ? (category.inheritedModifierGroupIds || []) : [];
     
     const container = document.getElementById('categoryModifierGroups');
     
@@ -270,16 +270,16 @@ class UIComponents {
     if (!item) return;
     
     document.getElementById('itemName').value = item.name;
-    document.getElementById('itemCategory').value = item.category_id;
-    document.getElementById('itemPrice').value = item.base_price;
+    document.getElementById('itemCategory').value = item.categoryId;
+    document.getElementById('itemPrice').value = item.basePrice;
     document.getElementById('itemDescription').value = item.description || '';
     document.getElementById('drawerTitle').textContent = 'Edit Item';
     
     // Set image
-    if (item.image_url) {
+    if (item.imageUrl) {
       const preview = document.getElementById('imagePreview');
       const container = document.getElementById('imagePreviewContainer');
-      preview.src = item.image_url;
+      preview.src = item.imageUrl;
       container.classList.remove('hidden');
     }
     
@@ -292,9 +292,9 @@ class UIComponents {
     if (!group) return;
     
     document.getElementById('modifierGroupName').value = group.name;
-    document.getElementById('modifierMinSelection').value = group.min_selection;
-    document.getElementById('modifierMaxSelection').value = group.max_selection;
-    document.getElementById('modifierRequired').checked = group.required;
+    document.getElementById('modifierMinSelection').value = group.minSelection;
+    document.getElementById('modifierMaxSelection').value = group.maxSelection;
+    document.getElementById('modifierRequired').checked = group.isRequired;
     document.getElementById('modifierModalTitle').textContent = 'Edit Modifier Group';
     
     this.tempModifierOptions = JSON.parse(JSON.stringify(group.options));
@@ -382,7 +382,7 @@ class UIComponents {
     // Get category names for search results
     const resultsWithCategories = await Promise.all(
       results.map(async (item) => {
-        const category = await this.dataManager.getCategoryById(item.category_id);
+        const category = await this.dataManager.getCategoryById(item.categoryId);
         return { ...item, categoryName: category?.name || 'Unknown' };
       })
     );
@@ -393,21 +393,21 @@ class UIComponents {
         <p class="text-gray-600">${results.length} item(s) found</p>
       </div>
     ` + resultsWithCategories.map(item => `
-      <div class="item-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 ${!item.available ? 'opacity-60' : ''}"
-           onclick="showCategoryDetail('${item.category_id}')">
+      <div class="item-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 ${!item.isAvailable ? 'opacity-60' : ''}"
+           onclick="showCategoryDetail('${item.categoryId}')">
         <div class="relative h-48 bg-gray-200">
-          ${item.image_url 
-            ? `<img src="${item.image_url}" alt="${item.name}" class="w-full h-full object-cover">`
+          ${item.imageUrl 
+            ? `<img src="${item.imageUrl}" alt="${item.name}" class="w-full h-full object-cover">`
             : `<div class="w-full h-full flex items-center justify-center text-4xl text-gray-400">🍽️</div>`
           }
           <div class="absolute top-3 right-3">
-            ${this.renderAvailabilityToggle('item', item.id, item.available)}
+            ${this.renderAvailabilityToggle('item', item.id, item.isAvailable)}
           </div>
         </div>
         <div class="p-5">
           <div class="flex justify-between items-start mb-2">
             <h3 class="text-lg font-bold text-gray-900">${item.name}</h3>
-            <span class="text-xl font-bold text-orange-500">$${(item.base_price || 0).toFixed(2)}</span>
+            <span class="text-xl font-bold text-orange-500">$${(item.basePrice || 0).toFixed(2)}</span>
           </div>
           <p class="text-sm text-gray-600 mb-3 line-clamp-2">${item.description || 'No description'}</p>
           <div class="flex gap-2">

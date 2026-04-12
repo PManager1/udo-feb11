@@ -35,17 +35,30 @@ class TokenManager {
 
   /**
    * Retrieve token from localStorage
+   * Checks both the new 'udo_auth_token' key and legacy 'jwt_token' key
    * @returns {string|null} - The token or null if not found
    */
   getToken() {
     try {
+      // First check the standard tokenManager key
       const tokenData = localStorage.getItem(this.TOKEN_KEY);
-      if (!tokenData) {
-        return null;
+      if (tokenData) {
+        const parsed = JSON.parse(tokenData);
+        if (parsed.token) {
+          return parsed.token;
+        }
       }
 
-      const parsed = JSON.parse(tokenData);
-      return parsed.token || null;
+      // Fallback: check legacy 'jwt_token' key (used by verifyotp page)
+      const legacyToken = localStorage.getItem('jwt_token');
+      if (legacyToken) {
+        // Migrate to new format
+        this.saveToken(legacyToken);
+        console.log('TokenManager: Migrated legacy jwt_token to udo_auth_token');
+        return legacyToken;
+      }
+
+      return null;
     } catch (error) {
       console.error('TokenManager: Error retrieving token:', error);
       return null;

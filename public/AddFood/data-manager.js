@@ -1,82 +1,74 @@
-// Data Manager - Handles both API and localStorage operations for restaurant menu
-// This file provides a clean API for CRUD operations with automatic API fallback to localStorage
+// Data Manager - Production-Ready API-Only Data Layer
+// All data comes from backend - no localStorage caching except auth token
 
 class DataManager {
   constructor() {
-    this.storageKeys = {
-      categories: 'udo_categories',
-      items: 'udo_items',
-      modifierGroups: 'udo_modifier_groups'
-    };
-    
-    // Sync status tracking
     this.syncStatus = {
       lastSync: null,
       isOnline: false,
-      useApiMode: false,
       lastError: null
     };
     
-    // Initialize API mode
-    this.initializeApiMode();
+    // Don't initialize here - will be called explicitly in initializeApp()
   }
   
   /**
-   * Initialize API mode based on token availability and health check
+   * Initialize API mode - wait for token
    */
   async initializeApiMode() {
-    // Check if tokenManager and apiManager are available
-    if (typeof tokenManager !== 'undefined' && typeof apiManager !== 'undefined') {
-      // First check if token exists
-      if (tokenManager.hasValidToken()) {
-        // Try a health check to verify backend is reachable
-        console.log('DataManager: Checking backend health...');
-        try {
-          const isHealthy = await apiManager.healthCheck();
-          if (isHealthy) {
-            this.syncStatus.useApiMode = true;
-            this.syncStatus.isOnline = true;
-            console.log('DataManager: API mode initialized as true (backend is reachable)');
-          } else {
-            this.syncStatus.useApiMode = false;
-            this.syncStatus.isOnline = false;
-            console.log('DataManager: Backend health check failed, using localStorage mode');
+    // Retry multiple times to find token (handles race condition)
+    const maxRetries = 10;
+    const retryDelay = 200; // ms
+    
+    for (let i = 0; i < maxRetries; i++) {
+      // Check if tokenManager exists and has valid token
+      if (typeof tokenManager !== 'undefined') {
+        if (tokenManager.hasValidToken()) {
+          // Try health check
+          try {
+            const isHealthy = await apiManager.healthCheck();
+            if (isHealthy) {
+              this.syncStatus.isOnline = true;
+              console.log('✅ DataManager: API mode initialized successfully');
+              return;
+            }
+          } catch (error) {
+            console.log(`DataManager: Backend health check failed, retry ${i + 1}/${maxRetries}`);
           }
-        } catch (error) {
-          this.syncStatus.useApiMode = false;
-          this.syncStatus.isOnline = false;
-          console.log('DataManager: Backend health check error, using localStorage mode');
+        } else {
+          console.log(`DataManager: tokenManager exists but no valid token, retry ${i + 1}/${maxRetries}`);
         }
       } else {
-        this.syncStatus.useApiMode = false;
-        this.syncStatus.isOnline = false;
-        console.log('DataManager: No valid token, using localStorage mode');
+        console.log(`DataManager: tokenManager not available yet, retry ${i + 1}/${maxRetries}`);
       }
-    } else {
-      console.warn('DataManager: tokenManager or apiManager not available, using localStorage only');
-      this.syncStatus.useApiMode = false;
-    }
-  }
-  
-  /**
-   * Update API mode status
-   */
-  updateApiMode() {
-    if (typeof tokenManager !== 'undefined') {
-      const previousMode = this.syncStatus.useApiMode;
-      this.syncStatus.useApiMode = tokenManager.hasValidToken();
       
-      if (previousMode !== this.syncStatus.useApiMode) {
-        console.log('DataManager: API mode changed from', previousMode, 'to', this.syncStatus.useApiMode);
-      }
+      // Wait before retrying
+      await new Promise(resolve => setTimeout(resolve, retryDelay));
     }
+    
+    console.warn('⚠️  DataManager: Could not initialize API mode after', maxRetries, 'retries');
+    this.syncStatus.isOnline = false;
   }
   
   /**
-   * Get current sync status
+   * Ensure API mode is active
+   * @throws {Error} If API mode is not available
    */
-  getSyncStatus() {
-    return { ...this.syncStatus };
+  async ensureApiMode() {
+    if (typeof apiManager === 'undefined') {
+      throw new Error('API Manager not available');
+    }
+    
+    if (typeof tokenManager === 'undefined') {
+      throw new Error('Token Manager not available');
+    }
+    
+    if (!tokenManager.hasValidToken()) {
+      throw new Error('No valid authentication token');
+    }
+    
+    this.syncStatus.isOnline = true;
+    this.updateSyncTimestamp();
   }
   
   /**
@@ -84,70 +76,31 @@ class DataManager {
    */
   updateSyncTimestamp() {
     this.syncStatus.lastSync = new Date().toISOString();
-    this.syncStatus.isOnline = true;
     this.syncStatus.lastError = null;
   }
   
   /**
-   * Handle API errors - quiet logging for expected fallbacks
+   * Handle API errors
    */
   handleApiError(error) {
-    // Only log errors if it's not an expected network error during initialization
-    if (error.message.includes('Failed to fetch') || error.message.includes('Not Found')) {
-      // Silent fallback - expected when backend is unreachable
-      this.syncStatus.isOnline = false;
-      this.syncStatus.lastError = error.message || 'Unknown error';
-      return false;
-    }
-    
-    // Log unexpected errors
-    console.error('DataManager: API error:', error.message);
     this.syncStatus.isOnline = false;
     this.syncStatus.lastError = error.message || 'Unknown error';
-    return false;
-  }
-
-  // Generic storage methods
-  getData(key) {
-    try {
-      const data = localStorage.getItem(key);
-      return data ? JSON.parse(data) : [];
-    } catch (error) {
-      console.error(`Error reading ${key} from localStorage:`, error);
-      return [];
-    }
-  }
-
-  setData(key, data) {
-    try {
-      localStorage.setItem(key, JSON.stringify(data));
-      return true;
-    } catch (error) {
-      console.error(`Error saving ${key} to localStorage:`, error);
-      return false;
-    }
+    throw error; // Re-throw to let caller handle it
   }
 
   // ===== CATEGORIES =====
   
   async getAllCategories() {
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Fetching categories from API...');
-        const categories = await apiManager.getCategories();
-        this.setData(this.storageKeys.categories, categories);
-        this.updateSyncTimestamp();
-        console.log('DataManager: Categories fetched from API successfully');
-        return categories;
-      } catch (error) {
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
-    }
+    await this.ensureApiMode();
     
-    // Return from localStorage
-    return this.getData(this.storageKeys.categories);
+    try {
+      const categories = await apiManager.getCategories();
+      this.updateSyncTimestamp();
+      return categories;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
   }
 
   async getCategoryById(id) {
@@ -156,175 +109,70 @@ class DataManager {
   }
 
   async createCategory(categoryData) {
-    let newCategory;
+    await this.ensureApiMode();
     
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Creating category via API...');
-        newCategory = await apiManager.createCategory(categoryData);
-        this.updateSyncTimestamp();
-        console.log('DataManager: Category created via API successfully');
-        
-        // Update localStorage cache
-        const categories = this.getData(this.storageKeys.categories);
-        categories.push(newCategory);
-        this.setData(this.storageKeys.categories, categories);
-        
-        return newCategory;
-      } catch (error) {
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
+    try {
+      const newCategory = await apiManager.createCategory(categoryData);
+      this.updateSyncTimestamp();
+      return newCategory;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
     }
-    
-    // Create in localStorage
-    const categories = await this.getAllCategories();
-    newCategory = {
-      id: `cat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: categoryData.name,
-      description: categoryData.description || '',
-      color: categoryData.color || '#f97316',
-      icon: categoryData.icon || '🍽️',
-      modifier_group_ids: categoryData.modifier_group_ids || [],
-      available: true,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    };
-    
-    categories.push(newCategory);
-    this.setData(this.storageKeys.categories, categories);
-    return newCategory;
   }
 
   async updateCategory(id, updates) {
-    let updatedCategory;
+    await this.ensureApiMode();
     
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Updating category via API...');
-        updatedCategory = await apiManager.updateCategory(id, updates);
-        this.updateSyncTimestamp();
-        console.log('DataManager: Category updated via API successfully');
-        
-        // Update localStorage cache
-        const categories = this.getData(this.storageKeys.categories);
-        const index = categories.findIndex(cat => cat.id === id);
-        if (index !== -1) {
-          categories[index] = updatedCategory;
-          this.setData(this.storageKeys.categories, categories);
-        }
-        
-        return updatedCategory;
-      } catch (error) {
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
-    }
-    
-    // Update in localStorage
-    const categories = await this.getAllCategories();
-    const index = categories.findIndex(cat => cat.id === id);
-    
-    if (index !== -1) {
-      updatedCategory = {
-        ...categories[index],
-        ...updates,
-        updated_at: new Date().toISOString()
-      };
-      this.setData(this.storageKeys.categories, categories);
+    try {
+      const updatedCategory = await apiManager.updateCategory(id, updates);
+      this.updateSyncTimestamp();
       return updatedCategory;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
     }
-    return null;
   }
 
   async deleteCategory(id) {
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Deleting category via API...');
-        await apiManager.deleteCategory(id);
-        this.updateSyncTimestamp();
-        console.log('DataManager: Category deleted via API successfully');
-        
-        // Update localStorage cache
-        const categories = this.getData(this.storageKeys.categories);
-        const filtered = categories.filter(cat => cat.id !== id);
-        this.setData(this.storageKeys.categories, filtered);
-        
-        return true;
-      } catch (error) {
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
-    }
+    await this.ensureApiMode();
     
-    // Delete from localStorage
-    const categories = await this.getAllCategories();
-    const filtered = categories.filter(cat => cat.id !== id);
-    
-    if (filtered.length < categories.length) {
-      this.setData(this.storageKeys.categories, filtered);
+    try {
+      await apiManager.deleteCategory(id);
+      this.updateSyncTimestamp();
       return true;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
     }
-    return false;
   }
 
   // ===== ITEMS =====
   
   async getAllItems() {
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Fetching items from API...');
-        const items = await apiManager.getItems();
-        // Normalize items - convert backend field names to frontend field names
-        const normalizedItems = items.map(item => ({
-          ...item,
-          available: item.isAvailable !== undefined ? item.isAvailable : (item.available !== undefined ? item.available : true)
-        }));
-        this.setData(this.storageKeys.items, normalizedItems);
-        this.updateSyncTimestamp();
-        console.log('DataManager: Items fetched from API successfully');
-        return normalizedItems;
-      } catch (error) {
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
-    }
+    await this.ensureApiMode();
     
-    // Return from localStorage and normalize
-    const items = this.getData(this.storageKeys.items);
-    return items.map(item => ({
-      ...item,
-      available: item.available !== undefined ? item.available : true
-    }));
+    try {
+      const items = await apiManager.getItems();
+      this.updateSyncTimestamp();
+      return items;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
   }
 
   async getItemsByCategory(categoryId) {
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Fetching items by category from API...');
-        const items = await apiManager.getItemsByCategory(categoryId);
-        // Normalize items - convert backend field names to frontend field names
-        const normalizedItems = items.map(item => ({
-          ...item,
-          available: item.isAvailable !== undefined ? item.isAvailable : (item.available !== undefined ? item.available : true)
-        }));
-        this.updateSyncTimestamp();
-        console.log('DataManager: Items by category fetched from API successfully');
-        return normalizedItems;
-      } catch (error) {
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
-    }
+    await this.ensureApiMode();
     
-    // Return from localStorage (already normalized by getAllItems)
-    const items = await this.getAllItems();
-    return items.filter(item => item.category_id === categoryId);
+    try {
+      const items = await apiManager.getItemsByCategory(categoryId);
+      this.updateSyncTimestamp();
+      return items;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
   }
 
   async getItemById(id) {
@@ -333,191 +181,94 @@ class DataManager {
   }
 
   async createItem(itemData) {
-    let newItem;
+    await this.ensureApiMode();
     
-    console.log('DataManager: createItem called with data:', itemData);
-    console.log('DataManager: API mode:', this.syncStatus.useApiMode);
-    
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Creating item via API...');
-        console.log('DataManager: API endpoint:', apiManager.endpoints.items);
-        newItem = await apiManager.createItem(itemData);
-        console.log('DataManager: Item created via API, response:', newItem);
-        this.updateSyncTimestamp();
-        console.log('DataManager: Item created via API successfully');
-        
-        // Update localStorage cache
-        const items = this.getData(this.storageKeys.items);
-        items.push(newItem);
-        this.setData(this.storageKeys.items, items);
-        
-        return newItem;
-      } catch (error) {
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
+    try {
+      // Map frontend field names to backend field names
+      const apiItemData = {
+        name: itemData.name,
+        description: itemData.description || '',
+        basePrice: parseFloat(itemData.base_price) || 0,
+        categoryId: itemData.category_id || '',
+        imageUrl: itemData.image_url || '',
+        localModifierGroupIds: itemData.modifier_group_ids || [],
+        isAvailable: itemData.available !== undefined ? itemData.available : true
+      };
+      
+      console.log('DataManager: Creating item with mapped fields:', apiItemData);
+      const newItem = await apiManager.createItem(apiItemData);
+      this.updateSyncTimestamp();
+      return newItem;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
     }
-    
-    // Create in localStorage
-    const items = await this.getAllItems();
-    newItem = {
-      id: `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: itemData.name,
-      description: itemData.description || '',
-      image_url: itemData.image_url || '',
-      base_price: parseFloat(itemData.base_price) || 0,
-      category_id: itemData.category_id,
-      modifier_group_ids: itemData.modifier_group_ids || [],
-      available: true,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    };
-    
-    items.push(newItem);
-    this.setData(this.storageKeys.items, items);
-    return newItem;
   }
 
   async updateItem(id, updates) {
-    let updatedItem;
+    await this.ensureApiMode();
     
-    console.log('DataManager: updateItem called with id:', id, 'updates:', updates);
-    console.log('DataManager: useApiMode:', this.syncStatus.useApiMode);
-    console.log('DataManager: apiManager defined:', typeof apiManager !== 'undefined');
-    
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Updating item via API...');
-        
-        // Map frontend field names to backend field names
-        const apiUpdates = { ...updates };
-        if (updates.available !== undefined) {
-          apiUpdates.isAvailable = updates.available;
-          delete apiUpdates.available;
-        }
-        
-        console.log('DataManager: Sending to API:', apiUpdates);
-        updatedItem = await apiManager.updateItem(id, apiUpdates);
-        this.updateSyncTimestamp();
-        console.log('DataManager: Item updated via API successfully');
-        
-        // Update localStorage cache - convert back to frontend field names
-        const items = this.getData(this.storageKeys.items);
-        const index = items.findIndex(item => item.id === id);
-        if (index !== -1) {
-          // Normalize the response - convert isAvailable to available
-          const normalizedItem = {
-            ...updatedItem,
-            available: updatedItem.isAvailable !== undefined ? updatedItem.isAvailable : updatedItem.available
-          };
-          items[index] = normalizedItem;
-          this.setData(this.storageKeys.items, items);
-          updatedItem = normalizedItem;
-        }
-        
-        return updatedItem;
-      } catch (error) {
-        console.error('DataManager: API update failed, falling back to localStorage:', error);
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
-    } else {
-      console.warn('DataManager: NOT using API - useApiMode:', this.syncStatus.useApiMode, ', apiManager defined:', typeof apiManager !== 'undefined');
-    }
-    
-    // Update in localStorage
-    const items = await this.getAllItems();
-    const index = items.findIndex(item => item.id === id);
-    
-    if (index !== -1) {
-      updatedItem = {
-        ...items[index],
-        ...updates,
-        base_price: updates.base_price !== undefined ? parseFloat(updates.base_price) : items[index].base_price,
-        updated_at: new Date().toISOString()
-      };
-      this.setData(this.storageKeys.items, items);
+    try {
+      // Map frontend field names to backend field names
+      const apiUpdates = {};
+      
+      if (updates.name !== undefined) apiUpdates.name = updates.name;
+      if (updates.description !== undefined) apiUpdates.description = updates.description;
+      if (updates.base_price !== undefined) apiUpdates.basePrice = parseFloat(updates.base_price) || 0;
+      if (updates.category_id !== undefined) apiUpdates.categoryId = updates.category_id;
+      if (updates.image_url !== undefined) apiUpdates.imageUrl = updates.image_url;
+      if (updates.modifier_group_ids !== undefined) apiUpdates.localModifierGroupIds = updates.modifier_group_ids;
+      if (updates.available !== undefined) apiUpdates.isAvailable = updates.available;
+      
+      console.log('DataManager: Updating item with mapped fields:', apiUpdates);
+      const updatedItem = await apiManager.updateItem(id, apiUpdates);
+      this.updateSyncTimestamp();
       return updatedItem;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
     }
-    return null;
   }
 
   async deleteItem(id) {
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Deleting item via API...');
-        await apiManager.deleteItem(id);
-        this.updateSyncTimestamp();
-        console.log('DataManager: Item deleted via API successfully');
-        
-        // Update localStorage cache
-        const items = this.getData(this.storageKeys.items);
-        const filtered = items.filter(item => item.id !== id);
-        this.setData(this.storageKeys.items, filtered);
-        
-        return true;
-      } catch (error) {
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
-    }
+    await this.ensureApiMode();
     
-    // Delete from localStorage
-    const items = await this.getAllItems();
-    const filtered = items.filter(item => item.id !== id);
-    
-    if (filtered.length < items.length) {
-      this.setData(this.storageKeys.items, filtered);
+    try {
+      await apiManager.deleteItem(id);
+      this.updateSyncTimestamp();
       return true;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
     }
-    return false;
   }
 
   async toggleItemAvailability(id) {
-    console.log('DataManager: toggleItemAvailability called with id:', id);
-    console.log('DataManager: API mode:', this.syncStatus.useApiMode);
-    console.log('DataManager: apiManager available:', typeof apiManager !== 'undefined');
+    await this.ensureApiMode();
     
-    const item = await this.getItemById(id);
-    console.log('DataManager: Current item:', item);
-    
-    if (item) {
-      const newAvailableState = !item.available;
-      console.log('DataManager: Toggling from', item.available, 'to', newAvailableState);
-      
-      const result = await this.updateItem(id, { available: newAvailableState });
-      console.log('DataManager: Update result:', result);
+    try {
+      const result = await apiManager.toggleItemAvailability(id);
+      this.updateSyncTimestamp();
       return result;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
     }
-    
-    console.warn('DataManager: Item not found with id:', id);
-    return null;
   }
 
   // ===== MODIFIER GROUPS =====
   
   async getAllModifierGroups() {
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Fetching modifier groups from API...');
-        const groups = await apiManager.getModifierGroups();
-        this.setData(this.storageKeys.modifierGroups, groups);
-        this.updateSyncTimestamp();
-        console.log('DataManager: Modifier groups fetched from API successfully');
-        return groups;
-      } catch (error) {
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
-    }
+    await this.ensureApiMode();
     
-    // Return from localStorage
-    return this.getData(this.storageKeys.modifierGroups);
+    try {
+      const groups = await apiManager.getModifierGroups();
+      this.updateSyncTimestamp();
+      return groups;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
   }
 
   async getModifierGroupById(id) {
@@ -526,243 +277,171 @@ class DataManager {
   }
 
   async createModifierGroup(groupData) {
-    let newGroup;
+    await this.ensureApiMode();
     
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Creating modifier group via API...');
-        newGroup = await apiManager.createModifierGroup(groupData);
-        this.updateSyncTimestamp();
-        console.log('DataManager: Modifier group created via API successfully');
-        
-        // Update localStorage cache
-        const groups = this.getData(this.storageKeys.modifierGroups);
-        groups.push(newGroup);
-        this.setData(this.storageKeys.modifierGroups, groups);
-        
-        return newGroup;
-      } catch (error) {
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
+    try {
+      const newGroup = await apiManager.createModifierGroup(groupData);
+      this.updateSyncTimestamp();
+      return newGroup;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
     }
-    
-    // Create in localStorage
-    const groups = await this.getAllModifierGroups();
-    newGroup = {
-      id: `group_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: groupData.name,
-      description: groupData.description || '',
-      min_selection: parseInt(groupData.min_selection) || 0,
-      max_selection: parseInt(groupData.max_selection) || 1,
-      required: groupData.required || false,
-      options: groupData.options || [],
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    };
-    
-    groups.push(newGroup);
-    this.setData(this.storageKeys.modifierGroups, groups);
-    return newGroup;
   }
 
   async updateModifierGroup(id, updates) {
-    let updatedGroup;
+    await this.ensureApiMode();
     
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Updating modifier group via API...');
-        updatedGroup = await apiManager.updateModifierGroup(id, updates);
-        this.updateSyncTimestamp();
-        console.log('DataManager: Modifier group updated via API successfully');
-        
-        // Update localStorage cache
-        const groups = this.getData(this.storageKeys.modifierGroups);
-        const index = groups.findIndex(group => group.id === id);
-        if (index !== -1) {
-          groups[index] = updatedGroup;
-          this.setData(this.storageKeys.modifierGroups, groups);
-        }
-        
-        return updatedGroup;
-      } catch (error) {
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
-    }
-    
-    // Update in localStorage
-    const groups = await this.getAllModifierGroups();
-    const index = groups.findIndex(group => group.id === id);
-    
-    if (index !== -1) {
-      updatedGroup = {
-        ...groups[index],
-        ...updates,
-        min_selection: updates.min_selection !== undefined ? parseInt(updates.min_selection) : groups[index].min_selection,
-        max_selection: updates.max_selection !== undefined ? parseInt(updates.max_selection) : groups[index].max_selection,
-        updated_at: new Date().toISOString()
-      };
-      this.setData(this.storageKeys.modifierGroups, groups);
+    try {
+      const updatedGroup = await apiManager.updateModifierGroup(id, updates);
+      this.updateSyncTimestamp();
       return updatedGroup;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
     }
-    return null;
   }
 
   async deleteModifierGroup(id) {
-    // Try API first if in API mode
-    if (this.syncStatus.useApiMode && typeof apiManager !== 'undefined') {
-      try {
-        console.log('DataManager: Deleting modifier group via API...');
-        await apiManager.deleteModifierGroup(id);
-        this.updateSyncTimestamp();
-        console.log('DataManager: Modifier group deleted via API successfully');
-        
-        // Update localStorage cache
-        const groups = this.getData(this.storageKeys.modifierGroups);
-        const filtered = groups.filter(group => group.id !== id);
-        this.setData(this.storageKeys.modifierGroups, filtered);
-        
-        return true;
-      } catch (error) {
-        this.handleApiError(error);
-        // Fall back to localStorage
-      }
-    }
+    await this.ensureApiMode();
     
-    // Delete from localStorage
-    const groups = await this.getAllModifierGroups();
-    const filtered = groups.filter(group => group.id !== id);
-    
-    if (filtered.length < groups.length) {
-      this.setData(this.storageKeys.modifierGroups, filtered);
+    try {
+      await apiManager.deleteModifierGroup(id);
+      this.updateSyncTimestamp();
       return true;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
     }
-    return false;
   }
 
   // ===== MODIFIER OPTIONS =====
   
   async addModifierOption(groupId, optionData) {
     const group = await this.getModifierGroupById(groupId);
-    if (group) {
-      const newOption = {
-        id: `opt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: optionData.name,
-        extra_price: parseFloat(optionData.extra_price) || 0,
-        available: true
-      };
-      
-      group.options.push(newOption);
-      await this.updateModifierGroup(groupId, { options: group.options });
-      return newOption;
+    if (!group) {
+      throw new Error('Modifier group not found');
     }
-    return null;
+    
+    const newOption = {
+      name: optionData.name,
+      extraPrice: parseFloat(optionData.extra_price) || 0,
+      isAvailable: true
+    };
+    
+    const updatedOptions = [...(group.options || []), newOption];
+    return await this.updateModifierGroup(groupId, { options: updatedOptions });
   }
 
   async updateModifierOption(groupId, optionId, updates) {
     const group = await this.getModifierGroupById(groupId);
-    if (group) {
-      const optionIndex = group.options.findIndex(opt => opt.id === optionId);
-      if (optionIndex !== -1) {
-        group.options[optionIndex] = {
-          ...group.options[optionIndex],
-          ...updates,
-          extra_price: updates.extra_price !== undefined ? parseFloat(updates.extra_price) : group.options[optionIndex].extra_price
-        };
-        await this.updateModifierGroup(groupId, { options: group.options });
-        return group.options[optionIndex];
-      }
+    if (!group) {
+      throw new Error('Modifier group not found');
     }
-    return null;
+    
+    const optionIndex = group.options?.findIndex(opt => opt.id === optionId);
+    if (optionIndex === undefined || optionIndex === -1) {
+      throw new Error('Modifier option not found');
+    }
+    
+    const updatedOptions = [...group.options];
+    updatedOptions[optionIndex] = {
+      ...updatedOptions[optionIndex],
+      ...updates,
+      extraPrice: updates.extraPrice !== undefined ? parseFloat(updates.extraPrice) : updatedOptions[optionIndex].extraPrice
+    };
+    
+    return await this.updateModifierGroup(groupId, { options: updatedOptions });
   }
 
   async deleteModifierOption(groupId, optionId) {
     const group = await this.getModifierGroupById(groupId);
-    if (group) {
-      const originalLength = group.options.length;
-      group.options = group.options.filter(opt => opt.id !== optionId);
-      
-      if (group.options.length < originalLength) {
-        await this.updateModifierGroup(groupId, { options: group.options });
-        return true;
-      }
+    if (!group) {
+      throw new Error('Modifier group not found');
     }
-    return false;
+    
+    const updatedOptions = (group.options || []).filter(opt => opt.id !== optionId);
+    return await this.updateModifierGroup(groupId, { options: updatedOptions });
   }
 
   async toggleModifierOptionAvailability(groupId, optionId) {
     const group = await this.getModifierGroupById(groupId);
-    if (group) {
-      const option = group.options.find(opt => opt.id === optionId);
-      if (option) {
-        return this.updateModifierOption(groupId, optionId, { available: !option.available });
-      }
+    if (!group) {
+      throw new Error('Modifier group not found');
     }
-    return null;
+    
+    const option = group.options?.find(opt => opt.id === optionId);
+    if (!option) {
+      throw new Error('Modifier option not found');
+    }
+    
+    return await this.updateModifierOption(groupId, optionId, { isAvailable: !option.isAvailable });
   }
 
   // ===== HELPER METHODS =====
   
-  // Get all modifier groups for a specific category (inherited)
   async getCategoryModifierGroups(categoryId) {
     const category = await this.getCategoryById(categoryId);
     if (!category) return [];
     
     const allGroups = await this.getAllModifierGroups();
-    return (category.modifier_group_ids || [])
+    const categoryGroupIds = category.inheritedModifierGroupIds || category.localModifierGroupIds || [];
+    
+    return categoryGroupIds
       .map(id => allGroups.find(group => group.id === id))
       .filter(group => group !== undefined);
   }
 
-  // Get all modifier groups for a specific item (item-specific + category-inherited)
   async getItemModifierGroups(itemId) {
     const item = await this.getItemById(itemId);
     if (!item) return [];
     
-    // Get item-specific modifier groups
-    const itemGroupsPromises = (item.modifier_group_ids || [])
-      .map(id => this.getModifierGroupById(id));
-    const itemGroups = (await Promise.all(itemGroupsPromises))
-      .filter(group => group !== undefined);
+    const itemGroupIds = item.localModifierGroupIds || [];
     
-    // If item has no specific groups, inherit from category
-    if (itemGroups.length === 0) {
-      return this.getCategoryModifierGroups(item.category_id);
+    if (itemGroupIds.length === 0 && item.categoryId) {
+      return this.getCategoryModifierGroups(item.categoryId);
     }
     
-    return itemGroups;
+    const allGroups = await this.getAllModifierGroups();
+    return itemGroupIds
+      .map(id => allGroups.find(group => group.id === id))
+      .filter(group => group !== undefined);
   }
 
-  // Search items by name or description
   async searchItems(query) {
     const items = await this.getAllItems();
     const searchTerm = query.toLowerCase();
     
     return items.filter(item => 
-      item.name.toLowerCase().includes(searchTerm) ||
-      item.description.toLowerCase().includes(searchTerm)
+      (item.name || '').toLowerCase().includes(searchTerm) ||
+      (item.description || '').toLowerCase().includes(searchTerm)
     );
   }
 
-  // Get statistics
   async getStatistics() {
-    const categories = await this.getAllCategories();
-    const items = await this.getAllItems();
-    const modifierGroups = await this.getAllModifierGroups();
+    const [categories, items, modifierGroups] = await Promise.all([
+      this.getAllCategories(),
+      this.getAllItems(),
+      this.getAllModifierGroups()
+    ]);
     
     return {
       totalCategories: categories.length,
-      availableCategories: categories.filter(cat => cat.available).length,
+      availableCategories: categories.filter(cat => cat.isActive).length,
       totalItems: items.length,
-      availableItems: items.filter(item => item.available).length,
+      availableItems: items.filter(item => item.isAvailable).length,
       totalModifierGroups: modifierGroups.length,
       averagePrice: items.length > 0 
-        ? (items.reduce((sum, item) => sum + item.base_price, 0) / items.length).toFixed(2)
+        ? (items.reduce((sum, item) => sum + item.basePrice, 0) / items.length).toFixed(2)
         : 0
     };
+  }
+
+  /**
+   * Get current sync status
+   */
+  getSyncStatus() {
+    return { ...this.syncStatus };
   }
 }
 
