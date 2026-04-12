@@ -11,6 +11,9 @@ async function initializeApp() {
     return;
   }
   
+  // Clear any stale sign-out flag (user has logged back in)
+  localStorage.removeItem('udo-signed-out');
+  
   // Production: No demo data - all data from backend
   
   // Initialize API mode with health check
@@ -174,7 +177,7 @@ async function openItemDrawer(itemId = null) {
   if (itemId) {
     await uiComponents.populateItemForm(itemId);
     const item = await dataManager.getItemById(itemId);
-    await uiComponents.renderModifierGroupsForItem(item.categoryId);
+    await uiComponents.renderModifierGroupsForItem(item.category_id || item.categoryId);
   } else {
     await uiComponents.resetItemForm();
     if (uiComponents.currentCategory) {
@@ -366,7 +369,8 @@ async function toggleAvailability(type, id) {
   if (type === 'category') {
     const category = await dataManager.getCategoryById(id);
     if (category) {
-      const newStatus = !category.isActive;
+      const currentStatus = category.available !== undefined ? category.available : (category.isActive || false);
+      const newStatus = !currentStatus;
       result = await dataManager.updateCategory(id, { available: newStatus });
       uiComponents.showToast(`${category.name} is now ${newStatus ? 'available' : 'unavailable'}`);
     }
@@ -374,7 +378,8 @@ async function toggleAvailability(type, id) {
     const item = await dataManager.getItemById(id);
     if (item) {
       result = await dataManager.toggleItemAvailability(id);
-      uiComponents.showToast(`${item.name} is now ${result.isAvailable ? 'available' : 'unavailable'}`);
+      const isNowAvailable = result ? (result.available !== false) : true;
+      uiComponents.showToast(`${item.name} is now ${isNowAvailable ? 'available' : 'unavailable'}`);
     }
   }
   
@@ -467,3 +472,79 @@ document.addEventListener('keydown', (e) => {
     closeModifierGroupModal();
   }
 });
+
+// ===== SIGN OUT =====
+
+/**
+ * Handle sign out - clear token, notify other tabs, redirect
+ */
+function handleSignOut() {
+  console.log('Signing out...');
+  
+  // Clear the auth token first
+  if (typeof tokenManager !== 'undefined') {
+    tokenManager.clearToken();
+  }
+  
+  // Notify other tabs via BroadcastChannel
+  try {
+    const channel = new BroadcastChannel('udo-auth-channel');
+    channel.postMessage({ type: 'SIGN_OUT' });
+    channel.close();
+  } catch (e) {
+    console.log('BroadcastChannel not supported');
+  }
+  
+  // Set a persistent flag in localStorage so other tabs detect it on focus
+  localStorage.setItem('udo-signed-out', 'true');
+  
+  // Redirect to login page
+  window.location.href = '../login/';
+}
+
+// ===== CROSS-TAB AUTH LISTENER =====
+
+(function setupCrossTabSignOut() {
+  // Method 1: BroadcastChannel (modern browsers)
+  try {
+    const authChannel = new BroadcastChannel('udo-auth-channel');
+    authChannel.onmessage = function(event) {
+      if (event.data && event.data.type === 'SIGN_OUT') {
+        console.log('Received sign-out from another tab');
+        if (typeof tokenManager !== 'undefined') {
+          tokenManager.clearToken();
+        }
+        window.location.href = '../login/';
+      }
+    };
+  } catch (e) {
+    console.log('BroadcastChannel not supported, using storage event fallback');
+  }
+
+  // Method 2: localStorage storage event (fires in OTHER tabs)
+  window.addEventListener('storage', function(event) {
+    if (event.key === 'udo-signed-out' && event.newValue === 'true') {
+      console.log('Received sign-out via storage event');
+      if (typeof tokenManager !== 'undefined') {
+        tokenManager.clearToken();
+      }
+      window.location.href = '../login/';
+    }
+  });
+
+  // Method 3: visibilitychange - check token when user focuses this tab
+  // This catches the case where the other tab signed out before this tab loaded the listeners
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+      // Tab just became visible - check if user is still authenticated
+      const signedOut = localStorage.getItem('udo-signed-out');
+      if (signedOut === 'true') {
+        console.log('Tab focused - user was signed out in another tab');
+        if (typeof tokenManager !== 'undefined') {
+          tokenManager.clearToken();
+        }
+        window.location.href = '../login/';
+      }
+    }
+  });
+})();

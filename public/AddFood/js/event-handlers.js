@@ -383,6 +383,68 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
+// ==================== SIGN OUT ====================
+
+/**
+ * Handle sign out - clear token, notify other tabs, redirect
+ */
+function handleSignOut() {
+  console.log('👋 Signing out...');
+  
+  // Clear the auth token
+  if (typeof tokenManager !== 'undefined') {
+    tokenManager.clearToken();
+  }
+  
+  // Notify other tabs via BroadcastChannel
+  try {
+    const channel = new BroadcastChannel('udo-auth-channel');
+    channel.postMessage({ type: 'SIGN_OUT' });
+    channel.close();
+  } catch (e) {
+    console.log('BroadcastChannel not supported');
+  }
+  
+  // Also use localStorage event as fallback (works across tabs)
+  localStorage.setItem('udo-signout-event', Date.now().toString());
+  localStorage.removeItem('udo-signout-event');
+  
+  // Redirect to login page
+  window.location.href = '../login/';
+}
+
+// ==================== CROSS-TAB AUTH LISTENER ====================
+
+// Listen for sign-out events from other tabs
+(function setupCrossTabSignOut() {
+  // Method 1: BroadcastChannel (modern browsers)
+  try {
+    const authChannel = new BroadcastChannel('udo-auth-channel');
+    authChannel.onmessage = function(event) {
+      if (event.data && event.data.type === 'SIGN_OUT') {
+        console.log('👋 Received sign-out from another tab');
+        if (typeof tokenManager !== 'undefined') {
+          tokenManager.clearToken();
+        }
+        window.location.href = '../login/';
+      }
+    };
+  } catch (e) {
+    console.log('BroadcastChannel not supported, using storage event fallback');
+  }
+
+  // Method 2: localStorage storage event (works in all browsers)
+  window.addEventListener('storage', function(event) {
+    if (event.key === 'udo-signout-event' && event.newValue) {
+      console.log('👋 Received sign-out via storage event');
+      if (typeof tokenManager !== 'undefined') {
+        tokenManager.clearToken();
+      }
+      window.location.href = '../login/';
+    }
+  });
+})();
+
 // ==================== INITIALIZATION ====================
 
 /**
