@@ -65,8 +65,14 @@ class UIComponents {
     return `
       <div class="category-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 cursor-pointer ${!available ? 'opacity-60' : ''}"
            onclick="showCategoryDetail('${category.id}')">
-        <div class="h-32 flex items-center justify-center text-6xl" style="background-color: ${color}20">
+        <div class="h-32 flex items-center justify-center text-6xl relative" style="background-color: ${color}20">
           ${icon}
+          <button onclick="event.stopPropagation(); openCategoryModal('${category.id}')"
+                  class="absolute top-3 right-3 w-8 h-8 bg-white/90 hover:bg-white rounded-full shadow-md flex items-center justify-center text-gray-500 hover:text-orange-500 transition" title="Edit category">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+          </button>
         </div>
         <div class="p-5">
           <div class="flex justify-between items-start mb-2">
@@ -218,13 +224,70 @@ class UIComponents {
       </div>`;
   }
 
+  // ===== LOCAL METADATA CACHE =====
+  // The backend may not store icon/color/description, so we cache them locally
+
+  _getLocalMeta(categoryId) {
+    try {
+      const meta = JSON.parse(localStorage.getItem('udo-category-meta') || '{}');
+      return meta[categoryId] || {};
+    } catch { return {}; }
+  }
+
+  _saveLocalMeta(categoryId, data) {
+    try {
+      const meta = JSON.parse(localStorage.getItem('udo-category-meta') || '{}');
+      meta[categoryId] = {
+        ...(meta[categoryId] || {}),
+        ...data
+      };
+      localStorage.setItem('udo-category-meta', JSON.stringify(meta));
+    } catch (e) {
+      console.warn('Could not save category metadata:', e);
+    }
+  }
+
+  _getCategoryDescription(category) {
+    if (!category) return '';
+    // Check backend data first, then local cache
+    return category.description || category.desc || this._getLocalMeta(category.id).description || '';
+  }
+
+  _getCategoryIcon(category) {
+    if (!category) return '🍽️';
+    return category.icon || this._getLocalMeta(category.id).icon || '🍽️';
+  }
+
+  _getCategoryColor(category) {
+    if (!category) return '#f97316';
+    return category.color || this._getLocalMeta(category.id).color || '#f97316';
+  }
+
   // ===== FORM POPULATION =====
 
   async populateCategoryForm(categoryId) {
+    console.log('populateCategoryForm: Looking for category:', categoryId);
     const category = await this.dataManager.getCategoryById(categoryId);
-    if (!category) return;
-    document.getElementById('categoryName').value = category.name;
-    document.getElementById('categoryDescription').value = category.description || '';
+    console.log('populateCategoryForm: Found category:', JSON.stringify(category));
+    if (!category) {
+      console.warn('populateCategoryForm: Category not found!');
+      return;
+    }
+    // Try multiple possible field names, with local metadata fallback
+    const catName = category.name || category.title || category.categoryName || '';
+    const catDesc = this._getCategoryDescription(category);
+    const icon = this._getCategoryIcon(category);
+    const color = this._getCategoryColor(category);
+    
+    console.log('populateCategoryForm: name:', catName, 'desc:', catDesc, 'icon:', icon, 'color:', color);
+    
+    document.getElementById('categoryName').value = catName;
+    document.getElementById('categoryDescription').value = catDesc;
+    document.getElementById('categoryIcon').value = icon;
+    document.getElementById('selectedIconPreview').textContent = icon;
+    document.getElementById('categoryColor').value = color;
+    document.getElementById('categoryColorText').value = color;
+    
     this.currentCategory = categoryId;
     await this.renderCategoryModifierGroups();
   }
@@ -370,6 +433,10 @@ class UIComponents {
   async resetCategoryForm() {
     document.getElementById('categoryName').value = '';
     document.getElementById('categoryDescription').value = '';
+    document.getElementById('categoryIcon').value = '';
+    document.getElementById('selectedIconPreview').textContent = '🍽️';
+    document.getElementById('categoryColor').value = '#f97316';
+    document.getElementById('categoryColorText').value = '#f97316';
     this.currentCategory = null;
     await this.renderCategoryModifierGroups();
   }
@@ -402,4 +469,23 @@ const uiComponents = new UIComponents(dataManager);
 
 function updateProfitCalculator() {
   uiComponents.updateProfitCalculator();
+}
+
+// ===== CATEGORY ICON & COLOR HELPERS =====
+
+function pickCategoryIcon(icon) {
+  document.getElementById('categoryIcon').value = icon;
+  document.getElementById('selectedIconPreview').textContent = icon;
+}
+
+function setCategoryColor(color) {
+  document.getElementById('categoryColor').value = color;
+  document.getElementById('categoryColorText').value = color;
+}
+
+function syncCategoryColor(value) {
+  // Validate hex color format
+  if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+    document.getElementById('categoryColor').value = value;
+  }
 }

@@ -229,28 +229,69 @@ async function deleteItem(itemId) {
 // ===== CATEGORY MODAL =====
 
 async function openCategoryModal(categoryId = null) {
+  // Cancel any pending reset from a previous modal close
+  if (_categoryModalResetTimeout) {
+    clearTimeout(_categoryModalResetTimeout);
+    _categoryModalResetTimeout = null;
+  }
+  
+  // Show modal FIRST for immediate feedback
+  document.getElementById('categoryModal').classList.remove('hidden');
+  document.getElementById('categoryModalOverlay').classList.remove('hidden');
+  
   if (categoryId) {
-    await uiComponents.populateCategoryForm(categoryId);
+    try {
+      await uiComponents.populateCategoryForm(categoryId);
+      // Verify the name was set (debug for race condition)
+      const nameEl = document.getElementById('categoryName');
+      console.log('After populate - categoryName value:', nameEl?.value);
+      if (!nameEl?.value) {
+        console.warn('Category name was cleared! Re-applying...');
+        const cat = await dataManager.getCategoryById(categoryId);
+        if (cat) {
+          nameEl.value = cat.name || cat.title || '';
+          console.log('Re-applied name:', nameEl.value);
+        }
+      }
+      // Delayed check: verify 200ms later if name survived
+      setTimeout(() => {
+        const val = document.getElementById('categoryName')?.value;
+        console.log('Delayed check (200ms) - categoryName value:', val);
+        if (!val) {
+          console.warn('Name was cleared AFTER populate! Stack trace for debugging:');
+          console.trace();
+        }
+      }, 200);
+    } catch (error) {
+      console.error('Error populating category form:', error);
+      uiComponents.showToast('Failed to load category data', 'error');
+    }
   } else {
     await uiComponents.resetCategoryForm();
   }
-  
-  document.getElementById('categoryModal').classList.remove('hidden');
-  document.getElementById('categoryModalOverlay').classList.remove('hidden');
 }
+
+// Track the reset timeout so we can cancel it if modal reopens
+let _categoryModalResetTimeout = null;
 
 function closeCategoryModal() {
   document.getElementById('categoryModal').classList.add('hidden');
   document.getElementById('categoryModalOverlay').classList.add('hidden');
   
-  setTimeout(() => {
+  // Clear any existing timeout
+  if (_categoryModalResetTimeout) clearTimeout(_categoryModalResetTimeout);
+  
+  _categoryModalResetTimeout = setTimeout(() => {
     uiComponents.resetCategoryForm();
+    _categoryModalResetTimeout = null;
   }, 300);
 }
 
 async function saveCategory() {
   const name = document.getElementById('categoryName').value;
   const description = document.getElementById('categoryDescription').value;
+  const icon = document.getElementById('categoryIcon').value || '🍽️';
+  const color = document.getElementById('categoryColor').value || '#f97316';
   
   // Get selected modifier groups
   const checkboxes = document.querySelectorAll('.category-modifier-group:checked');
@@ -259,6 +300,8 @@ async function saveCategory() {
   const categoryData = {
     name,
     description,
+    icon,
+    color,
     modifier_group_ids: modifierGroupIds
   };
   
