@@ -221,7 +221,9 @@ class DataManager {
       if (updates.available !== undefined) apiUpdates.isAvailable = updates.available;
       
       console.log('DataManager: Updating item with mapped fields:', apiUpdates);
+      console.log('DataManager: Modifier group IDs being sent:', apiUpdates.localModifierGroupIds);
       const updatedItem = await apiManager.updateItem(id, apiUpdates);
+      console.log('DataManager: Update response from backend:', updatedItem);
       this.updateSyncTimestamp();
       return updatedItem;
     } catch (error) {

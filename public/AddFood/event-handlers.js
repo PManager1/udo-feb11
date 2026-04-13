@@ -133,6 +133,17 @@ async function handleItemFormSubmit(e) {
       modifier_group_ids: modifierGroupIds
     };
     
+    // When editing, preserve the current availability from backend
+    if (uiComponents.currentItem) {
+      const currentItem = await dataManager.getItemById(uiComponents.currentItem);
+      if (currentItem) {
+        itemData.available = currentItem.isAvailable !== undefined ? currentItem.isAvailable : 
+                             (currentItem.available !== undefined ? currentItem.available : true);
+      }
+    } else {
+      itemData.available = true; // New items default to available
+    }
+    
     let item;
     if (uiComponents.currentItem) {
       item = await dataManager.updateItem(uiComponents.currentItem, itemData);
@@ -177,7 +188,9 @@ async function openItemDrawer(itemId = null) {
   if (itemId) {
     await uiComponents.populateItemForm(itemId);
     const item = await dataManager.getItemById(itemId);
-    await uiComponents.renderModifierGroupsForItem(item.category_id || item.categoryId);
+    // Pass the item's existing modifier group IDs so they're pre-checked
+    const itemModifierIds = uiComponents._getModifierIds(item);
+    await uiComponents.renderModifierGroupsForItem(item.category_id || item.categoryId, itemModifierIds);
   } else {
     await uiComponents.resetItemForm();
     if (uiComponents.currentCategory) {
@@ -403,6 +416,21 @@ async function saveModifierGroup() {
   if (group) {
     uiComponents.showToast(uiComponents.currentModifierGroup ? 'Modifier group updated successfully!' : 'Modifier group created successfully!');
     closeModifierGroupModal();
+    
+    // Refresh the modifier groups list in the item drawer if it's open
+    const itemDrawer = document.getElementById('itemDrawer');
+    if (!itemDrawer.classList.contains('translate-x-full')) {
+      // Drawer is open — save current checkbox states, re-render, then restore
+      const currentChecked = Array.from(document.querySelectorAll('#modifierGroupsList input[type="checkbox"]:checked')).map(cb => cb.value);
+      const categoryId = document.getElementById('itemCategory').value;
+      if (categoryId) {
+        // Include the newly created group ID so it's checked
+        if (!uiComponents.currentModifierGroup && group.id) {
+          currentChecked.push(group.id);
+        }
+        await uiComponents.renderModifierGroupsForItem(categoryId, currentChecked);
+      }
+    }
     
     // Refresh current view
     if (uiComponents.currentCategory) {

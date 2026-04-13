@@ -20,7 +20,7 @@ class UIComponents {
   _getMinSel(obj) { return obj.min_selection !== undefined ? obj.min_selection : (obj.minSelection || 0); }
   _getMaxSel(obj) { return obj.max_selection !== undefined ? obj.max_selection : (obj.maxSelection || 1); }
   _isRequired(obj) { return obj.required !== undefined ? obj.required : (obj.isRequired || false); }
-  _getModifierIds(obj) { return obj.modifier_group_ids || obj.inheritedModifierGroupIds || []; }
+  _getModifierIds(obj) { return obj.localModifierGroupIds || obj.modifier_group_ids || obj.inheritedModifierGroupIds || []; }
 
   // ===== VIEW MANAGEMENT =====
 
@@ -159,28 +159,38 @@ class UIComponents {
 
   // ===== MODIFIER GROUP RENDERING =====
 
-  async renderModifierGroupsForItem(categoryId) {
-    const groups = await this.dataManager.getCategoryModifierGroups(categoryId);
+  async renderModifierGroupsForItem(categoryId, selectedItemIds = []) {
+    // Show ALL modifier groups, with category-linked ones pre-checked
+    const allGroups = await this.dataManager.getAllModifierGroups();
+    const categoryGroups = await this.dataManager.getCategoryModifierGroups(categoryId);
+    const categoryGroupIds = categoryGroups.map(g => g.id);
     const container = document.getElementById('modifierGroupsList');
-    if (groups.length === 0) {
-      container.innerHTML = `<div class="text-center py-6 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200"><p class="text-sm">No modifier groups linked to this category</p><p class="text-xs mt-1">Create a new modifier group or add one to this category</p></div>`;
+    
+    if (allGroups.length === 0) {
+      container.innerHTML = `<div class="text-center py-6 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200"><p class="text-sm">No modifier groups yet</p><p class="text-xs mt-1">Click "+ Create New Group" to make one</p></div>`;
       return;
     }
-    container.innerHTML = groups.map(group => this.renderModifierGroupCheckbox(group)).join('');
-  }
-
-  renderModifierGroupCheckbox(group) {
-    return `
-      <label class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200 hover:border-orange-300 cursor-pointer transition">
-        <input type="checkbox" value="${group.id}" class="w-5 h-5 text-orange-500 border-gray-300 rounded focus:ring-orange-500">
-        <div class="flex-1">
-          <div class="flex justify-between items-center">
-            <span class="font-semibold text-gray-900">${group.name}</span>
-            <span class="text-xs text-gray-500">${group.options.length} options</span>
+    
+    container.innerHTML = allGroups.map(group => {
+      // Pre-check if: editing item and group was on item, OR new item and group is category-linked
+      const isChecked = selectedItemIds.includes(group.id) || 
+        (!this.currentItem && categoryGroupIds.includes(group.id));
+      const isCategoryLinked = categoryGroupIds.includes(group.id);
+      return `
+        <label class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border ${isChecked ? 'border-orange-300 bg-orange-50' : 'border-gray-200'} hover:border-orange-300 cursor-pointer transition">
+          <input type="checkbox" value="${group.id}" ${isChecked ? 'checked' : ''} class="w-5 h-5 text-orange-500 border-gray-300 rounded focus:ring-orange-500">
+          <div class="flex-1">
+            <div class="flex justify-between items-center">
+              <span class="font-semibold text-gray-900">${group.name}</span>
+              <div class="flex items-center gap-2">
+                ${isCategoryLinked ? '<span class="text-xs bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full">Category</span>' : ''}
+                <span class="text-xs text-gray-500">${group.options.length} options</span>
+              </div>
+            </div>
+            <p class="text-sm text-gray-600">${group.description || 'No description'}</p>
           </div>
-          <p class="text-sm text-gray-600">${group.description || 'No description'}</p>
-        </div>
-      </label>`;
+        </label>`;
+    }).join('');
   }
 
   async renderCategoryModifierGroups() {
