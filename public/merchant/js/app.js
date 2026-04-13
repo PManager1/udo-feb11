@@ -40,9 +40,9 @@ function initAutocomplete() {
 /**
  * Initialize application
  */
-function initializeApp() {
-  // Load existing data or start fresh
-  storeData = loadStoreData();
+async function initializeApp() {
+  // Load existing data from server
+  storeData = await loadStoreData();
   
   // Initialize UI
   initializeUI();
@@ -221,19 +221,9 @@ function setupEventListeners() {
   // Mobile Preview
   setupMobilePreview();
   
-  // Publish button
-  const publishBtn = document.getElementById('publishBtn');
-  if (publishBtn) {
-    publishBtn.addEventListener('click', handlePublish);
-  }
+  // Publish & Save buttons are handled by inline script in index.html
+  // (uses apiManager.updateProfile to save directly to backend)
   
-  // Mobile save button
-  const savePublishBtn = document.getElementById('savePublishBtn');
-  if (savePublishBtn) {
-    savePublishBtn.addEventListener('click', () => {
-      showToast('All changes saved!');
-    });
-  }
   
   // Back button (thumb zone)
   const backBtn = document.getElementById('backBtn');
@@ -557,9 +547,9 @@ function clearAllHours() {
 /**
  * Save hours manually
  */
-function saveHoursManually() {
+async function saveHoursManually() {
   storeData.hours = getHoursFromInputs();
-  const saved = saveStoreData(storeData);
+  const saved = await saveStoreData(storeData);
   
   if (saved) {
     showToast('Hours saved successfully!');
@@ -869,9 +859,9 @@ function triggerAutosave() {
   }
   
   // Set new timer (500ms debounce)
-  autosaveTimer = setTimeout(() => {
-    // Save to localStorage
-    const saved = saveStoreData(storeData);
+  autosaveTimer = setTimeout(async () => {
+    // Save to server
+    const saved = await saveStoreData(storeData);
     
     if (saved) {
       if (saveStatus) {
@@ -893,7 +883,7 @@ function triggerAutosave() {
 /**
  * Handle publish button click
  */
-function handlePublish() {
+async function handlePublish() {
   const stepsLeft = calculateStepsLeft(storeData);
   
   if (stepsLeft > 0) {
@@ -912,10 +902,7 @@ function handlePublish() {
       missingSteps.push('• Store address is required');
     }
     
-    const hasProducts = storeData.categories.some(cat => cat.products.length > 0);
-    if (!hasProducts) {
-      missingSteps.push('• Add at least one product to your menu');
-    }
+    // Products managed on /AddFoodItem — no product check here
     
     if (storeData.emergencyPause) {
       missingSteps.push('• Emergency pause is activated - disable it to accept orders');
@@ -928,12 +915,16 @@ function handlePublish() {
   }
   
   if (confirm('Are you ready to publish your store? Customers will be able to see your products.')) {
-    // Save store data
-    saveStoreData(storeData);
+    // Save to server
+    const saved = await saveStoreData(storeData);
     
-    // Navigate to success page with store name
-    const storeName = encodeURIComponent(storeData.storeName);
-    window.location.href = `merchant_success_page_creation.html?storeName=${storeName}`;
+    if (saved) {
+      // Navigate to success page with store name
+      const storeName = encodeURIComponent(storeData.storeName);
+      window.location.href = `merchant_success_page_creation.html?storeName=${storeName}`;
+    } else {
+      showToast('Failed to publish. Please try again.', 'error');
+    }
   }
 }
 

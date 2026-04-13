@@ -366,6 +366,40 @@ class APIManager {
     }
   }
 
+  // ===== MERCHANT PROFILE =====
+
+  /**
+   * Update merchant store profile
+   * @param {object} profileData - Store profile data
+   * @returns {Promise<object>} - Update result
+   */
+  async updateProfile(profileData) {
+    try {
+      return await this.fetchAPI(`${this.apiBase}rest/profile`, {
+        method: 'POST',
+        body: JSON.stringify(profileData)
+      });
+    } catch (error) {
+      console.error('APIManager: Failed to update profile:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get merchant store profile
+   * @returns {Promise<object>} - Store profile data
+   */
+  async getProfile() {
+    try {
+      return await this.fetchAPI(`${this.apiBase}rest/profile`, {
+        method: 'GET'
+      });
+    } catch (error) {
+      console.error('APIManager: Failed to get profile:', error);
+      throw error;
+    }
+  }
+
   // ===== HEALTH CHECK =====
 
   /**

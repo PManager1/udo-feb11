@@ -1,8 +1,133 @@
-// Local Storage Management for Merchant Store Builder
+// Merchant Store API — Server-only, no localStorage for store data
+// Only the auth token lives in localStorage (managed by tokenManager)
 
-const STORAGE_KEY = 'udo_merchant_store';
+const STORE_API_BASE = `${API_BASE}rest/profile`;
 
-// Default store data template
+/**
+ * Get auth headers with token
+ */
+function getAuthHeaders() {
+  const headers = { 'Content-Type': 'application/json' };
+  if (typeof tokenManager !== 'undefined' && tokenManager.hasValidToken()) {
+    const token = tokenManager.getToken();
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
+}
+
+/**
+ * Load store data from server
+ * @returns {Promise<Object>} Store data
+ */
+async function loadStoreData() {
+  try {
+    const response = await fetch(STORE_API_BASE, {
+      method: 'GET',
+      headers: getAuthHeaders()
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        console.log('No store data on server, using defaults');
+        return { ...defaultStoreData };
+      }
+      throw new Error(`Server returned ${response.status}`);
+    }
+
+    const raw = await response.json();
+    const serverData = raw.store || raw;
+    console.log('Store data loaded from server:', serverData);
+    return mapServerToUI(serverData);
+  } catch (error) {
+    console.error('Failed to load store data from server:', error);
+    return { ...defaultStoreData };
+  }
+}
+
+/**
+ * Map server response format to UI-expected format
+ * Server: { restaurantName, storeType, storeAddress, storeHours: { monday: "09:00-21:00" }, ... }
+ * UI:     { storeName,     storeType, storeAddress, hours: { monday: { open, close } }, categories: [], ... }
+ */
+function mapServerToUI(serverData) {
+  const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  const hours = {};
+
+  // Convert storeHours "HH:MM-HH:MM" → { open, close } per day
+  const serverHours = serverData.storeHours || serverData.hours || {};
+  days.forEach(day => {
+    const val = serverHours[day];
+    if (val && typeof val === 'string' && val.includes('-')) {
+      const [open, close] = val.split('-');
+      hours[day] = { open: open.trim(), close: close.trim() };
+    } else if (val && typeof val === 'object' && val.open) {
+      hours[day] = { open: val.open, close: val.close };
+    } else {
+      hours[day] = { open: '09:00', close: '21:00' };
+    }
+  });
+
+  return {
+    storeName:      serverData.restaurantName || serverData.storeName || '',
+    storeType:      serverData.storeType || '',
+    storeAddress:   serverData.storeAddress || '',
+    hours:          hours,
+    emergencyPause: serverData.emergencyPause || false,
+    categories:     serverData.categories || []
+  };
+}
+
+/**
+ * Save store data to server
+ * @param {Object} data - Store data to save
+ * @returns {Promise<boolean>} Success status
+ */
+async function saveStoreData(data) {
+  try {
+    const response = await fetch(STORE_API_BASE, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server returned ${response.status}`);
+    }
+
+    console.log('Store data saved to server');
+    return true;
+  } catch (error) {
+    console.error('Failed to save store data to server:', error);
+    return false;
+  }
+}
+
+/**
+ * Publish store to server
+ * @param {Object} data - Store data to publish
+ * @returns {Promise<boolean>} Success status
+ */
+async function publishStore(data) {
+  try {
+    const response = await fetch(`${STORE_API_BASE}/publish`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server returned ${response.status}`);
+    }
+
+    console.log('Store published to server');
+    return true;
+  } catch (error) {
+    console.error('Failed to publish store:', error);
+    return false;
+  }
+}
+
+// Default store data template (used when server has no data yet)
 const defaultStoreData = {
   storeName: '',
   storeType: '',
@@ -55,91 +180,28 @@ const storeTypeDefaults = {
 };
 
 /**
- * Load store data from localStorage
- * @returns {Object} Store data
- */
-function loadStoreData() {
-  try {
-    const savedData = localStorage.getItem(STORAGE_KEY);
-    if (savedData) {
-      return JSON.parse(savedData);
-    }
-  } catch (error) {
-    console.error('Error loading store data:', error);
-  }
-  return { ...defaultStoreData };
-}
-
-/**
- * Save store data to localStorage
- * @param {Object} data - Store data to save
- */
-function saveStoreData(data) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    return true;
-  } catch (error) {
-    console.error('Error saving store data:', error);
-    return false;
-  }
-}
-
-/**
  * Apply smart defaults for a store type
- * @param {string} storeType - Type of store (cafe, restaurant, grocery, flowers)
- * @returns {Object} Default categories for the store type
  */
 function getStoreTypeDefaults(storeType) {
   return storeTypeDefaults[storeType]?.categories || [];
 }
 
 /**
- * Clear all store data
- */
-function clearStoreData() {
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-    return true;
-  } catch (error) {
-    console.error('Error clearing store data:', error);
-    return false;
-  }
-}
-
-/**
  * Calculate progress (steps left to go live)
- * @param {Object} storeData - Store data
- * @returns {number} Steps left to go live
+ * Products are managed on /AddFoodItem — not counted here
  */
 function calculateStepsLeft(storeData) {
-  let stepsLeft = 5; // Maximum steps
-  
+  let stepsLeft = 4;
   if (storeData.storeName) stepsLeft--;
   if (storeData.storeType) stepsLeft--;
   if (storeData.storeAddress) stepsLeft--;
-  if (storeData.categories.length > 0 && 
-      storeData.categories.some(cat => cat.products.length > 0)) stepsLeft--;
   if (!storeData.emergencyPause) stepsLeft--;
-  
   return stepsLeft;
 }
 
 /**
  * Generate unique ID
- * @returns {string} Unique ID
  */
 function generateId() {
   return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-}
-
-// Export functions for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    loadStoreData,
-    saveStoreData,
-    getStoreTypeDefaults,
-    clearStoreData,
-    calculateStepsLeft,
-    generateId
-  };
 }

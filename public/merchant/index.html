@@ -13,8 +13,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Places API for address autocomplete -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initAutocomplete" async defer></script>
+  <!-- Google Places API — add your real API key to enable address autocomplete -->
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=REAL_KEY_HERE&libraries=places&callback=initAutocomplete" async defer></script> -->
   <link rel="stylesheet" href="css/styles.css">
   <style>
     body {
@@ -590,10 +590,86 @@
   </div>
 
   <!-- Scripts -->
+  <script src="../config.js"></script>
+  <script src="../shared/token-manager.js"></script>
+  <script src="../AddFoodItem/api-manager.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/validation.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
+
+  <!-- Save to backend + redirect to AddFoodItem -->
+  <script>
+    async function saveProfileToBackend() {
+      if (typeof tokenManager === 'undefined' || !tokenManager.hasValidToken()) {
+        showToast('No auth token. Go to Settings → Token first.', 'error');
+        return;
+      }
+
+      // Flatten hours to "HH:MM-HH:MM" format for backend
+      const storeHours = {};
+      if (storeData && storeData.hours) {
+        Object.keys(storeData.hours).forEach(day => {
+          const h = storeData.hours[day];
+          if (h && h.open && h.close) {
+            storeHours[day] = `${h.open}-${h.close}`;
+          }
+        });
+      }
+
+      const payload = {
+        restaurantName: storeData.storeName || '',
+        storeType:      storeData.storeType || '',
+        storeAddress:   storeData.storeAddress || '',
+        storeHours:     storeHours,
+        emergencyPause: storeData.emergencyPause || false,
+        category:  '',
+        logoURL:   '',
+        images:    [],
+        deliveryTime: 0,
+        deliveryFee:  0,
+        promoText: '',
+        latitude:  0,
+        longitude: 0,
+        isSponsored: false
+      };
+
+      try {
+        const result = await apiManager.updateProfile(payload);
+        if (result.success) {
+          showToast('✅ Profile saved!');
+          return true;
+        }
+      } catch (err) {
+        showToast('Save failed: ' + err.message, 'error');
+      }
+      return false;
+    }
+
+    // Wire Publish Store button (desktop header)
+    document.addEventListener('DOMContentLoaded', () => {
+      const publishBtn = document.getElementById('publishBtn');
+      if (publishBtn) {
+        publishBtn.onclick = async () => {
+          if (!storeData.storeName) { showToast('Enter a store name', 'error'); return; }
+          if (!storeData.storeType) { showToast('Select a store type', 'error'); return; }
+          const ok = await saveProfileToBackend();
+          if (ok) window.location.href = '../AddFoodItem/';
+        };
+      }
+
+      // Wire mobile Save button (bottom nav)
+      const savePublishBtn = document.getElementById('savePublishBtn');
+      if (savePublishBtn) {
+        savePublishBtn.onclick = async () => {
+          if (!storeData.storeName) { showToast('Enter a store name', 'error'); return; }
+          if (!storeData.storeType) { showToast('Select a store type', 'error'); return; }
+          const ok = await saveProfileToBackend();
+          if (ok) window.location.href = '../AddFoodItem/';
+        };
+      }
+    });
+  </script>
 
   <!-- Footer -->
   <footer class="bg-[#b0b0a8] text-gray-800 mt-8">
