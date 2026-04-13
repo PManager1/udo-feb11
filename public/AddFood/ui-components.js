@@ -20,7 +20,14 @@ class UIComponents {
   _getMinSel(obj) { return obj.min_selection !== undefined ? obj.min_selection : (obj.minSelection || 0); }
   _getMaxSel(obj) { return obj.max_selection !== undefined ? obj.max_selection : (obj.maxSelection || 1); }
   _isRequired(obj) { return obj.required !== undefined ? obj.required : (obj.isRequired || false); }
-  _getModifierIds(obj) { return obj.localModifierGroupIds || obj.modifier_group_ids || obj.inheritedModifierGroupIds || []; }
+  _getModifierIds(obj) { 
+    if (!obj) return [];
+    const ids = obj.localModifierGroupIds || obj.modifier_group_ids || obj.inheritedModifierGroupIds || obj.modifierGroupIds || [];
+    if (ids.length > 0) {
+      console.log('_getModifierIds:', obj.name, '→', ids, '(from field:', obj.localModifierGroupIds ? 'localModifierGroupIds' : obj.modifier_group_ids ? 'modifier_group_ids' : obj.inheritedModifierGroupIds ? 'inheritedModifierGroupIds' : 'modifierGroupIds', ')');
+    }
+    return ids;
+  }
 
   // ===== VIEW MANAGEMENT =====
 
