@@ -84,10 +84,43 @@ function mapServerToUI(serverData) {
  */
 async function saveStoreData(data) {
   try {
+    // Map UI fields → backend field names before sending
+    const storeHours = {};
+    if (data.hours) {
+      Object.keys(data.hours).forEach(day => {
+        const h = data.hours[day];
+        if (h && h.open && h.close) {
+          storeHours[day] = `${h.open}-${h.close}`;
+        }
+      });
+    }
+
+    // Read category from whichever dropdown exists (desktop or mobile)
+    const catDesktop = document.getElementById('restaurantCategory');
+    const catMobile  = document.getElementById('restaurantCategoryMobile');
+    const categoryVal = (catDesktop && catDesktop.value) || (catMobile && catMobile.value) || '';
+
+    const payload = {
+      restaurantName: data.storeName || '',
+      storeType:      data.storeType || '',
+      storeAddress:   data.storeAddress || '',
+      storeHours:     storeHours,
+      emergencyPause: data.emergencyPause || false,
+      category:       categoryVal,
+      logoURL:   '',
+      images:    [],
+      deliveryTime: 0,
+      deliveryFee:  0,
+      promoText: '',
+      latitude:  0,
+      longitude: 0,
+      isSponsored: false
+    };
+
     const response = await fetch(STORE_API_BASE, {
       method: 'PUT',
       headers: getAuthHeaders(),
-      body: JSON.stringify(data)
+      body: JSON.stringify(payload)
     });
 
     if (!response.ok) {

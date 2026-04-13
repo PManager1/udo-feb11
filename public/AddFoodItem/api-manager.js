@@ -376,7 +376,7 @@ class APIManager {
   async updateProfile(profileData) {
     try {
       return await this.fetchAPI(`${this.apiBase}rest/profile`, {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(profileData)
       });
     } catch (error) {
