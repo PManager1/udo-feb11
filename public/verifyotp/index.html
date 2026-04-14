@@ -60,6 +60,15 @@
     .overflow-hidden {
       overflow: hidden;
     }
+    .search-overlay {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .search-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
   </style>
 </head>
 <body class="min-h-screen antialiased text-gray-900" style="font-family: 'Nunito', sans-serif; background-color: #f9f7f5;">
@@ -453,6 +462,15 @@
       }
     });
 
+  </script>
+  <script src="/search-overlay/search-overlay.js"></script>
+  <script>
+    // Mobile search button triggers search overlay
+    const mobileSearchBtn = document.getElementById('mobileSearchBtn');
+    const desktopSearchInput = document.getElementById('searchInput');
+    if (mobileSearchBtn && desktopSearchInput) {
+      mobileSearchBtn.addEventListener('click', () => { desktopSearchInput.click(); });
+    }
   </script>
 </body>
 </html>

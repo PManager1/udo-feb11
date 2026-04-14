@@ -382,6 +382,15 @@
       document.body.classList.remove('overflow-hidden');
     });
 
+    // Mobile search button triggers search overlay
+    const mobileSearchBtn = document.getElementById('mobileSearchBtn');
+    const desktopSearch = document.getElementById('searchInput');
+    if (mobileSearchBtn && desktopSearch) {
+      mobileSearchBtn.addEventListener('click', () => {
+        desktopSearch.click();
+      });
+    }
+
     // QR Code Platform Toggle
     function selectPlatform(platform) {
       const btnIphone = document.getElementById('btnIphone');
