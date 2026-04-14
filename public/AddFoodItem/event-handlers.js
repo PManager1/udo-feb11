@@ -550,8 +550,79 @@ document.addEventListener('keydown', (e) => {
     closeItemDrawer();
     closeCategoryModal();
     closeModifierGroupModal();
+    closeMenuUploadModal();
   }
 });
+
+// ===== MENU UPLOAD =====
+
+function handleMenuUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  
+  const fileName = file.name;
+  const fileSize = (file.size / 1024).toFixed(1);
+  
+  console.log('Menu uploaded:', fileName, `(${fileSize} KB)`);
+  
+  // Show confirmation modal instead of actual upload
+  showMenuUploadConfirmation(fileName);
+  
+  // Reset the file input so the same file can be selected again
+  input.value = '';
+}
+
+function showMenuUploadConfirmation(fileName) {
+  // Create modal overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'menuUploadOverlay';
+  overlay.className = 'fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4';
+  overlay.onclick = function(e) { if (e.target === overlay) closeMenuUploadModal(); };
+  
+  // Create modal content
+  overlay.innerHTML = `
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center transform transition-all">
+      <div class="w-20 h-20 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
+        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <h3 class="text-2xl font-bold text-gray-900 mb-3">Menu Received!</h3>
+      <p class="text-gray-500 text-sm mb-4">
+        <span class="inline-flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full">
+          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          ${fileName}
+        </span>
+      </p>
+      <p class="text-gray-600 mb-6 leading-relaxed">
+        Awesome — we've got your menu! Our team will review it and get all your items, categories, and prices set up for you. 
+        You'll receive an email notification once everything is ready to go. This typically takes just a few hours.
+      </p>
+      <p class="text-sm text-orange-600 font-medium mb-6">
+        In the meantime, you can also add items manually using the "Add New Item" button.
+      </p>
+      <button onclick="closeMenuUploadModal()" 
+              class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg">
+        Got it, thanks!
+      </button>
+    </div>
+  `;
+  
+  document.body.appendChild(overlay);
+  
+  // Prevent background scrolling
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMenuUploadModal() {
+  const overlay = document.getElementById('menuUploadOverlay');
+  if (overlay) {
+    overlay.remove();
+    document.body.style.overflow = '';
+  }
+}
 
 // ===== SIGN OUT =====
 

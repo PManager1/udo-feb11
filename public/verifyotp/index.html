@@ -284,15 +284,18 @@
     const resendButton = document.getElementById('resendButton');
     const verifyForm = document.getElementById('verifyForm');
 
-    // Get phone number from URL query param
+    // Get phone or email from URL query param
     const params = new URLSearchParams(window.location.search);
     const phone = params.get("phone");
+    const email = params.get("email");
+    const isEmailLogin = !!email && !phone;
 
-    // Display phone number
+    // Display identifier
     if (phone) {
       phoneDisplay.textContent = `Enter the 4-digit code sent to ${phone}`;
+    } else if (email) {
+      phoneDisplay.textContent = `Enter the 4-digit code sent to ${email}`;
     } else {
-      // If no phone number, redirect back to login
       window.location.href = '/login';
     }
 
@@ -356,29 +359,30 @@
       setLoading(true);
       
       try {
-        const res = await fetch(`${API_BASE}verify-otp`, {
+        let verifyUrl, requestBody;
+
+        if (isEmailLogin) {
+          verifyUrl = AUTH_API.verifyEmailOtp;
+          requestBody = { email: email, otp: otp };
+        } else {
+          verifyUrl = `${API_BASE}verify-otp`;
+          const cleanedNumber = phone.replace(/\D/g, '');
+          requestBody = { phoneNumber: '+1' + cleanedNumber, otp: otp };
+        }
+
+        const res = await fetch(verifyUrl, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            phoneNumber: phone,
-            otp: otp
-          })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
         });
 
-        // Get response text first to see what we received
         const responseText = await res.text();
         console.log('Response:', responseText);
-        console.log('Response status:', res.status);
-        console.log('Response ok:', res.ok);
 
-        // Try to parse JSON
         let data;
         try {
           data = JSON.parse(responseText);
         } catch (e) {
-          console.error('Failed to parse JSON:', e);
           throw new Error(`Server returned invalid response: ${responseText.substring(0, 100)}`);
         }
 
@@ -389,16 +393,17 @@
         // Store JWT token and user info
         if (data.token) {
           localStorage.setItem('jwt_token', data.token);
-          localStorage.setItem('userPhone', phone);
+          if (isEmailLogin) {
+            localStorage.setItem('loginEmail', email);
+          } else {
+            localStorage.setItem('userPhone', phone);
+          }
           if (data.user) {
             localStorage.setItem('user', JSON.stringify(data.user));
           }
         }
 
-        // Show success message
         showMessage('OTP verified successfully! Redirecting to dashboard...', 'success');
-        
-        // Redirect to dashboard after 1.5 seconds
         setTimeout(() => {
           window.location.href = '/dashboard';
         }, 1500);
@@ -416,23 +421,24 @@
       resendButton.textContent = 'Sending...';
       
       try {
-        const cleanedNumber = phone.replace(/\D/g, '');
-        const finalNumber = '+1' + cleanedNumber;
-        
-        const res = await fetch(`${API_BASE}send-otp-aws`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            phoneNumber: finalNumber
-          })
-        });
-
-        if (!res.ok) {
-          throw new Error('Failed to resend OTP');
+        let res;
+        if (isEmailLogin) {
+          res = await fetch(AUTH_API.sendEmailOtp, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email })
+          });
+        } else {
+          const cleanedNumber = phone.replace(/\D/g, '');
+          const finalNumber = '+1' + cleanedNumber;
+          res = await fetch(AUTH_API.sendOtp, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phoneNumber: finalNumber })
+          });
         }
 
+        if (!res.ok) throw new Error('Failed to resend OTP');
         showMessage('New OTP code sent successfully!', 'success');
         
       } catch (error) {

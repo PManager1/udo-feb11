@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/config.js"></script>
   <style>
     body {
       background-color: #f9f7f5;
@@ -35,7 +36,7 @@
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
     <div class="absolute left-12 top-1/2 -translate-y-1/2 z-[60] hover:opacity-90 transition">
       <a href="../index.html" class="text-4xl font-bold">
-        <span class="text-orange-500">U</span>&nbsp;<span class="text-black">DO</span>
+        <span class="text-orange-500">U-</span><span class="text-black">DO</span>
       </a>
       <p class="text-sm text-gray-600 font-medium -mt-1">let someone do it for you</p>
     </div>
@@ -90,7 +91,7 @@
 
       <div class="text-center mb-8 mt-4">
         <h1 class="text-4xl font-bold mb-2">
-          <span class="text-orange-500">U</span>&nbsp;<span class="text-black">DO</span>
+          <span class="text-orange-500">U-</span><span class="text-black">DO</span>
           
         </h1>
         <h2 class="text-2xl font-semibold text-gray-900">What's your email</h2>
@@ -171,26 +172,52 @@
 
     // Form submission
     const form = document.querySelector('form');
-    form.addEventListener('submit', (e) => {
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      // Validate email before proceeding
       if (!validateEmail()) {
         emailInput.focus();
         return;
       }
       
-      // Collect form data
-      const formData = {
-        ...JSON.parse(savedStep2Data),
-        email: emailInput.value
-      };
+      const email = emailInput.value.trim();
       
-      // Save to localStorage for next step
-      localStorage.setItem('signupStep3', JSON.stringify(formData));
-      
-      // Redirect to next step (you'll create 4.html or redirect to final page)
-      window.location.href = '4.html';
+      // Disable button and show loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Sending verification code...';
+
+      try {
+        // Send OTP email via backend
+        const response = await fetch(AUTH_API.sendEmailOtp, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        });
+
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data.message || data.error || 'Failed to send verification code');
+        }
+
+        // Collect form data
+        const formData = {
+          ...JSON.parse(savedStep2Data),
+          email: email
+        };
+        
+        // Save to localStorage for next step
+        localStorage.setItem('signupStep3', JSON.stringify(formData));
+        
+        // Redirect to step 4 (enter OTP code)
+        window.location.href = '4.html';
+
+      } catch (error) {
+        alert(error.message || 'Failed to send verification code. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Continue <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>';
+      }
     });
 
     // Load saved data if returning from next step
@@ -208,7 +235,7 @@
         <!-- Company Info -->
         <div>
           <h3 class="text-2xl font-bold mb-4">
-            <span class="text-orange-500">U</span>&nbsp;<span class="text-black">DO</span>
+            <span class="text-orange-500">U-</span><span class="text-black">DO</span>
           </h3>
           <p class="text-gray-700 text-sm leading-relaxed">
             UDO Let someone else do it for you.

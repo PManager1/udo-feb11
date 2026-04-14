@@ -118,7 +118,16 @@ class UIComponents {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
           <p class="text-lg font-medium">No items yet</p>
-          <p class="text-sm mt-1">Click "Add New Item" to create your first item</p>
+          <p class="text-sm mt-1 mb-6">Add items one by one, or upload your restaurant menu below</p>
+          <button onclick="document.getElementById('menuUploadInput').click()" 
+                  class="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            Upload Your Menu
+          </button>
+          <input type="file" id="menuUploadInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.txt" onchange="handleMenuUpload(this)">
+          <p class="text-xs mt-3 text-gray-400">Supports PDF, Images, and Word documents</p>
         </div>`;
     } else {
       container.innerHTML = items.map(item => this.renderItemCard(item)).join('');

@@ -22,7 +22,9 @@ const AUTH_API = {
   google: `${API_BASE}auth/google/`,
   signin: `${API_BASE}signin`,
   sendOtp: `${API_BASE}send-otp-aws`,
-  verifyOtp: `${API_BASE}verify-otp`
+  verifyOtp: `${API_BASE}verify-otp`,
+  sendEmailOtp: `${API_BASE}send-email-otp`,
+  verifyEmailOtp: `${API_BASE}verify-email-otp`
 };
 
 // Helper function to get full endpoint URL

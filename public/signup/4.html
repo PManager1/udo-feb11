@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/config.js"></script>
   <style>
     body {
       background-color: #f9f7f5;
@@ -55,7 +56,7 @@
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
     <div class="absolute left-12 top-1/2 -translate-y-1/2 z-[60] hover:opacity-90 transition">
       <a href="../index.html" class="text-4xl font-bold">
-        <span class="text-orange-500">U</span>&nbsp;<span class="text-black">DO</span>
+        <span class="text-orange-500">U-</span><span class="text-black">DO</span>
       </a>
       <p class="text-sm text-gray-600 font-medium -mt-1">let someone do it for you</p>
     </div>
@@ -110,9 +111,9 @@
 
       <div class="text-center mb-8 mt-4">
         <h1 class="text-4xl font-bold mb-2">
-          <span class="text-orange-500">U</span>&nbsp;<span class="text-black">DO</span>
+          <span class="text-orange-500">U-</span><span class="text-black">DO</span>
         </h1>
-        <h2 class="text-2xl font-semibold text-gray-900">Enter the 6-digit code</h2>
+        <h2 class="text-2xl font-semibold text-gray-900">Enter the 4-digit code</h2>
         <p class="text-gray-600 mt-2">A verification code has been sent to</p>
         <div class="flex items-center justify-center gap-2 mt-2">
           <span id="displayEmail" class="text-gray-900 font-semibold">you@example.com</span>
@@ -121,48 +122,16 @@
       </div>
 
       <form class="space-y-6">
-        <!-- 6-Digit Code Input -->
+        <!-- 4-Digit Code Input -->
         <div>
           <label for="code" class="block text-sm font-medium text-gray-700 mb-2">Enter code</label>
-          <div class="flex gap-2 justify-center">
-            <input
-              type="text"
-              maxlength="1"
-              class="code-input"
-              data-index="0"
-            />
-            <input
-              type="text"
-              maxlength="1"
-              class="code-input"
-              data-index="1"
-            />
-            <input
-              type="text"
-              maxlength="1"
-              class="code-input"
-              data-index="2"
-            />
-            <input
-              type="text"
-              maxlength="1"
-              class="code-input"
-              data-index="3"
-            />
-            <input
-              type="text"
-              maxlength="1"
-              class="code-input"
-              data-index="4"
-            />
-            <input
-              type="text"
-              maxlength="1"
-              class="code-input"
-              data-index="5"
-            />
+          <div class="flex gap-3 justify-center">
+            <input type="text" maxlength="1" class="code-input" data-index="0" />
+            <input type="text" maxlength="1" class="code-input" data-index="1" />
+            <input type="text" maxlength="1" class="code-input" data-index="2" />
+            <input type="text" maxlength="1" class="code-input" data-index="3" />
           </div>
-          <p id="codeError" class="text-red-500 text-sm mt-2 text-center hidden">Please enter a valid 6-digit code</p>
+          <p id="codeError" class="text-red-500 text-sm mt-2 text-center hidden">Please enter a valid 4-digit code</p>
         </div>
 
         <!-- Info Text -->
@@ -233,25 +202,16 @@
           codeInputs[index + 1].focus();
         }
         
-        // If 6th digit entered, validate and auto-redirect
+        // If 4th digit entered, auto-verify
         if (index === codeInputs.length - 1 && value.length === 1) {
           const code = Array.from(codeInputs).map(inp => inp.value).join('');
-          const isValid = code.length === 6 && /^\d+$/.test(code);
+          const isValid = code.length === 4 && /^\d+$/.test(code);
           
           if (isValid) {
-            // Assume code is correct for now, proceed to next step
-            const formData = {
-              ...JSON.parse(savedStep3Data),
-              emailCode: code
-            };
-            
-            // Save to localStorage for next step
-            localStorage.setItem('signupStep4', JSON.stringify(formData));
-            
-            // Redirect to success page or dashboard
+            // Auto-submit the form
             setTimeout(() => {
-              window.location.href = 'success.html';
-            }, 200); // Small delay for better UX
+              form.dispatchEvent(new Event('submit', { cancelable: true }));
+            }, 200);
           }
         }
         
@@ -270,7 +230,7 @@
       input.addEventListener('paste', (e) => {
         e.preventDefault();
         const pastedData = e.clipboardData.getData('text').replace(/\D/g, '');
-        const digits = pastedData.split('').slice(0, 6);
+        const digits = pastedData.split('').slice(0, 4);
         
         digits.forEach((digit, i) => {
           if (codeInputs[i]) {
@@ -279,7 +239,7 @@
         });
         
         // Focus the last filled input
-        const lastIndex = Math.min(digits.length - 1, 5);
+        const lastIndex = Math.min(digits.length - 1, 3);
         if (lastIndex >= 0) {
           codeInputs[lastIndex].focus();
         }
@@ -291,7 +251,7 @@
     // Validate code
     function validateCode() {
       const code = Array.from(codeInputs).map(input => input.value).join('');
-      const isValid = code.length === 6 && /^\d+$/.test(code);
+      const isValid = code.length === 4 && /^\d+$/.test(code);
       
       if (code.length > 0 && !isValid) {
         codeInputs.forEach(input => {
@@ -310,56 +270,109 @@
       return isValid;
     }
 
-    // Form submission
+    // Form submission - verify OTP with backend
     const form = document.querySelector('form');
-    form.addEventListener('submit', (e) => {
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      // Validate code before proceeding
       if (!validateCode()) {
         codeInputs[0].focus();
         return;
       }
       
-      // Collect form data
       const code = Array.from(codeInputs).map(input => input.value).join('');
-      const formData = {
-        ...JSON.parse(savedStep3Data),
-        emailCode: code
-      };
-      
-      // Save to localStorage for next step
-      localStorage.setItem('signupStep4', JSON.stringify(formData));
-      
-      // Redirect to success page
-      window.location.href = 'success.html';
+      const step3Data = savedStep3Data ? JSON.parse(savedStep3Data) : {};
+      const email = step3Data.email;
+
+      if (!email) {
+        alert('Email not found. Please go back to step 3.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Verifying... <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>';
+
+      try {
+        const response = await fetch(AUTH_API.verifyEmailOtp, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, otp: code })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || data.error || 'Verification failed');
+        }
+
+        // Store token if returned
+        if (data.token) {
+          localStorage.setItem('jwt_token', data.token);
+        }
+
+        const formData = { ...step3Data, emailCode: code };
+        localStorage.setItem('signupStep4', JSON.stringify(formData));
+
+        // Redirect to success page
+        window.location.href = 'success.html';
+
+      } catch (error) {
+        codeError.textContent = error.message || 'Invalid code. Please try again.';
+        codeError.classList.remove('hidden');
+        codeInputs.forEach(input => input.classList.add('error'));
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Continue <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>';
+      }
     });
 
     // Resend code functionality
-    let countdown = 30;
-    resendBtn.addEventListener('click', () => {
-      if (countdown < 30) {
-        alert('Please wait before requesting another code.');
+    let countdown = 0;
+    resendBtn.addEventListener('click', async () => {
+      if (countdown > 0) {
         return;
       }
-      
-      // Simulate sending code
-      alert('A new verification code has been sent to your email!');
-      
-      // Start countdown
+
+      const step3Data = savedStep3Data ? JSON.parse(savedStep3Data) : {};
+      const email = step3Data.email;
+      if (!email) return;
+
+      resendBtn.textContent = 'Sending...';
       resendBtn.disabled = true;
-      countdown = 30;
-      const interval = setInterval(() => {
-        countdown--;
-        resendBtn.textContent = `Resend Code (${countdown}s)`;
-        
-        if (countdown <= 0) {
-          clearInterval(interval);
-          resendBtn.textContent = 'Resend Code';
-          resendBtn.disabled = false;
-          countdown = 30;
-        }
-      }, 1000);
+
+      try {
+        const response = await fetch(AUTH_API.sendEmailOtp, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        });
+
+        if (!response.ok) throw new Error('Failed to resend');
+
+        // Clear existing inputs
+        codeInputs.forEach(input => { input.value = ''; input.classList.remove('error'); });
+        codeError.classList.add('hidden');
+        codeInputs[0].focus();
+
+        // Start countdown
+        countdown = 30;
+        const interval = setInterval(() => {
+          countdown--;
+          resendBtn.textContent = `Resend Code (${countdown}s)`;
+          if (countdown <= 0) {
+            clearInterval(interval);
+            resendBtn.textContent = 'Resend Code';
+            resendBtn.disabled = false;
+          }
+        }, 1000);
+
+      } catch (error) {
+        alert('Failed to resend code. Please try again.');
+        resendBtn.textContent = 'Resend Code';
+        resendBtn.disabled = false;
+        countdown = 0;
+      }
     });
 
     // Focus first input on load
@@ -373,7 +386,7 @@
         <!-- Company Info -->
         <div>
           <h3 class="text-2xl font-bold mb-4">
-            <span class="text-orange-500">U</span>&nbsp;<span class="text-black">DO</span>
+            <span class="text-orange-500">U-</span><span class="text-black">DO</span>
           </h3>
           <p class="text-gray-700 text-sm leading-relaxed">
             UDO Let someone else do it for you.

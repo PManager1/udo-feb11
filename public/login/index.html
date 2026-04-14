@@ -191,9 +191,19 @@
       <div class="glassmorphic rounded-2xl shadow-2xl p-10">
         <h2 class="text-4xl font-extrabold text-orange-600 text-center mb-8 text-high-contrast">Sign In to UDo</h2>
         
+        <!-- Tab Toggle: Phone vs Email -->
+        <div class="flex rounded-xl overflow-hidden border-2 border-orange-200 mb-8">
+          <button type="button" id="tabPhone" class="flex-1 py-3 text-center font-bold text-lg transition-all duration-300 bg-orange-500 text-white" onclick="switchTab('phone')">
+            <i class="fas fa-phone mr-2"></i>Phone
+          </button>
+          <button type="button" id="tabEmail" class="flex-1 py-3 text-center font-bold text-lg transition-all duration-300 bg-white text-orange-500" onclick="switchTab('email')">
+            <i class="fas fa-envelope mr-2"></i>Email
+          </button>
+        </div>
+
         <form id="otpForm" class="space-y-8">
           <!-- Phone Number Input -->
-          <div class="text-left">
+          <div id="phoneGroup" class="text-left">
             <label for="phoneNumber" class="block text-blue-900 font-semibold mb-2 text-lg">Phone Number for OTP code</label>
             <input 
               type="tel" 
@@ -203,6 +213,19 @@
               placeholder="123-456-7890"
               maxlength="12"
               autocomplete="tel"
+            >
+          </div>
+
+          <!-- Email Input -->
+          <div id="emailGroup" class="text-left" style="display:none;">
+            <label for="emailInput" class="block text-blue-900 font-semibold mb-2 text-lg">Email Address for OTP code</label>
+            <input 
+              type="email" 
+              id="emailInput" 
+              name="email"
+              class="input-focus w-full"
+              placeholder="you@example.com"
+              autocomplete="email"
             >
           </div>
           
@@ -222,9 +245,14 @@
         </form>
         
         <!-- Privacy Notice -->
-        <div class="mt-8 text-center">
+        <div id="privacyNotice" class="mt-8 text-center">
           <p class="text-gray-600 text-sm font-medium leading-relaxed">
             By providing your phone number, you agree to receive a one-time text message from UDo for account verification. Message and data rates may apply. Message frequency varies. Reply STOP to opt-out, HELP for help. View our Privacy Policy at <a href="/privacy" class="text-blue-600 font-semibold hover:text-blue-800 transition">udo.com/privacy</a>.
+          </p>
+        </div>
+        <div id="emailPrivacyNotice" class="mt-8 text-center" style="display:none;">
+          <p class="text-gray-600 text-sm font-medium leading-relaxed">
+            By providing your email, you agree to receive a one-time verification code from UDo for account verification. View our Privacy Policy at <a href="/privacy" class="text-blue-600 font-semibold hover:text-blue-800 transition">udo.com/privacy</a>.
           </p>
         </div>
       </div>
@@ -283,36 +311,71 @@
   </footer>
 
   <script>
+    // Current tab state
+    let currentTab = 'phone';
+
+    // Tab switching
+    function switchTab(tab) {
+      currentTab = tab;
+      const phoneGroup = document.getElementById('phoneGroup');
+      const emailGroup = document.getElementById('emailGroup');
+      const tabPhone = document.getElementById('tabPhone');
+      const tabEmail = document.getElementById('tabEmail');
+      const privacyNotice = document.getElementById('privacyNotice');
+      const emailPrivacyNotice = document.getElementById('emailPrivacyNotice');
+
+      if (tab === 'phone') {
+        phoneGroup.style.display = 'block';
+        emailGroup.style.display = 'none';
+        tabPhone.className = 'flex-1 py-3 text-center font-bold text-lg transition-all duration-300 bg-orange-500 text-white';
+        tabEmail.className = 'flex-1 py-3 text-center font-bold text-lg transition-all duration-300 bg-white text-orange-500';
+        privacyNotice.style.display = 'block';
+        emailPrivacyNotice.style.display = 'none';
+        // Validate phone to set button state
+        const phone = document.getElementById('phoneNumber').value;
+        sendOtpButton.disabled = !isValidPhoneNumber(phone);
+      } else {
+        phoneGroup.style.display = 'none';
+        emailGroup.style.display = 'block';
+        tabEmail.className = 'flex-1 py-3 text-center font-bold text-lg transition-all duration-300 bg-orange-500 text-white';
+        tabPhone.className = 'flex-1 py-3 text-center font-bold text-lg transition-all duration-300 bg-white text-orange-500';
+        privacyNotice.style.display = 'none';
+        emailPrivacyNotice.style.display = 'block';
+        // Validate email to set button state
+        const email = document.getElementById('emailInput').value;
+        sendOtpButton.disabled = !isValidEmail(email);
+      }
+
+      // Clear messages
+      messageBox.style.display = 'none';
+    }
+
     // Phone number formatting function
     function formatPhoneNumber(value) {
-      // Remove all non-digit characters
       const digits = value.replace(/\D/g, '');
-      
-      // Limit to 10 digits
       if (digits.length > 10) {
-        return value.substring(0, 12); // Keep format XXX-XXX-XXXX
+        return value.substring(0, 12);
       }
-      
-      // Format as XXX-XXX-XXXX
       let formatted = '';
       for (let i = 0; i < digits.length && i < 10; i++) {
-        if (i === 3 || i === 6) {
-          formatted += '-';
-        }
+        if (i === 3 || i === 6) formatted += '-';
         formatted += digits[i];
       }
-      
       return formatted;
     }
 
-    // Check if phone number is valid (10 digits)
     function isValidPhoneNumber(value) {
       const digits = value.replace(/\D/g, '');
       return digits.length === 10;
     }
 
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+    }
+
     // DOM elements
     const phoneNumberInput = document.getElementById('phoneNumber');
+    const emailInput = document.getElementById('emailInput');
     const sendOtpButton = document.getElementById('sendOtpButton');
     const otpForm = document.getElementById('otpForm');
     const messageBox = document.getElementById('messageBox');
@@ -323,106 +386,123 @@
     phoneNumberInput.addEventListener('input', function(e) {
       const formatted = formatPhoneNumber(e.target.value);
       e.target.value = formatted;
-      
-      // Enable/disable button based on validity
-      sendOtpButton.disabled = !isValidPhoneNumber(formatted);
-      
-      // Clear any previous messages when typing
-      if (messageBox.style.display === 'block') {
-        messageBox.style.display = 'none';
+      if (currentTab === 'phone') {
+        sendOtpButton.disabled = !isValidPhoneNumber(formatted);
       }
+      if (messageBox.style.display === 'block') messageBox.style.display = 'none';
+    });
+
+    // Validate email as user types
+    emailInput.addEventListener('input', function(e) {
+      if (currentTab === 'email') {
+        sendOtpButton.disabled = !isValidEmail(e.target.value);
+      }
+      if (messageBox.style.display === 'block') messageBox.style.display = 'none';
     });
 
     // Handle form submission
     otpForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      
+
+      if (currentTab === 'email') {
+        await handleEmailOTP();
+      } else {
+        await handlePhoneOTP();
+      }
+    });
+
+    // Handle phone OTP
+    async function handlePhoneOTP() {
       const phoneNumber = phoneNumberInput.value;
-      
       if (!isValidPhoneNumber(phoneNumber)) {
         showMessage('Please enter a valid 10-digit phone number', 'error');
         return;
       }
 
-      // Show loading state
       setLoading(true);
-      
-      // Prepare phone number with +1 prefix
       const cleanedNumber = phoneNumber.replace(/\D/g, '');
       const finalNumber = '+1' + cleanedNumber;
-      
+
       console.log('Sending OTP to:', finalNumber);
       console.log('API URL:', AUTH_API.sendOtp);
-      
+
       try {
         const response = await fetch(AUTH_API.sendOtp, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            phoneNumber: finalNumber
-          })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phoneNumber: finalNumber })
         });
 
-        console.log('Response status:', response.status);
-        console.log('Response ok:', response.ok);
-
-        // Get response text first to see what we received
         const responseText = await response.text();
-        console.log('Response text:', responseText);
-
         if (!response.ok) {
           let errorData;
-          try {
-            errorData = JSON.parse(responseText);
-          } catch (e) {
-            console.error('Failed to parse error JSON:', e);
-            throw new Error(`Server error: ${response.status} - ${responseText.substring(0, 100)}`);
+          try { errorData = JSON.parse(responseText); } catch (e) {
+            throw new Error(`Server error: ${response.status}`);
           }
           throw new Error(errorData.message || 'Failed to send OTP');
         }
 
-        let data;
-        try {
-          data = JSON.parse(responseText);
-        } catch (e) {
-          console.error('Failed to parse JSON:', e);
-          throw new Error(`Invalid response from server: ${responseText.substring(0, 100)}`);
-        }
-        
-        console.log('Parsed data:', data);
-        
-        // Store phone number for OTP verification
         localStorage.setItem('phoneNumber', phoneNumber);
-        
-        // Show success message
         showMessage('OTP sent successfully! Redirecting to verification...', 'success');
-        
-        // Redirect to OTP verification page after 1.5 seconds
         setTimeout(() => {
           window.location.href = `/verifyOtp?phone=${encodeURIComponent(phoneNumber)}`;
         }, 1500);
-        
+
       } catch (error) {
         console.error('Error sending OTP:', error);
-        console.error('Error details:', error.stack);
         showMessage(error.message || 'Failed to send OTP. Please try again.', 'error');
         setLoading(false);
       }
-    });
+    }
+
+    // Handle email OTP
+    async function handleEmailOTP() {
+      const email = emailInput.value.trim();
+      if (!isValidEmail(email)) {
+        showMessage('Please enter a valid email address', 'error');
+        return;
+      }
+
+      setLoading(true);
+      console.log('Sending email OTP to:', email);
+      console.log('API URL:', AUTH_API.sendEmailOtp);
+
+      try {
+        const response = await fetch(AUTH_API.sendEmailOtp, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        });
+
+        const responseText = await response.text();
+        if (!response.ok) {
+          let errorData;
+          try { errorData = JSON.parse(responseText); } catch (e) {
+            throw new Error(`Server error: ${response.status}`);
+          }
+          throw new Error(errorData.message || 'Failed to send OTP');
+        }
+
+        localStorage.setItem('loginEmail', email);
+        showMessage('OTP sent to your email! Redirecting to verification...', 'success');
+        setTimeout(() => {
+          window.location.href = `/verifyOtp?email=${encodeURIComponent(email)}`;
+        }, 1500);
+
+      } catch (error) {
+        console.error('Error sending email OTP:', error);
+        showMessage(error.message || 'Failed to send OTP. Please try again.', 'error');
+        setLoading(false);
+      }
+    }
 
     // Show message (error or success)
     function showMessage(message, type) {
       messageBox.textContent = message;
       messageBox.className = `message-box ${type}`;
       messageBox.style.display = 'block';
-      
-      // Auto-hide success messages after 3 seconds
       if (type === 'success') {
-        setTimeout(() => {
-          messageBox.style.display = 'none';
-        }, 3000);
+        setTimeout(() => { messageBox.style.display = 'none'; }, 3000);
       }
     }
 
@@ -441,8 +521,7 @@
 
     // Mobile menu toggle
     document.getElementById('menu-toggle').addEventListener('click', () => {
-      const mobileMenu = document.getElementById('mobile-menu');
-      mobileMenu.classList.toggle('hidden');
+      document.getElementById('mobile-menu').classList.toggle('hidden');
     });
   </script>
 </body>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="UDO - Let somebody else do it for you."/>
-  <title>UDo: Sign Up - Step 1</title>
+  <title>UDo: Let someone do it for you.</title>
   
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2270%22 font-family=%22Arial, sans-serif%22 font-weight=%22900%22 letter-spacing=%22-2%22><tspan fill=%22%23f97316%22>U</tspan><tspan fill=%22%23000000%22>DO</tspan></text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,19 +27,6 @@
       opacity: 1;
       pointer-events: auto;
     }
-    /* Progress bar animation */
-    .progress-step {
-      transition: all 0.3s ease;
-    }
-    .progress-step.active {
-      background-color: #f97316;
-      color: white;
-      transform: scale(1.1);
-    }
-    .progress-step.completed {
-      background-color: #22c55e;
-      color: white;
-    }
   </style>
 </head>
   <body class="min-h-screen antialiased text-gray-900" style="font-family: 'Nunito', sans-serif;">
@@ -48,7 +35,7 @@
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
     <div class="absolute left-12 top-1/2 -translate-y-1/2 z-[60] hover:opacity-90 transition">
       <a href="../index.html" class="text-4xl font-bold">
-        <span class="text-orange-500">U</span>&nbsp;<span class="text-black">DO</span>
+        <span class="text-orange-500">U-</span><span class="text-black">DO</span>
       </a>
       <p class="text-sm text-gray-600 font-medium -mt-1">let someone do it for you</p>
     </div>
@@ -73,77 +60,128 @@
       </div>
       <div class="flex items-center gap-3">
         <a href="../login/" class="text-gray-700 hover:text-orange-500 font-medium text-base transition">Sign in</a>
+        <!-- <a href="signup/" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 px-6 rounded-full text-base transition duration-300 shadow-sm hover:shadow-md">Join</a> -->
       </div>
     </div>
   </header>
 
-  <!-- Main Content - Sign Up Form Step 1 -->
+  <!-- Main Content - Sign Up Form -->
   <main class="flex-1 flex items-center justify-center px-4 py-12">
     <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 md:p-10">
-
       <div class="text-center mb-8">
         <h1 class="text-4xl font-bold mb-2">
-          <span class="text-orange-500">U</span>&nbsp;<span class="text-black">DO</span>
+          <span class="text-orange-500">U</span><span class="text-black">DO</span>
         </h1>
-        <h2 class="text-xl font-semibold text-gray-900">You're just a few steps away from you getting started</h2>
-        <p class="text-gray-600 mt-2">Verify your number to continue with UDO</p>
+        <h2 class="text-2xl font-semibold text-gray-900">Create an account</h2>
+        <p class="text-gray-600 mt-2">Join UDo today to get started</p>
       </div>
 
       <form class="space-y-4">
-        <!-- Phone Number Field -->
+        <!-- Name Field -->
         <div>
-          <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+          <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
           <input
-            type="tel"
-            id="phone"
-            name="phone"
+            type="text"
+            id="name"
+            name="name"
             required
             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
-            placeholder="+1 (555) 123-4567"
+            placeholder="John Doe"
           />
-          <p id="phoneError" class="text-red-500 text-sm mt-1 hidden">Please enter a valid phone number</p>
         </div>
 
-        <!-- Info Text Below Phone Field -->
-        <div class="space-y-3 text-gray-500">
-          <p class="text-xs">Message and data rates may apply</p>
-          <p class="text-sm">You can unsubscribe at any time</p>
-          <p class="flex items-center gap-1 text-sm">
-            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-            </svg>
-            <span>You information is Secure & protected</span>
-          </p>
-          <p class="text-sm mb-6">Trusted by over 100s of delivery drivers</p>
+        <!-- Email Field -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+            placeholder="john@example.com"
+          />
         </div>
 
-        <!-- Spacer for gap - explicit height -->
-        <div style="height: 6rem;" class="hidden md:block"></div>
-        <div style="height: 2rem;" class="md:hidden"></div>
+        <!-- Password Field -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+            placeholder="•••••••••"
+          />
+        </div>
 
-        <!-- Continue Button -->
+        <!-- Confirm Password Field -->
+        <div>
+          <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+            placeholder="•••••••••"
+          />
+        </div>
+
+        <!-- Terms Checkbox -->
+        <div class="flex items-start">
+          <input
+            type="checkbox"
+            id="terms"
+            name="terms"
+            required
+            class="w-4 h-4 text-orange-500 focus:ring-orange-500 rounded mt-1"
+          />
+          <label for="terms" class="ml-2 text-sm text-gray-600">
+            I agree to the <a href="../terms/" class="text-orange-500 hover:underline">Terms of Service</a> and <a href="../privacy/" class="text-orange-500 hover:underline">Privacy Policy</a>
+          </label>
+        </div>
+
+        <!-- Submit Button -->
         <button
           type="submit"
-          class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3.5 px-6 rounded-lg text-lg transition duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+          class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3.5 px-6 rounded-lg text-lg transition duration-300 shadow-md hover:shadow-lg"
         >
-          Continue
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
+          Create Account
         </button>
-
-        <!-- Stay Signed In Text -->
-        <p class="text-center text-sm text-gray-600">
-          You'll stay signed in for faster access
-        </p>
-
-        <!-- Terms and Authorization Text -->
-        <p class="text-xs text-gray-500 text-center leading-relaxed">
-          By continuing, I agree to the <a href="../terms/" class="text-orange-500 hover:underline">User Terms</a>, <a href="../privacy/" class="text-orange-500 hover:underline">Privacy Policy</a> and I authorize UDO and its partner technology companies to send me text notifications, use and share consumer reports about me.
-        </p>
       </form>
 
-      <!-- Back to Sign In -->
+      <!-- Divider -->
+      <div class="flex items-center my-6">
+        <div class="flex-1 border-t border-gray-300"></div>
+        <span class="px-4 text-sm text-gray-500">or sign up with</span>
+        <div class="flex-1 border-t border-gray-300"></div>
+      </div>
+
+      <!-- Social Sign Up Buttons -->
+      <div class="grid grid-cols-2 gap-3">
+        <button
+          type="button"
+          class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24">
+            <path fill="#EA4335" d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .533 5.333.533 12s5.334 12 11.947 12c6.133 0 10.253-4.267 10.253-8.72 0-.533-.067-1.2-.133-1.68z"/>
+          </svg>
+          <span class="text-sm font-medium text-gray-700">Google</span>
+        </button>
+        <button
+          type="button"
+          class="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+        >
+          <svg class="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          <span class="text-sm font-medium text-gray-700">Facebook</span>
+        </button>
+      </div>
+
+      <!-- Sign In Link -->
       <p class="text-center text-gray-600 mt-6">
         Already have an account? 
         <a href="../login/" class="text-orange-500 font-semibold hover:underline">Sign in</a>
@@ -153,87 +191,21 @@
 
   <script src="/search-overlay/search-overlay.js"></script>
   <script>
-    // Phone number formatting and validation
-    const phoneInput = document.getElementById('phone');
-    const phoneError = document.getElementById('phoneError');
-
-    // Format phone number as user types
-    phoneInput.addEventListener('input', (e) => {
-      let value = e.target.value.replace(/\D/g, ''); // Remove all non-digits
-      
-      // Format: +1 (555) 123-4567
-      if (value.length > 0) {
-        // Add +1 at the beginning
-        if (!value.startsWith('1')) {
-          value = '1' + value;
-        }
-        
-        // Format the number
-        let formatted = '+1';
-        if (value.length > 1) {
-          formatted += ' (' + value.substring(1, 4);
-        }
-        if (value.length > 4) {
-          formatted += ') ' + value.substring(4, 7);
-        }
-        if (value.length > 7) {
-          formatted += '-' + value.substring(7, 11);
-        }
-        
-        e.target.value = formatted;
-      }
-      
-      // Validate and update UI
-      validatePhone();
-    });
-
-    // Validate phone number
-    function validatePhone() {
-      const value = phoneInput.value.replace(/\D/g, '');
-      const isValid = value.length === 11; // Should be 11 digits (1 + 10 digit number)
-      
-      if (value.length > 0 && !isValid) {
-        phoneInput.classList.add('border-red-500');
-        phoneInput.classList.remove('border-gray-300');
-        phoneError.classList.remove('hidden');
-      } else {
-        phoneInput.classList.remove('border-red-500');
-        phoneInput.classList.add('border-gray-300');
-        phoneError.classList.add('hidden');
-      }
-      
-      return isValid;
-    }
-
-    // Form submission - Save data and redirect to next step
+    // Form submission
     const form = document.querySelector('form');
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
       
-      // Validate phone before proceeding
-      if (!validatePhone()) {
-        phoneInput.focus();
+      if (password !== confirmPassword) {
+        alert('Passwords do not match!');
         return;
       }
       
-      // Collect form data
-      const formData = {
-        phone: phoneInput.value
-      };
-      
-      // Save to localStorage for next step
-      localStorage.setItem('signupStep1', JSON.stringify(formData));
-      
-      // Redirect to next step (you'll create 2.html)
-      window.location.href = '2.html';
+      alert('Account created successfully!');
+      form.reset();
     });
-
-    // Load saved data if returning from next step
-    const savedData = localStorage.getItem('signupStep1');
-    if (savedData) {
-      const data = JSON.parse(savedData);
-      phoneInput.value = data.phone || '';
-    }
   </script>
 
   <!-- Footer -->
@@ -243,7 +215,7 @@
         <!-- Company Info -->
         <div>
           <h3 class="text-2xl font-bold mb-4">
-            <span class="text-orange-500">U</span>&nbsp;<span class="text-black">DO</span>
+            <span class="text-orange-500">U-</span><span class="text-black">DO</span>
           </h3>
           <p class="text-gray-700 text-sm leading-relaxed">
             UDO Let someone else do it for you.
@@ -319,7 +291,7 @@
           </a>
           <a href="#" class="text-gray-600 hover:text-orange-500 transition">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+              <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
             </svg>
           </a>
           <a href="#" class="text-gray-600 hover:text-orange-500 transition">
