@@ -565,8 +565,37 @@ function handleMenuUpload(input) {
   
   console.log('Menu uploaded:', fileName, `(${fileSize} KB)`);
   
-  // Show confirmation modal instead of actual upload
-  showMenuUploadConfirmation(fileName);
+  // Build FormData and POST to backend
+  const formData = new FormData();
+  formData.append('menuFile', file);
+  
+  // Get auth headers (but NOT Content-Type — browser sets it with boundary for multipart)
+  const headers = {};
+  if (typeof tokenManager !== 'undefined') {
+    const token = tokenManager.getToken();
+    if (token) {
+      headers['Authorization'] = 'Bearer ' + token;
+    }
+  }
+  
+  // POST the file to the backend — backend will email it to getabirdy@gmail.com
+  fetch(API_BASE + 'rest/upload-menu', {
+    method: 'POST',
+    headers: headers,
+    body: formData
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Upload failed: ' + res.status);
+    return res.json();
+  })
+  .then(data => {
+    console.log('✅ Menu file sent successfully:', data);
+    showMenuUploadConfirmation(fileName);
+  })
+  .catch(err => {
+    console.error('❌ Menu upload failed:', err);
+    uiComponents.showToast('Failed to upload menu. Please try again.', 'error');
+  });
   
   // Reset the file input so the same file can be selected again
   input.value = '';
