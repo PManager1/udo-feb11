@@ -196,6 +196,7 @@
               name="otp"
               placeholder="0000"
               maxlength="4"
+              autofocus
               autocomplete="one-time-code"
               pattern="[0-9]*"
               inputmode="numeric"
@@ -276,6 +277,8 @@
   <script>
     // DOM elements
     const otpInput = document.getElementById('otp');
+    // Auto-focus the OTP input on page load
+    setTimeout(() => otpInput.focus(), 100);
     const verifyButton = document.getElementById('verifyButton');
     const otpSpinner = document.getElementById('otpSpinner');
     const buttonText = document.getElementById('buttonText');
