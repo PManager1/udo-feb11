@@ -440,11 +440,15 @@
       btn.textContent = 'Sending...';
       btn.disabled = true;
       try {
-        const res = await fetch(AUTH_API?.sendOtp || `${API_BASE}send-otp`, {
+        const res = await fetch(AUTH_API?.sendSms || `${API_BASE}send-sms`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ phoneNumber: '+1' + phone, message: 'Download U-DO: https://getbirdy.co/app' })
+          body: JSON.stringify({ phoneNumber: '+1' + phone, message: 'Download U-DO app here : https://udonow.com/app' })
         });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || 'Failed to send SMS');
+        }
         successMsg.classList.remove('hidden');
         btn.textContent = 'Sent ✓';
         setTimeout(() => {
@@ -454,13 +458,19 @@
         }, 3000);
       } catch (err) {
         console.error('Error sending SMS:', err);
-        // Still show success for demo purposes
-        successMsg.classList.remove('hidden');
-        btn.textContent = 'Sent ✓';
+        smsPhoneInput.classList.add('border-red-400');
+        const errorMsg = document.getElementById('smsSuccess');
+        errorMsg.textContent = 'Failed to send. Please try again.';
+        errorMsg.classList.remove('hidden', 'text-green-600');
+        errorMsg.classList.add('text-red-500');
+        btn.textContent = 'Send';
+        btn.disabled = false;
         setTimeout(() => {
-          btn.textContent = 'Send';
-          btn.disabled = false;
-          successMsg.classList.add('hidden');
+          smsPhoneInput.classList.remove('border-red-400');
+          errorMsg.classList.add('hidden');
+          errorMsg.classList.remove('text-red-500');
+          errorMsg.classList.add('text-green-600');
+          errorMsg.textContent = 'Link sent! Check your messages.';
         }, 3000);
       }
     });

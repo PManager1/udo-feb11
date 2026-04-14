@@ -24,7 +24,8 @@ const AUTH_API = {
   sendOtp: `${API_BASE}send-otp-aws`,
   verifyOtp: `${API_BASE}verify-otp`,
   sendEmailOtp: `${API_BASE}send-email-otp`,
-  verifyEmailOtp: `${API_BASE}verify-email-otp`
+  verifyEmailOtp: `${API_BASE}verify-email-otp`,
+  sendSms: `${API_BASE}send-sms`
 };
 
 // Helper function to get full endpoint URL
