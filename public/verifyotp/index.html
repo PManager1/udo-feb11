@@ -6,112 +6,24 @@
   <title>U-Do- Verify OTP</title>
   
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2270%22 font-family=%22Arial, sans-serif%22 font-weight=%22900%22 letter-spacing=%22-2%22><tspan fill=%22%23f97316%22>U</tspan><tspan fill=%22%23000000%22>DO</tspan></text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-  <script src="../config.js"></script>
+  <script src="/config.js"></script>
   <style>
-    @font-face {
-      font-family: 'Nunito';
-      src: url('/themes/fonts/Nunito/Nunito-Regular.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'Nunito';
-      src: url('/themes/fonts/Nunito/Nunito-Bold.ttf') format('truetype');
-      font-weight: 700;
-      font-style: normal;
-    }
-    html, body {
-      font-family: 'Nunito', sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    .glassmorphic {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 1.5rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      position: relative;
-      z-index: 1;
-      padding: 3rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .glassmorphic:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    }
-    .input-focus {
-      transition: all 0.3s ease;
-      background: #ffffff;
-      color: #1e3a8a;
-      border: 2px solid rgba(249, 115, 22, 0.5);
-      border-radius: 0.75rem;
-      padding: 1rem 1.25rem;
-      font-size: 1.25rem;
-      font-weight: 700;
-      text-align: center;
-      letter-spacing: 0.5rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      min-height: 60px;
-      display: block;
-    }
-    .input-focus:focus {
-      transform: scale(1.02);
-      box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
-      border-color: #f97316;
-      outline: none;
-    }
-    .gradient-bg {
-      background: linear-gradient(135deg, #dbeafe, #f3e8ff, #a5b4fc);
-      background-size: 200% 200%;
-      animation: gradientAnimation 10s ease infinite;
-    }
-    @keyframes gradientAnimation {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .otp-button {
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.125rem;
-      font-weight: 700;
-      padding: 1rem 2rem;
-      border-radius: 1.5rem;
-      transition: all 0.3s ease;
-      width: 100%;
-      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-      background: #f97316;
-      color: white;
-      border: none;
-      cursor: pointer;
-      visibility: visible !important;
-      opacity: 1 !important;
-    }
-    .otp-button:hover:not(:disabled) {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
-    }
-    .otp-button:disabled {
-      background: #fdba74;
-      cursor: not-allowed;
-      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+    body {
+      background-color: #f9f7f5;
     }
     .loading-spinner {
       display: none;
-      width: 1.5rem;
-      height: 1.5rem;
+      width: 1.25rem;
+      height: 1.25rem;
       border: 3px solid rgba(255, 255, 255, 0.3);
       border-top: 3px solid #ffffff;
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin-left: 0.75rem;
+      margin-left: 0.5rem;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
@@ -136,60 +48,61 @@
       color: #065f46;
       border: 1px solid #6ee7b7;
     }
-    @media (max-width: 640px) {
-      .glassmorphic {
-        padding: 2rem;
-      }
-      h2 {
-        font-size: 2rem;
-      }
-      .input-focus {
-        font-size: 1.25rem;
-      }
-    }
   </style>
 </head>
-<body class="bg-blue-50 text-black gradient-bg">
-  <!-- Navbar -->
-  <nav class="bg-white shadow-lg sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex-shrink-0">
-          <a href="/" class="text-2xl font-extrabold text-blue-900 tracking-tight">U Do</a>
-        </div>
-        <div class="hidden md:flex space-x-8 items-center">
-          <a href="/" class="text-blue-900 hover:text-blue-600 font-semibold text-lg">Home</a>
-        </div>
-        <div class="md:hidden">
-          <button id="menu-toggle" class="text-blue-900 focus:outline-none">
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+<body class="min-h-screen antialiased text-gray-900" style="font-family: 'Nunito', sans-serif; background-color: #f9f7f5;">
+  <!-- Top Search Bar -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <div class="absolute left-12 top-1/2 -translate-y-1/2 z-[60] hover:opacity-90 transition">
+      <a href="../index.html" class="text-4xl font-bold">
+        <span class="text-orange-500">U-</span><span class="text-black">DO</span>
+      </a>
+      <p class="text-sm text-gray-600 font-medium -mt-1">let someone do it for you</p>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+      <div class="w-48 hidden lg:block"></div>
+      <div class="flex-1 max-w-3xl">
+        <div class="relative">
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search"
+            class="w-full pl-5 pr-12 py-3.5 bg-[#DADAD3] border border-gray-300 rounded-full text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition shadow-sm cursor-pointer"
+            readonly
+          />
+          <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
         </div>
       </div>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-md">
-      <div class="px-4 pt-2 pb-3 space-y-1">
-        <a href="/" class="block text-blue-900 hover:text-blue-600 font-semibold text-lg">Home</a>
+      <div class="flex items-center gap-3">
+        <a href="../signup/" class="text-gray-700 hover:text-orange-500 font-medium text-base transition">Sign up</a>
       </div>
     </div>
-  </nav>
+  </header>
 
   <!-- OTP Verification Section -->
-  <section class="min-h-screen flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-lg w-full mx-auto">
-      <div class="glassmorphic rounded-2xl shadow-2xl p-10">
-        <h2 class="text-4xl font-extrabold text-orange-600 text-center mb-4">Verify your OTP</h2>
-        <p id="phoneDisplay" class="text-gray-600 text-center mb-8 text-lg"></p>
-        
+  <main class="flex-1 flex items-center justify-center px-4 py-12 relative">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 md:p-10 relative">
+      
+      <div class="text-center mb-8 mt-4">
+        <h1 class="text-4xl font-bold mb-2">
+          <span class="text-orange-500">U-</span><span class="text-black">DO</span>
+        </h1>
+        <h2 class="text-2xl font-semibold text-gray-900">Enter verification code</h2>
+        <p id="phoneDisplay" class="text-gray-600 mt-2"></p>
+      </div>
+
         <!-- Error/Success Message -->
         <div id="messageBox" class="message-box"></div>
         
-        <form id="verifyForm" class="space-y-6">
+        <form id="verifyForm">
           <!-- OTP Input -->
-          <div style="margin-bottom: 2rem; clear: both;">
-            <label for="otp" class="block text-blue-900 font-semibold mb-2 text-lg">Enter OTP code</label>
+          <div>
+            <label for="otp" class="block text-sm font-medium text-gray-700 mb-2">Verification code</label>
             <input 
               type="text" 
               id="otp" 
@@ -200,52 +113,36 @@
               autocomplete="one-time-code"
               pattern="[0-9]*"
               inputmode="numeric"
-              style="width: 100% !important; height: 60px !important; background: #ffffff !important; border: 2px solid rgba(249, 115, 22, 0.5) !important; border-radius: 0.75rem !important; padding: 1rem 1.25rem !important; font-size: 1.25rem !important; font-weight: 700 !important; text-align: center !important; letter-spacing: 0.5rem !important; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important; display: block !important; color: #1e3a8a !important; visibility: visible !important; opacity: 1 !important; position: relative !important; z-index: 10 !important;"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition text-center text-xl font-bold tracking-widest"
             >
           </div>
+
+          <!-- Spacer -->
+          <div style="height: 8rem;" class="hidden md:block"></div>
+          <div style="height: 3rem;" class="md:hidden"></div>
           
           <!-- Verify Button -->
-          <div style="margin-top: 1.5rem; display: block; width: 100%;">
-            <button 
-              type="submit" 
-              id="verifyButton" 
-              style="
-                display: flex !important;
-                align-items: center;
-                justify-content: center;
-                width: 100% !important;
-                padding: 1rem 2rem;
-                font-size: 1.125rem;
-                font-weight: 700;
-                border-radius: 1.5rem;
-                border: none;
-                background: #f97316 !important;
-                color: white !important;
-                cursor: pointer;
-                box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-                transition: all 0.3s ease;
-                visibility: visible !important;
-                opacity: 1 !important;
-              "
-            >
-              <span id="buttonText">Verify OTP</span>
-              <span id="otpSpinner" class="loading-spinner" style="display: none; margin-left: 0.5rem;"></span>
-            </button>
-          </div>
+          <button 
+            type="submit" 
+            id="verifyButton"
+            class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3.5 px-6 rounded-lg text-lg transition duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:shadow-none"
+          >
+            <span id="buttonText">Verify OTP</span>
+            <span id="otpSpinner" class="loading-spinner" style="display: none;"></span>
+          </button>
         </form>
         
         <!-- Resend OTP -->
-        <div class="mt-8 text-center">
-          <p class="text-gray-600 text-sm font-medium">
+        <div class="mt-6 text-center">
+          <p class="text-gray-500 text-sm">
             Didn't receive the code? 
-            <button type="button" id="resendButton" class="text-blue-600 font-semibold hover:text-blue-800 transition ml-1">
+            <button type="button" id="resendButton" class="text-orange-500 font-semibold hover:text-orange-600 transition ml-1">
               Resend OTP
             </button>
           </p>
         </div>
       </div>
-    </div>
-  </section>
+  </main>
 
   <!-- Footer -->
   <footer class="bg-[#b0b0a8] text-gray-800 mt-16">
@@ -500,15 +397,6 @@
       }
     });
 
-    // Mobile menu toggle
-    document.getElementById('menu-toggle').addEventListener('click', () => {
-      const mobileMenu = document.getElementById('mobile-menu');
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    // GSAP Animations
-    gsap.from(".glassmorphic", { opacity: 0, y: 50, duration: 1, ease: "power3.out" });
-    gsap.from("#verifyButton", { opacity: 0, y: 20, duration: 0.8, delay: 0.5 });
   </script>
 </body>
 </html>
