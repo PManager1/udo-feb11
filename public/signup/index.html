@@ -40,22 +40,52 @@
       background-color: #22c55e;
       color: white;
     }
+    #mobileMenuOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: white;
+      z-index: 9999;
+      flex-direction: column;
+      padding: 1rem 2rem 2rem 2rem;
+    }
+    .overflow-hidden {
+      overflow: hidden;
+    }
   </style>
 </head>
   <body class="min-h-screen antialiased text-gray-900" style="font-family: 'Nunito', sans-serif;">
 
+  <!-- Mobile Menu Overlay -->
+  <div id="mobileMenuOverlay" class="flex lg:hidden relative">
+    <button id="closeMobileBtn" class="absolute top-4 right-4 p-2 text-gray-800 z-10">
+      <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <div class="w-full flex justify-center items-center mb-12">
+      <div class="text-3xl font-bold">
+        <span class="text-orange-500">U <span class="-mx-1"></span>-</span><span class="text-gray-800">DO</span>
+      </div>
+    </div>
+    <nav class="flex flex-col gap-6 w-full">
+      <a href="/login/" class="text-2xl font-bold text-gray-800 border-b border-gray-100 pb-4 w-full">Sign in</a>
+      <a href="/signup/" class="bg-orange-500 text-white text-xl font-bold py-4 px-8 rounded-full shadow-md text-center mt-4">Join</a>
+    </nav>
+  </div>
+
   <!-- Top Search Bar -->
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
-    <div class="absolute left-12 top-1/2 -translate-y-1/2 z-[60] hover:opacity-90 transition">
-      <a href="../index.html" class="text-4xl font-bold">
-        <span class="text-orange-500">U-</span><span class="text-black">DO</span>
+    <div class="absolute left-6 sm:left-12 top-1/2 -translate-y-1/2 z-[60] hover:opacity-90 transition">
+      <a href="/" class="text-3xl sm:text-4xl font-bold">
+        <span class="text-orange-500">U <span class="-mx-1"></span>-</span><span class="text-gray-800">DO</span>
       </a>
       <p class="text-sm text-gray-600 font-medium -mt-1">let someone do it for you</p>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
       <div class="w-48 hidden lg:block"></div>
-      <div class="flex-1 max-w-3xl">
+      <div class="flex-1 max-w-3xl hidden lg:block">
         <div class="relative">
           <input
             id="searchInput"
@@ -71,8 +101,20 @@
           </button>
         </div>
       </div>
-      <div class="flex items-center gap-3">
-        <a href="../login/" class="text-gray-700 hover:text-orange-500 font-medium text-base transition">Sign in</a>
+      <div class="flex items-center gap-2 lg:hidden ml-auto">
+        <button id="mobileSearchBtn" class="p-3 rounded-full hover:bg-gray-100 transition-colors">
+          <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+        <button id="openMobileBtn" class="p-2 rounded-lg hover:bg-gray-100 transition">
+          <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+      <div class="hidden lg:flex items-center gap-3">
+        <a href="/login/" class="text-gray-700 hover:text-orange-500 font-medium text-base transition">Sign in</a>
       </div>
     </div>
   </header>
@@ -153,6 +195,19 @@
 
   <script src="/search-overlay/search-overlay.js"></script>
   <script>
+    // Mobile Menu Overlay
+    const openMobileBtn = document.getElementById('openMobileBtn');
+    const closeMobileBtn = document.getElementById('closeMobileBtn');
+    const mobileOverlay = document.getElementById('mobileMenuOverlay');
+    openMobileBtn.addEventListener('click', () => {
+      mobileOverlay.style.display = 'flex';
+      document.body.classList.add('overflow-hidden');
+    });
+    closeMobileBtn.addEventListener('click', () => {
+      mobileOverlay.style.display = 'none';
+      document.body.classList.remove('overflow-hidden');
+    });
+
     // Phone number formatting and validation
     const phoneInput = document.getElementById('phone');
     const phoneError = document.getElementById('phoneError');
