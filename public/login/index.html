@@ -5,112 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>U-Do - Sign In</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2270%22 font-family=%22Arial, sans-serif%22 font-weight=%22900%22 letter-spacing=%22-2%22><tspan fill=%22%23f97316%22>U</tspan><tspan fill=%22%23000000%22>DO</tspan></text></svg>">
-
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2270%22 font-family=%22Arial, sans-serif%22 font-weight=%22900%22 letter-spacing=%22-2%22><tspan fill=%22%23f97316%22>U</tspan><tspan fill=%22%23000000%22>DO</tspan></text></svg>">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
   <script src="/config.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    @font-face {
-      font-family: 'Nunito';
-      src: url('/themes/fonts/Nunito/Nunito-Regular.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'Nunito';
-      src: url('/themes/fonts/Nunito/Nunito-Bold.ttf') format('truetype');
-      font-weight: 700;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'Nunito';
-      src: url('/themes/fonts/Nunito/Nunito-ExtraBold.ttf') format('truetype');
-      font-weight: 800;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'Nunito';
-      src: url('/themes/fonts/Nunito/Nunito-SemiBold.ttf') format('truetype');
-      font-weight: 600;
-      font-style: normal;
-    }
-    html, body {
-      font-family: 'Nunito', sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    .glassmorphic {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 1.5rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      position: relative;
-      z-index: 1;
-      padding: 3rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .glassmorphic:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    }
-    .input-focus {
-      transition: all 0.3s ease;
-      background: #ffffff;
-      color: #1e3a8a;
-      border: 2px solid rgba(249, 115, 22, 0.5);
-      border-radius: 0.75rem;
-      padding: 1rem 1.25rem;
-      font-size: 1rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-    .input-focus:focus {
-      transform: scale(1.02);
-      box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
-      border-color: #f97316;
-      outline: none;
-    }
-    .text-high-contrast {
-      color: #1e3a8a;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    }
-    .otp-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.125rem;
-      font-weight: 700;
-      padding: 1rem 2rem;
-      border-radius: 1.5rem;
-      transition: all 0.3s ease;
-      width: 100%;
-      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-      background: linear-gradient(135deg, #f97316 0%, #f97316 100%);
-      color: white;
-    }
-    .otp-button:hover:not(:disabled) {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
-    }
-    .otp-button:disabled {
-      background: #d1d5db;
-      cursor: not-allowed;
-      box-shadow: none;
+    body {
+      background-color: #f9f7f5;
     }
     .loading-spinner {
       display: none;
-      width: 1.5rem;
-      height: 1.5rem;
+      width: 1.25rem;
+      height: 1.25rem;
       border: 3px solid rgba(255, 255, 255, 0.3);
       border-top: 3px solid #ffffff;
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin-left: 0.75rem;
+      margin-left: 0.5rem;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
@@ -135,61 +47,64 @@
       color: #065f46;
       border: 1px solid #6ee7b7;
     }
-    @media (max-width: 640px) {
-      .glassmorphic {
-        padding: 2rem;
-      }
-      h2 {
-        font-size: 2rem;
-      }
-    }
   </style>
 </head>
 
-<body class="text-black" style="background-color: #f9f7f5;">
-  <!-- Navbar -->
-  <nav class="bg-white shadow-lg sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex-shrink-0">
-          <a href="/" class="text-2xl font-extrabold text-blue-900 tracking-tight">U Do</a>
-        </div>
-        <div class="hidden md:flex space-x-8 items-center">
-          <a href="/" class="text-blue-900 hover:text-blue-600 font-semibold text-lg">Home</a>
-          <button id="authButton" class="text-blue-900 hover:text-blue-600 font-semibold text-lg hidden">Login</button>
-        </div>
-        <div class="md:hidden">
-          <button id="menu-toggle" class="text-blue-900 focus:outline-none">
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+<body class="min-h-screen antialiased text-gray-900" style="font-family: 'Nunito', sans-serif; background-color: #f9f7f5;">
+  <!-- Top Search Bar -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <div class="absolute left-12 top-1/2 -translate-y-1/2 z-[60] hover:opacity-90 transition">
+      <a href="../index.html" class="text-4xl font-bold">
+        <span class="text-orange-500">U-</span><span class="text-black">DO</span>
+      </a>
+      <p class="text-sm text-gray-600 font-medium -mt-1">let someone do it for you</p>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+      <div class="w-48 hidden lg:block"></div>
+      <div class="flex-1 max-w-3xl">
+        <div class="relative">
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search"
+            class="w-full pl-5 pr-12 py-3.5 bg-[#DADAD3] border border-gray-300 rounded-full text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition shadow-sm cursor-pointer"
+            readonly
+          />
+          <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
         </div>
       </div>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-md">
-      <div class="px-4 pt-2 pb-3 space-y-1">
-        <a href="/" class="block text-blue-900 hover:text-blue-600 font-semibold text-lg">Home</a>
-        <button id="authButtonMobile" class="block text-blue-900 hover:text-blue-600 font-semibold text-lg hidden">Login</button>
+      <div class="flex items-center gap-3">
+        <a href="../signup/" class="text-gray-700 hover:text-orange-500 font-medium text-base transition">Sign up</a>
       </div>
     </div>
-  </nav>
+  </header>
 
   <!-- Sign In Section -->
-  <section class="min-h-screen flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-lg w-full mx-auto">
-      <div class="glassmorphic rounded-2xl shadow-2xl p-10">
-        <h2 class="text-4xl font-extrabold text-orange-600 text-center mb-8 text-high-contrast">Sign In to UDo</h2>
+  <main class="flex-1 flex items-center justify-center px-4 py-12 relative">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 md:p-10 relative">
+      
+      <div class="text-center mb-8 mt-4">
+        <h1 class="text-4xl font-bold mb-2">
+          <span class="text-orange-500">U-</span><span class="text-black">DO</span>
+        </h1>
+        <h2 class="text-2xl font-semibold text-gray-900">Sign in with your phone</h2>
+        <p class="text-gray-600 mt-2">We'll send you a verification code</p>
+      </div>
         
-        <form id="otpForm" class="space-y-8">
+        <form id="otpForm">
           <!-- Phone Number Input -->
-          <div class="text-left">
-            <label for="phoneNumber" class="block text-blue-900 font-semibold mb-2 text-lg">Phone Number for OTP code</label>
+          <div>
+            <label for="phoneNumber" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
             <input 
               type="tel" 
               id="phoneNumber" 
               name="phoneNumber"
-              class="input-focus w-full"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
               placeholder="123-456-7890"
               maxlength="12"
               autocomplete="tel"
@@ -198,12 +113,16 @@
           
           <!-- Error/Success Message -->
           <div id="messageBox" class="message-box"></div>
+
+          <!-- Spacer -->
+          <div style="height: 8rem;" class="hidden md:block"></div>
+          <div style="height: 3rem;" class="md:hidden"></div>
           
           <!-- Send OTP Button -->
           <button 
             type="submit" 
             id="sendOtpButton"
-            class="otp-button"
+            class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3.5 px-6 rounded-lg text-lg transition duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:shadow-none"
             disabled
           >
             <span id="buttonText">Send me OTP</span>
@@ -213,13 +132,12 @@
         
         <!-- Privacy Notice -->
         <div class="mt-8 text-center">
-          <p class="text-gray-600 text-sm font-medium leading-relaxed">
-            By providing your phone number, you agree to receive a one-time text message from UDo for account verification. Message and data rates may apply. Message frequency varies. Reply STOP to opt-out, HELP for help. View our Privacy Policy at <a href="/privacy" class="text-blue-600 font-semibold hover:text-blue-800 transition">udonow.com/privacy</a>.
+          <p class="text-gray-500 text-sm leading-relaxed">
+            By providing your phone number, you agree to receive a one-time text message from UDo for account verification. Message and data rates may apply. View our <a href="/privacy/" class="text-blue-600 font-medium hover:text-blue-800 transition">Privacy Policy</a>.
           </p>
         </div>
       </div>
-    </div>
-  </section>
+  </main>
 
   <!-- Footer -->
   <footer class="bg-[#b0b0a8] text-gray-800 mt-16">
@@ -451,11 +369,6 @@
       }
     }
 
-    // Mobile menu toggle
-    document.getElementById('menu-toggle').addEventListener('click', () => {
-      const mobileMenu = document.getElementById('mobile-menu');
-      mobileMenu.classList.toggle('hidden');
-    });
   </script>
 </body>
 </html>
