@@ -15,7 +15,27 @@ class UIComponents {
 
   _getAvailability(obj) { return obj.available !== undefined ? obj.available : (obj.isAvailable !== undefined ? obj.isAvailable : true); }
   _getPrice(obj) { return parseFloat(obj.base_price || obj.basePrice || 0); }
-  _getImage(obj) { return obj.image_url || obj.imageUrl || ''; }
+  _getImage(obj) { 
+    const raw = obj.image_url || obj.imageUrl || '';
+    // Try parsing as JSON array (new multi-image format)
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed[0];
+    } catch {}
+    // Fallback: return raw string (old single-image format)
+    return raw;
+  }
+  
+  /** Get all images as an array (handles both JSON array and single URL) */
+  _getImages(obj) {
+    const raw = obj.image_url || obj.imageUrl || '';
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    } catch {}
+    // Single URL or empty
+    return raw ? [raw] : [];
+  }
   _getCategoryId(obj) { return obj.category_id || obj.categoryId || ''; }
   _getMinSel(obj) { return obj.min_selection !== undefined ? obj.min_selection : (obj.minSelection || 0); }
   _getMaxSel(obj) { return obj.max_selection !== undefined ? obj.max_selection : (obj.maxSelection || 1); }
@@ -327,13 +347,12 @@ class UIComponents {
     document.getElementById('itemPrice').value = this._getPrice(item);
     document.getElementById('itemDescription').value = item.description || '';
     document.getElementById('drawerTitle').textContent = 'Edit Item';
-    const imageUrl = this._getImage(item);
-    if (imageUrl) {
-      const preview = document.getElementById('imagePreview');
-      const container = document.getElementById('imagePreviewContainer');
-      preview.src = imageUrl;
-      container.classList.remove('hidden');
-    }
+    
+    // Load images into the multi-image gallery
+    const images = this._getImages(item);
+    currentItemImages = [...images];
+    renderImageGallery();
+    
     this.currentItem = itemId;
     this.updateProfitCalculator();
   }
@@ -449,8 +468,9 @@ class UIComponents {
   async resetItemForm() {
     document.getElementById('itemForm').reset();
     document.getElementById('drawerTitle').textContent = 'Add New Item';
-    document.getElementById('imagePreviewContainer').classList.add('hidden');
-    document.getElementById('imagePreview').src = '';
+    // Clear multi-image gallery
+    currentItemImages = [];
+    renderImageGallery();
     this.currentItem = null;
     this.tempModifierOptions = [];
     await this.populateCategorySelect();

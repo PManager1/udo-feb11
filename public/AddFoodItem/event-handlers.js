@@ -136,18 +136,23 @@ async function handleItemFormSubmit(e) {
     const categoryId = document.getElementById('itemCategory').value;
     const price = document.getElementById('itemPrice').value;
     const description = document.getElementById('itemDescription').value;
-    const preview = document.getElementById('imagePreview');
     
     // Get selected modifier groups
     const modifierCheckboxes = document.querySelectorAll('#modifierGroupsList input[type="checkbox"]:checked');
     const modifierGroupIds = Array.from(modifierCheckboxes).map(cb => cb.value);
+    
+    // Store images as JSON array string (first image is the main one)
+    // Backward-compatible: single image items still work as ["url"]
+    const imageUrl = currentItemImages.length > 0 
+      ? JSON.stringify(currentItemImages) 
+      : '';
     
     const itemData = {
       name,
       category_id: categoryId,
       base_price: price,
       description,
-      image_url: preview.src || '',
+      image_url: imageUrl,
       modifier_group_ids: modifierGroupIds
     };
     
@@ -489,103 +494,155 @@ async function toggleAvailability(type, id) {
   }
 }
 
-// ===== IMAGE HANDLING =====
+// ===== IMAGE HANDLING (Multiple Images) =====
+
+// Track all current image URLs for the item being edited
+let currentItemImages = [];
 
 /**
  * Upload image to Google Cloud Storage via backend proxy
- * The backend handles the GCS API key securely and returns the public URL
- * @param {File} file - The file to upload
- * @returns {Promise<string>} - The public URL of the uploaded image
  */
 async function uploadImageToGCS(file) {
   const formData = new FormData();
   formData.append('image', file);
-  
-  // Get auth token
   const token = tokenManager.getToken();
-  
   const uploadURL = `${API_BASE}rest/upload-image`;
-  
   console.log('Uploading image via backend proxy...');
-  
   const response = await fetch(uploadURL, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    },
+    headers: { 'Authorization': `Bearer ${token}` },
     body: formData
   });
-  
   if (!response.ok) {
     const errorBody = await response.text();
     throw new Error(`Image upload failed (${response.status}): ${errorBody}`);
   }
-  
   const data = await response.json();
-  
   console.log('✅ Image uploaded successfully:', data.url);
   return data.url;
 }
 
-function handleFileUpload(event) {
-  const file = event.target.files[0];
-  if (!file) return;
+/** Render the image gallery from currentItemImages array */
+function renderImageGallery() {
+  const container = document.getElementById('imageGalleryContainer');
+  const gallery = document.getElementById('imageGallery');
+  const countLabel = document.getElementById('imageCountLabel');
   
-  // Show a loading preview while uploading
-  const preview = document.getElementById('imagePreview');
-  const container = document.getElementById('imagePreviewContainer');
-  preview.src = '';
+  if (currentItemImages.length === 0) {
+    container.classList.add('hidden');
+    gallery.innerHTML = '';
+    return;
+  }
+  
   container.classList.remove('hidden');
-  container.innerHTML = `
-    <div class="flex items-center justify-center h-48 bg-gray-100 rounded-lg">
-      <div class="text-center">
-        <svg class="animate-spin h-8 w-8 text-orange-500 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        <span class="text-sm text-gray-500 font-medium">Uploading image...</span>
-      </div>
-    </div>
-  `;
+  countLabel.textContent = `${currentItemImages.length} image${currentItemImages.length !== 1 ? 's' : ''}`;
   
-  uploadImageToGCS(file)
-    .then((publicURL) => {
-      // Restore the original preview structure and show the uploaded image
-      container.innerHTML = `
-        <div class="relative">
-          <img id="imagePreview" class="w-full h-48 object-cover rounded-lg" src="${publicURL}" alt="Preview">
-          <button type="button" onclick="clearImage()" class="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:bg-gray-100 transition">
-            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      `;
-      container.classList.add('fade-in');
-      setTimeout(() => container.classList.remove('fade-in'), 300);
-      uiComponents.showToast('Image uploaded successfully!');
-    })
-    .catch((error) => {
-      console.error('❌ Image upload failed:', error);
-      container.classList.add('hidden');
-      container.innerHTML = `
-        <div class="relative">
-          <img id="imagePreview" class="w-full h-48 object-cover rounded-lg" src="" alt="Preview">
-          <button type="button" onclick="clearImage()" class="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:bg-gray-100 transition">
-            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      `;
-      uiComponents.showToast('Image upload failed. Please try again.', 'error');
-    });
+  gallery.innerHTML = currentItemImages.map((url, index) => `
+    <div class="relative group fade-in">
+      <img src="${url}" alt="Image ${index + 1}" class="w-full h-24 object-cover rounded-lg border border-gray-200">
+      <button type="button" onclick="removeImage(${index})" class="absolute top-1 right-1 bg-white rounded-full p-0.5 shadow-md hover:bg-red-100 transition opacity-0 group-hover:opacity-100">
+        <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      ${index === 0 ? '<span class="absolute bottom-1 left-1 bg-orange-500 text-white text-[10px] px-1.5 py-0.5 rounded font-bold">MAIN</span>' : ''}
+    </div>
+  `).join('');
+  
+  container.classList.add('fade-in');
+  setTimeout(() => container.classList.remove('fade-in'), 300);
+}
+
+/** Add an image URL to the gallery */
+function addImageToGallery(url) {
+  if (url && !currentItemImages.includes(url)) {
+    currentItemImages.push(url);
+    renderImageGallery();
+  }
+}
+
+/** Remove a specific image by index */
+function removeImage(index) {
+  currentItemImages.splice(index, 1);
+  renderImageGallery();
+}
+
+/** Remove all images */
+function clearAllImages() {
+  currentItemImages = [];
+  renderImageGallery();
+  // Clear file inputs
+  const fileInput = document.querySelector('input[type="file"]');
+  const urlInput = document.getElementById('imageUrlInput');
+  if (fileInput) fileInput.value = '';
+  if (urlInput) urlInput.value = '';
+}
+
+/** Handle multiple file uploads */
+function handleFileUpload(event) {
+  const files = Array.from(event.target.files);
+  if (files.length === 0) return;
+  
+  // Show loading state in gallery
+  const container = document.getElementById('imageGalleryContainer');
+  const gallery = document.getElementById('imageGallery');
+  container.classList.remove('hidden');
+  
+  // Add loading placeholders
+  const loadingCount = files.length;
+  const existingHTML = gallery.innerHTML;
+  const loadingHTML = Array.from({length: loadingCount}, () => `
+    <div class="w-full h-24 bg-gray-100 rounded-lg flex items-center justify-center">
+      <svg class="animate-spin h-6 w-6 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </div>
+  `).join('');
+  gallery.innerHTML = existingHTML + loadingHTML;
+  
+  let uploaded = 0;
+  let failed = 0;
+  
+  files.forEach((file) => {
+    uploadImageToGCS(file)
+      .then((publicURL) => {
+        currentItemImages.push(publicURL);
+        uploaded++;
+        if (uploaded + failed === files.length) {
+          renderImageGallery();
+          if (uploaded > 0) {
+            uiComponents.showToast(`${uploaded} image${uploaded > 1 ? 's' : ''} uploaded successfully!`);
+          }
+          if (failed > 0) {
+            uiComponents.showToast(`${failed} image${failed > 1 ? 's' : ''} failed to upload.`, 'error');
+          }
+        }
+      })
+      .catch((error) => {
+        console.error('❌ Image upload failed:', error);
+        failed++;
+        if (uploaded + failed === files.length) {
+          renderImageGallery();
+          if (uploaded > 0) {
+            uiComponents.showToast(`${uploaded} image${uploaded > 1 ? 's' : ''} uploaded successfully!`);
+          }
+          if (failed > 0) {
+            uiComponents.showToast(`${failed} image${failed > 1 ? 's' : ''} failed to upload.`, 'error');
+          }
+        }
+      });
+  });
+  
+  // Reset file input so same files can be selected again
+  event.target.value = '';
 }
 
 function handleImageUrl(event) {
   const url = event.target.value;
   if (url) {
-    showImagePreview(url);
+    addImageToGallery(url);
+    event.target.value = '';
   }
 }
 
@@ -596,34 +653,12 @@ function usePlaceholderImage() {
     'https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=800'
   ];
   const randomImage = placeholderImages[Math.floor(Math.random() * placeholderImages.length)];
-  showImagePreview(randomImage);
+  addImageToGallery(randomImage);
 }
 
-function showImagePreview(url) {
-  const preview = document.getElementById('imagePreview');
-  const container = document.getElementById('imagePreviewContainer');
-  
-  preview.src = url;
-  container.classList.remove('hidden');
-  
-  // Add fade-in animation
-  container.classList.add('fade-in');
-  setTimeout(() => container.classList.remove('fade-in'), 300);
-}
-
-function clearImage() {
-  const preview = document.getElementById('imagePreview');
-  const container = document.getElementById('imagePreviewContainer');
-  
-  preview.src = '';
-  container.classList.add('hidden');
-  
-  // Clear file inputs
-  const fileInput = document.querySelector('input[type="file"]');
-  const urlInput = document.getElementById('imageUrlInput');
-  if (fileInput) fileInput.value = '';
-  if (urlInput) urlInput.value = '';
-}
+// Keep backward-compat aliases
+function showImagePreview(url) { addImageToGallery(url); }
+function clearImage() { clearAllImages(); }
 
 // ===== MODIFIER OPTION INPUT HANDLERS =====
 
