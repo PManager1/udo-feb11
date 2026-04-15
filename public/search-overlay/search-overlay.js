@@ -1,4 +1,4 @@
-// Search Overlay Loader with JSON data
+// Search Overlay Loader — fetches items from backend API
 async function loadSearchOverlay() {
   try {
     // 1. Determine correct base path based on current directory depth
@@ -13,9 +13,36 @@ async function loadSearchOverlay() {
     
     const basePath = '../'.repeat(depth);
 
-    // 2. Fetch the JSON data from the search-overlay folder
-    const response = await fetch(`${basePath}search-overlay/data.json`);
-    const data = await response.json();
+    // 2. Fetch search overlay items from the backend API
+    let data;
+    try {
+      const response = await fetch(SEARCH_OVERLAY_API.publicItems);
+      const json = await response.json();
+      
+      // Transform flat items list into grouped sections
+      data = { recentSearches: [], popularOnUDO: [], trendingNow: [] };
+      if (json.items && Array.isArray(json.items)) {
+        json.items.forEach(item => {
+          const card = {
+            href: item.href,
+            label: item.label,
+            image: item.image
+          };
+          if (item.section === 'recent_searches') {
+            data.recentSearches.push(card);
+          } else if (item.section === 'popular_on_udo') {
+            data.popularOnUDO.push(card);
+          } else if (item.section === 'trending_now') {
+            data.trendingNow.push(card);
+          }
+        });
+      }
+    } catch (apiError) {
+      console.warn('⚠️ Failed to fetch search overlay items from API, falling back to local data.json:', apiError);
+      // Fallback to local data.json if API is unavailable
+      const fallbackResponse = await fetch(`${basePath}search-overlay/data.json`);
+      data = await fallbackResponse.json();
+    }
     
     // 3. Create and insert the search overlay HTML structure
     const overlayHTML = `
@@ -91,7 +118,7 @@ async function loadSearchOverlay() {
     if (popularGrid && data.popularOnUDO) {
       popularGrid.innerHTML = data.popularOnUDO.map(createSuggestionCard).join('');
     }
-    
+
     if (trendingGrid && data.trendingNow) {
       trendingGrid.innerHTML = data.trendingNow.map(createSuggestionCard).join('');
     }

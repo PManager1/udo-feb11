@@ -28,6 +28,12 @@ const AUTH_API = {
   sendSms: `${API_BASE}send-sms`
 };
 
+// Search Overlay Items Endpoints
+const SEARCH_OVERLAY_API = {
+  publicItems: `${API_BASE}search-overlay-items`,
+  adminItems: `${API_BASE}admin/search-overlay-items`
+};
+
 // Image uploads are now proxied through the backend: POST /rest/upload-image
 // No GCS credentials needed on the frontend — the server handles it securely
 

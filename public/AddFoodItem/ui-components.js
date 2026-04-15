@@ -165,9 +165,14 @@ class UIComponents {
     if (!item) return '';
     const available = this._getAvailability(item);
     const price = this._getPrice(item);
-    const imageUrl = this._getImage(item);
-    return `
-      <div class="item-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 ${!available ? 'opacity-60' : ''}">
+    const images = this._getImages(item);
+    const carouselId = `carousel-${item.id}`;
+    
+    // Build the image area: carousel for multi-image, static for single/none
+    let imageArea;
+    if (images.length <= 1) {
+      const imageUrl = images[0] || '';
+      imageArea = `
         <div class="relative h-48 bg-gray-200">
           ${imageUrl 
             ? `<img src="${imageUrl}" alt="${item.name}" class="w-full h-full object-cover">`
@@ -176,7 +181,39 @@ class UIComponents {
           <div class="absolute top-3 right-3">
             ${this.renderAvailabilityToggle('item', item.id, available)}
           </div>
+        </div>`;
+    } else {
+      // Multi-image carousel
+      const slides = images.map((url, i) => `
+        <div class="img-carousel-slide h-48">
+          <img src="${url}" alt="${item.name} ${i + 1}">
         </div>
+      `).join('');
+      const dots = images.map((_, i) => `
+        <span class="carousel-dot ${i === 0 ? 'active' : ''}" data-carousel="${carouselId}" data-index="${i}"></span>
+      `).join('');
+      
+      imageArea = `
+        <div class="relative h-48 bg-gray-200">
+          <div id="${carouselId}" class="img-carousel h-full" onscroll="updateCarouselDots('${carouselId}')">
+            ${slides}
+          </div>
+          <button type="button" onclick="carouselScroll('${carouselId}', -1)" class="carousel-arrow left">
+            <svg class="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <button type="button" onclick="carouselScroll('${carouselId}', 1)" class="carousel-arrow right">
+            <svg class="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <div class="carousel-dots" id="dots-${carouselId}">${dots}</div>
+          <div class="absolute top-3 right-3">
+            ${this.renderAvailabilityToggle('item', item.id, available)}
+          </div>
+        </div>`;
+    }
+    
+    return `
+      <div class="item-card bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 ${!available ? 'opacity-60' : ''}">
+        ${imageArea}
         <div class="p-5">
           <div class="flex justify-between items-start mb-2">
             <h3 class="text-lg font-bold text-gray-900">${item.name}</h3>
@@ -535,4 +572,27 @@ function syncCategoryColor(value) {
   if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
     document.getElementById('categoryColor').value = value;
   }
+}
+
+// ===== IMAGE CAROUSEL FUNCTIONS =====
+
+/** Scroll a carousel by one slide in the given direction (-1 = left, 1 = right) */
+function carouselScroll(carouselId, direction) {
+  const el = document.getElementById(carouselId);
+  if (!el) return;
+  const slideWidth = el.offsetWidth;
+  el.scrollBy({ left: slideWidth * direction, behavior: 'smooth' });
+}
+
+/** Update dot indicators based on scroll position */
+function updateCarouselDots(carouselId) {
+  const el = document.getElementById(carouselId);
+  const dotsContainer = document.getElementById('dots-' + carouselId);
+  if (!el || !dotsContainer) return;
+  const slideWidth = el.offsetWidth;
+  const currentIndex = Math.round(el.scrollLeft / slideWidth);
+  const dots = dotsContainer.querySelectorAll('.carousel-dot');
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentIndex);
+  });
 }
