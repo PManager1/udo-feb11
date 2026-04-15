@@ -1,5 +1,11 @@
 
 Todo : 
+( includes backend)
+on all the pages of udo-feb11 you'll notice that when user clicks search the js code runs locally in this project folder and it shows options like lawn care , roadie etc i want you to keep the images locally but the functionality should be running in teh backend so that we can turn on and off some of the items that we want to load on the UI, so id also need another html page lets say call it admin or searchAdmin page where we can turn on and off a certain item , tell me how would you implement this
+
+
+
+
 On sign in flow make the phone code work and also make the emial verification code work 
 
 

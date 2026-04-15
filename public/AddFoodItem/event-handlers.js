@@ -22,6 +22,9 @@ async function initializeApp() {
   // Show dashboard
   await uiComponents.showDashboard();
   
+  // Load and display restaurant name
+  loadRestaurantName();
+  
   // Setup search functionality
   setupSearch();
   
@@ -473,17 +476,95 @@ async function toggleAvailability(type, id) {
 
 // ===== IMAGE HANDLING =====
 
+/**
+ * Upload image to Google Cloud Storage via backend proxy
+ * The backend handles the GCS API key securely and returns the public URL
+ * @param {File} file - The file to upload
+ * @returns {Promise<string>} - The public URL of the uploaded image
+ */
+async function uploadImageToGCS(file) {
+  const formData = new FormData();
+  formData.append('image', file);
+  
+  // Get auth token
+  const token = tokenManager.getToken();
+  
+  const uploadURL = `${API_BASE}rest/upload-image`;
+  
+  console.log('Uploading image via backend proxy...');
+  
+  const response = await fetch(uploadURL, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    body: formData
+  });
+  
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`Image upload failed (${response.status}): ${errorBody}`);
+  }
+  
+  const data = await response.json();
+  
+  console.log('✅ Image uploaded successfully:', data.url);
+  return data.url;
+}
+
 function handleFileUpload(event) {
   const file = event.target.files[0];
-  if (file) {
-    // In a real application, you would upload this to a server
-    // For demo purposes, we'll create a local object URL
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      showImagePreview(e.target.result);
-    };
-    reader.readAsDataURL(file);
-  }
+  if (!file) return;
+  
+  // Show a loading preview while uploading
+  const preview = document.getElementById('imagePreview');
+  const container = document.getElementById('imagePreviewContainer');
+  preview.src = '';
+  container.classList.remove('hidden');
+  container.innerHTML = `
+    <div class="flex items-center justify-center h-48 bg-gray-100 rounded-lg">
+      <div class="text-center">
+        <svg class="animate-spin h-8 w-8 text-orange-500 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span class="text-sm text-gray-500 font-medium">Uploading image...</span>
+      </div>
+    </div>
+  `;
+  
+  uploadImageToGCS(file)
+    .then((publicURL) => {
+      // Restore the original preview structure and show the uploaded image
+      container.innerHTML = `
+        <div class="relative">
+          <img id="imagePreview" class="w-full h-48 object-cover rounded-lg" src="${publicURL}" alt="Preview">
+          <button type="button" onclick="clearImage()" class="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:bg-gray-100 transition">
+            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      `;
+      container.classList.add('fade-in');
+      setTimeout(() => container.classList.remove('fade-in'), 300);
+      uiComponents.showToast('Image uploaded successfully!');
+    })
+    .catch((error) => {
+      console.error('❌ Image upload failed:', error);
+      container.classList.add('hidden');
+      container.innerHTML = `
+        <div class="relative">
+          <img id="imagePreview" class="w-full h-48 object-cover rounded-lg" src="" alt="Preview">
+          <button type="button" onclick="clearImage()" class="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:bg-gray-100 transition">
+            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      `;
+      uiComponents.showToast('Image upload failed. Please try again.', 'error');
+    });
 }
 
 function handleImageUrl(event) {

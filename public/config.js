@@ -28,6 +28,9 @@ const AUTH_API = {
   sendSms: `${API_BASE}send-sms`
 };
 
+// Image uploads are now proxied through the backend: POST /rest/upload-image
+// No GCS credentials needed on the frontend — the server handles it securely
+
 // Helper function to get full endpoint URL
 function getRestaurantEndpoint(endpoint) {
   return RESTAURANT_API.baseURL + RESTAURANT_API.endpoints[endpoint];
