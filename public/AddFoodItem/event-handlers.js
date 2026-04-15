@@ -37,6 +37,21 @@ async function initializeApp() {
   console.log('AddFood application initialized successfully');
 }
 
+// ===== RESTAURANT NAME =====
+
+async function loadRestaurantName() {
+  try {
+    const profile = await apiManager.getProfile();
+    const restaurantName = profile.restaurantName || profile.storeName || profile.name || '';
+    const displayEl = document.getElementById('restaurantNameDisplay');
+    if (displayEl && restaurantName) {
+      displayEl.textContent = restaurantName;
+    }
+  } catch (error) {
+    console.log('Could not load restaurant name (non-critical):', error.message);
+  }
+}
+
 // ===== SYNC STATUS UPDATES =====
 
 function setupSyncStatusUpdates() {
