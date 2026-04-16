@@ -100,6 +100,21 @@ async function saveStoreData(data) {
     const catMobile  = document.getElementById('restaurantCategoryMobile');
     const categoryVal = (catDesktop && catDesktop.value) || (catMobile && catMobile.value) || '';
 
+    // Fetch current profile to preserve fields managed by other pages (logoURL, images, etc.)
+    let existingProfile = {};
+    try {
+      const getResp = await fetch(STORE_API_BASE, {
+        method: 'GET',
+        headers: getAuthHeaders()
+      });
+      if (getResp.ok) {
+        const rawData = await getResp.json();
+        existingProfile = rawData.store || rawData || {};
+      }
+    } catch (e) {
+      console.warn('Could not load existing profile for merge, using defaults');
+    }
+
     const payload = {
       restaurantName: data.storeName || '',
       storeType:      data.storeType || '',
@@ -107,14 +122,15 @@ async function saveStoreData(data) {
       storeHours:     storeHours,
       emergencyPause: data.emergencyPause || false,
       category:       categoryVal,
-      logoURL:   '',
-      images:    [],
-      deliveryTime: 0,
-      deliveryFee:  0,
-      promoText: '',
-      latitude:  0,
-      longitude: 0,
-      isSponsored: false
+      // Preserve existing values for fields managed by other pages
+      logoURL:        existingProfile.logoURL || '',
+      images:         existingProfile.images || [],
+      deliveryTime:   existingProfile.deliveryTime || 0,
+      deliveryFee:    existingProfile.deliveryFee || 0,
+      promoText:      existingProfile.promoText || '',
+      latitude:       existingProfile.latitude || 0,
+      longitude:      existingProfile.longitude || 0,
+      isSponsored:    existingProfile.isSponsored || false
     };
 
     const response = await fetch(STORE_API_BASE, {
@@ -124,7 +140,8 @@ async function saveStoreData(data) {
     });
 
     if (!response.ok) {
-      throw new Error(`Server returned ${response.status}`);
+      const errorText = await response.text();
+      throw new Error(`Server returned ${response.status}: ${errorText}`);
     }
 
     console.log('Store data saved to server');

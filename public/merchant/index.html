@@ -664,6 +664,21 @@
       const catMobile  = document.getElementById('restaurantCategoryMobile');
       const categoryVal = (catDesktop && catDesktop.value) || (catMobile && catMobile.value) || '';
 
+      // Fetch current profile to preserve fields managed by other pages (logoURL, images, etc.)
+      let existingProfile = {};
+      try {
+        const getResp = await fetch(`${API_BASE}rest/profile`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${tokenManager.getToken()}` }
+        });
+        if (getResp.ok) {
+          const rawData = await getResp.json();
+          existingProfile = rawData.store || rawData || {};
+        }
+      } catch (e) {
+        console.warn('Could not load existing profile for merge:', e);
+      }
+
       const payload = {
         restaurantName: storeData.storeName || '',
         storeType:      storeData.storeType || '',
@@ -671,14 +686,15 @@
         storeHours:     storeHours,
         emergencyPause: storeData.emergencyPause || false,
         category:  categoryVal,
-        logoURL:   '',
-        images:    [],
-        deliveryTime: 0,
-        deliveryFee:  0,
-        promoText: '',
-        latitude:  0,
-        longitude: 0,
-        isSponsored: false
+        // Preserve existing values — do NOT overwrite with empty
+        logoURL:        existingProfile.logoURL || '',
+        images:         existingProfile.images || [],
+        deliveryTime:   existingProfile.deliveryTime || 0,
+        deliveryFee:    existingProfile.deliveryFee || 0,
+        promoText:      existingProfile.promoText || '',
+        latitude:       existingProfile.latitude || 0,
+        longitude:      existingProfile.longitude || 0,
+        isSponsored:    existingProfile.isSponsored || false
       };
 
       try {

@@ -845,39 +845,10 @@ function populateCategoryDropdown() {
  * Trigger autosave with debounce
  */
 function triggerAutosave() {
-  // Update save status
-  const saveStatus = document.getElementById('saveStatus');
-  if (saveStatus) {
-    saveStatus.textContent = 'Saving...';
-    saveStatus.classList.remove('text-gray-400');
-    saveStatus.classList.add('text-orange-500');
-  }
-  
-  // Clear existing timer
-  if (autosaveTimer) {
-    clearTimeout(autosaveTimer);
-  }
-  
-  // Set new timer (500ms debounce)
-  autosaveTimer = setTimeout(async () => {
-    // Save to server
-    const saved = await saveStoreData(storeData);
-    
-    if (saved) {
-      if (saveStatus) {
-        saveStatus.textContent = 'Saved';
-        saveStatus.classList.remove('text-orange-500');
-        saveStatus.classList.add('text-gray-400');
-      }
-    } else {
-      if (saveStatus) {
-        saveStatus.textContent = 'Error saving';
-        saveStatus.classList.remove('text-orange-500');
-        saveStatus.classList.add('text-red-500');
-      }
-      showToast('Failed to save changes', 'error');
-    }
-  }, 500);
+  // AUTOSAVE DISABLED — only saves when user clicks Save/Publish button
+  // This prevents race conditions where stale data overwrites valid DB values
+  console.log('Autosave disabled — use Save button to persist changes');
+  return;
 }
 
 /**
