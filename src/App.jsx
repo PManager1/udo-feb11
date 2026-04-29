@@ -5,6 +5,9 @@ import SignupPage from './pages/SignupPage'
 import VerifyOtpPage from './pages/VerifyOtpPage'
 import SettingsPage from './pages/SettingsPage'
 import ProSettings from './pages/ProSettings'
+import Admin from './pages/Admin'
+import AdminRestaurantOwners from './pages/AdminRestaurantOwners'
+import SearchOverlayAdmin from './pages/SearchOverlayAdmin'
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
         <Route path="/verifyOtp" element={<VerifyOtpPage />} />
         <Route path="/settings/" element={<SettingsPage />} />
         <Route path="/pro-settings/" element={<ProSettings />} />
+        <Route path="/admin/" element={<Admin />} />
+        <Route path="/admin/restaurant-owners/" element={<AdminRestaurantOwners />} />
+        <Route path="/searchOverlayAdmin/" element={<SearchOverlayAdmin />} />
       </Routes>
     </div>
   )
