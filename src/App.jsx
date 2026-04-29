@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
 import VerifyOtpPage from './pages/VerifyOtpPage'
 import SettingsPage from './pages/SettingsPage'
+import ProSettings from './pages/ProSettings'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/signup/" element={<SignupPage />} />
         <Route path="/verifyOtp" element={<VerifyOtpPage />} />
         <Route path="/settings/" element={<SettingsPage />} />
+        <Route path="/pro-settings/" element={<ProSettings />} />
       </Routes>
     </div>
   )

@@ -16,8 +16,8 @@ export const AUTH_API = {
 
 // User Profile Endpoints
 export const USER_API = {
-  getProfile: `${API_BASE}users/me`,
-  updateProfile: `${API_BASE}users/me`
+  getProfile: `${API_BASE}me`,
+  updateProfile: `${API_BASE}meProfile`
 };
 
 // Restaurant Menu Endpoints
